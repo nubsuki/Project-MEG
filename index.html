@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="Addons/navbar.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <script type="module" src="index.js"></script>
+    <title>MEG</title>
+</head>
+
+<body>
+    <section id="loading">
+        <iframe src="Addons/loading.html" class="loadingsection"></iframe>
+    </section>
+
+    <!--Background-->
+    <section>
+        <iframe src="Addons/background2.html" class="sectionbg"></iframe>
+    </section>
+    <!--Navbar-->
+    <section>
+        <nav class="navbar">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a href="profile.html" class="nav-link">
+                        <i class="bi bi-person-circle"></i>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="index.html" class="nav-link">
+                        <i class="bi bi-paperclip"></i>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="Features/chatroom.html" class="nav-link">
+                        <i class="bi bi-app-indicator"></i>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="bi bi-camera-reels"></i>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="bi bi-wikipedia"></i>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="logout">
+                        <i class="bi bi-box-arrow-left"></i>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </section>
+
+    <!--Newsfeed-->
+
+    <section id="Newsfeed" class="newsfeedsection">
+        <div class="card-container"></div>
+    </section>
+
+    <!--NewsfeedaAdd-->
+    <section class="newsfeedaddsection" id="newsfeedaddsection">
+        <div class="nfadd" id="nfaddbutton" style="display: none;">
+            <i class="bi bi-file-earmark-plus"></i>
+        </div>
+        <div class="nfadd" id="nfaddcancel" style="display: none;">
+            <i class="bi bi-x"></i>
+        </div>
+        <div class="nfaddform" id="nfaddform" style="display: none;">
+            <form id="newsForm">
+                <label for="title">Title:</label>
+                <input type="text" id="title" name="title" required><br><br>
+
+                <label for="description">Description:</label><br>
+                <textarea id="description" name="description" rows="4" maxlength="150" required></textarea><br>
+                <span id="charCount" style="margin-left: 10px;">100</span> characters remaining.<br><br>
+
+                <script>
+                    // Get the textarea element
+                    var description = document.getElementById("description");
+
+                    // Get the span element to display character count
+                    var charCount = document.getElementById("charCount");
+
+                    // Set initial character count
+                    charCount.textContent = description.maxLength;
+
+                    // Add input event listener
+                    description.addEventListener("input", function () {
+                        // Calculate remaining characters
+                        var remainingChars = description.maxLength - description.value.length;
+
+                        // Update character count
+                        charCount.textContent = remainingChars;
+
+                        // If character limit exceeded, truncate the input
+                        if (remainingChars < 0) {
+                            description.value = description.value.slice(0, description.maxLength);
+                            charCount.textContent = 0;
+                        }
+                    });
+                </script>
+
+                <label for="imageFile">Image File:</label>
+                <input type="file" id="imageFile" name="imageFile" accept="image/*" required><br><br>
+
+                <label for="category">Category:</label>
+                <input type="text" id="category" name="category" required><br><br>
+
+                <label for="link">Full Article Link:</label>
+                <input type="url" id="link" name="link" required><br><br>
+
+                <button type="submit">Add News</button>
+            </form>
+        </div>
+
+    </section>
+
+    <!--Chatroom-->
+    <section>
+        <div class="chatIcon" id="chatIcon">
+            <i class="bi bi-wechat"></i>
+        </div>
+        <div class="chatIcon" id="chatIconclose" style="display: none;">
+            <i class="bi bi-wechat"></i>
+        </div>
+        <section id="Chatroom" style="display: none;">
+            <div class="Chatroom">
+                <!-- Left Section channel buttons -->
+                <div class="left-section">
+                    <div class="buttons">
+                        <button id="ch1" aria-label="Channel 1"><i class="bi bi-chat-square-text"></i></button>
+                        <button id="ch2" aria-label="Channel 2"><i class="bi bi-patch-question"></i></button>
+                        <button id="ch3" aria-label="Channel 3"><i class="bi bi-joystick"></i></button>
+                    </div>
+                </div>
+                <!-- Middle Section -->
+                <div class="middle-section">
+                    <div class="chat-container">
+                        <div class="chat-window">
+                            <!-- Messages loads automatic -->
+                        </div>
+                        <div class="input-bar">
+                            <input type="text" placeholder="Type a message" id="chatInput">
+                            <button id="sendButton">Send</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </section>
+    <script type="module" src="Addons/navbar.js"></script>
+</body>
+
+</html>

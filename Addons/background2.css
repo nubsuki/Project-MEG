@@ -1,0 +1,67 @@
+body, html {
+	width: 100%;
+	height: 100vh;
+	margin: 0;
+    overflow: hidden;
+	background-color: #869ba8;
+	background-image: 
+		radial-gradient(in oklch circle at 0% 0%, #ffd100, transparent 50%),
+		radial-gradient(in oklch circle at 80% 50%, #7ba7bc, transparent),
+		radial-gradient(in oklch circle at 0% 100%, #ff6a13, transparent);
+}
+
+#svg {
+	width: 100%;
+	height: 100%;
+	animation: fade_in 0.8s linear forwards;
+	will-change: contents;
+}
+
+* {
+	overflow: visible;
+}
+
+#svg svg {
+	transform-box: border-box;
+	transform-origin: center;
+	will-change: opacity transform;
+}
+
+#svg rect {
+	transform-box: fill-box;
+	transform-origin: center;
+	animation-timing-function: cubic-bezier(0.77, 0, 0.175, 1);
+	animation-iteration-count: infinite;
+	opacity: 0;
+}
+
+svg path {
+	transform-box: fill-box;
+}
+
+#svg svg:nth-of-type(5n) rect {
+	filter: blur(2px);
+}
+
+#svg svg:nth-of-type(9n) rect {
+	filter: blur(4px);
+}
+
+
+@keyframes fade_in_out {
+	0% {
+		opacity: 0%;
+		transform: translateY(200%) scale(0.7);
+	} 15%, 40% {
+		opacity: 1;
+		transform: translateY(0) scale(1);
+	} 55%, 100% {
+		opacity: 0%;
+		transform: translateY(-200%) scale(0.7);
+	}
+}
+
+@keyframes fade_in {
+	0%, 60% { opacity: 0; }
+	100% { opacity: 1; }
+}

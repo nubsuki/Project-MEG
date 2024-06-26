@@ -1,0 +1,90 @@
+
+body{
+    margin: 0;
+    height: 100vh;
+    background-color: #201e1e;
+
+}
+
+.bg-track {
+    
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+}
+
+.bg-wrapper {
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+.bg {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    aspect-ratio: 1;
+    position: absolute;
+    overflow: hidden;
+    cursor: default;
+    width: 100%;
+    height: 100%;
+}
+
+.bg-letters {
+    --x: 0px;
+    --y: 0px;
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    height: 100%;
+    width: 100%;
+    color: white;
+    font-size: 0.8rem;
+    font-weight: 500;
+    word-wrap: break-word;
+    opacity: 0;
+    mask-image: radial-gradient(
+        calc(100vh * 0.6) circle at var(--x) var(--y), 
+        rgb(255, 255, 255) 20%, 
+        rgba(255, 255, 255, 0.418), 
+        transparent
+    );
+    scale: 1.03;
+    z-index: 1;
+}
+
+.bg-gradient {
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    background: radial-gradient(
+        circle closest-side at 50% 50%, 
+        rgb(30, 41, 59) 10%, 
+        rgb(159, 77, 226) 50%, 
+        rgb(56, 182, 255),
+        rgb(124, 64, 202)
+    );
+    mix-blend-mode: darken;
+    pointer-events: none;
+    z-index: 2;
+  
+}
+
+.bg:hover .bg-letters {
+    opacity: 1;
+}
+
+@media(max-width: 600px) {
+    .bg {
+        border-radius: 1rem;
+    }
+}

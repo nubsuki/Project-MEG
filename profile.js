@@ -1,7 +1,8 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getAuth, updateProfile as updateAuthProfile } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+import { getAuth, onAuthStateChanged, updateProfile as updateAuthProfile } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 import { getFirestore, doc, updateDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-storage.js";
+
 
 // Firebase configuration
 const firebaseConfig = {
@@ -20,6 +21,33 @@ const db = getFirestore(app);
 const storage = getStorage(app);
 
 
+
+// Global variable to store admin status
+let isAdmin = false;
+
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    // User is signed in. Fetch user data from Firestore
+    const userRef = doc(db, "users", user.uid);
+    getDoc(userRef).then((docSnapshot) => {
+      if (docSnapshot.exists()) {
+        const userData = docSnapshot.data();
+        if (userData.role === 'admin') {
+          isAdmin = true;
+          console.log("User is admin:", isAdmin);
+          // Show admin control panel icon
+          document.getElementById('controlpnl').style.display = 'flex';
+        } else {
+          console.log("User is admin:", isAdmin);
+        }
+      } else {
+        console.log("No such document!");
+      }
+    }).catch((error) => {
+      console.log("Error getting document:", error);
+    });
+  }
+});
 
 
 document.addEventListener('DOMContentLoaded', async function () {

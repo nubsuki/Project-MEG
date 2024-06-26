@@ -67,7 +67,7 @@
         </div>
     </div>    
     <!--Addnews-->
-    <section class="newsfeedaddsection" id="nfaddsection">
+    <section class="newsfeedaddsection" id="nfaddsection" style="display: none;">
         <div class="nfaddform" id="nfaddform" >
             <div class="nfcloseicon" id="nfaddclose" >
                 <i class="bi bi-x icon2"></i>
@@ -115,7 +115,12 @@
                 <label for="link">Full Article Link:</label>
                 <input type="url" id="link" name="link" required><br><br>
 
-                <button type="submit">Add News</button>
+                <button type="submit">
+                    <span id="addNewsText">Add News</span>
+                    <span class="loader" id="loader">
+                        <span class="loader-inner"></span>
+                    </span>
+                </button>
             </form>
         </div>
     </section>

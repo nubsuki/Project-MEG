@@ -4,7 +4,6 @@ import { getFirestore, getDoc, addDoc, doc, setDoc, deleteDoc, collection, query
 import { getDocs } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 import { getStorage, ref, uploadBytesResumable, getDownloadURL, deleteObject } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-storage.js";
 
-
 const firebaseConfig = {
   apiKey: "AIzaSyBua35RMPI5GlO9riLYNYN8R2NwOTzjY0Y",
   authDomain: "porject-meg.firebaseapp.com",
@@ -19,10 +18,6 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth();
 const db = getFirestore(app);
 const storage = getStorage(app);
-
-
-
-
 
 // Global variable to store admin status
 let isAdmin = false;
@@ -49,7 +44,6 @@ auth.onAuthStateChanged(function (user) {
   }
 });
 
-
 // Add News
 const newsForm = document.getElementById('newsForm');
 
@@ -63,8 +57,13 @@ newsForm.addEventListener('submit', async (e) => {
   const category = formData.get('category');
   const link = formData.get('link');
   const imageFile = formData.get('imageFile');
+  const loader = document.getElementById('loader');
+  const addNewsText = document.getElementById('addNewsText');
 
   try {
+    newsForm.style.pointerEvents = 'none'; // Disable form interactions
+    addNewsText.style.display = 'none';
+    loader.style.display = 'inline-block';
     // Upload image to Firebase Storage
     const imageUrl = await uploadImageToStorage(imageFile);
     // Add news data to Firestore
@@ -75,6 +74,9 @@ newsForm.addEventListener('submit', async (e) => {
   } catch (error) {
     console.error("Error adding news: ", error);
     alert('Failed to add news. Please try again later.');
+  } finally {
+    window.location.href = "controlpanel.html";
+    loader.style.display = 'none'; // Hide loader
   }
 });
 
@@ -107,35 +109,28 @@ async function addNewsToFirestore(title, description, imageUrl, category, link) 
   }
 }
 
-
-
-
-
-//button funtions
+// Button functions
 document.addEventListener('DOMContentLoaded', function () {
-    const addNewsbtn = document.getElementById('addnewsbtn');
-    const closeNewsbtn = document.getElementById('nfaddclose');
-    const addNewsSection = document.getElementById('nfaddsection');
-  
-  
-    function openaddNewsSection() {
-        addNewsSection.style.display = 'block';
-    }
-  
-    function closeaddNewsSection() {
-        addNewsSection.style.display = 'none';
-    }
-  
-  
-    if (addNewsbtn) {
-        addNewsbtn.addEventListener('click', openaddNewsSection);
-    }
-  
-    if (closeNewsbtn) {
-        closeNewsbtn.addEventListener('click', function (event) {
-        event.stopPropagation();
-        closeaddNewsSection();
-      });
-    }
-  
-  });
+  const addNewsbtn = document.getElementById('addnewsbtn');
+  const closeNewsbtn = document.getElementById('nfaddclose');
+  const addNewsSection = document.getElementById('nfaddsection');
+
+  function openaddNewsSection() {
+    addNewsSection.style.display = 'block';
+  }
+
+  function closeaddNewsSection() {
+    addNewsSection.style.display = 'none';
+  }
+
+  if (addNewsbtn) {
+    addNewsbtn.addEventListener('click', openaddNewsSection);
+  }
+
+  if (closeNewsbtn) {
+    closeNewsbtn.addEventListener('click', function (event) {
+      event.stopPropagation();
+      closeaddNewsSection();
+    });
+  }
+});

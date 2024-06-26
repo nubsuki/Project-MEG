@@ -125,23 +125,8 @@ auth.onAuthStateChanged(function (user) {
         const userData = docSnapshot.data();
         if (userData.role === 'admin') {
           isAdmin = true;
-          // If user is admin, show the nfadd container
-          document.getElementById('nfaddbutton').style.display = 'flex';
-          document.getElementById('nfaddbutton').addEventListener('click', function (event) {
-            event.preventDefault();
-            document.getElementById('nfaddform').style.display = 'flex';
-            document.getElementById('nfaddbutton').style.display = 'none';
-            document.getElementById('nfaddcancel').style.display = 'flex';
-            document.getElementById('nfaddcancel').addEventListener('click', function (event) {
-              event.preventDefault();
-              document.getElementById('nfaddform').style.display = 'none';
-              document.getElementById('nfaddbutton').style.display = 'flex';
-              document.getElementById('nfaddcancel').style.display = 'none';
-            });
-          });
         } else {
           // If user is not admin, hide the nfadd container
-          document.getElementById('nfaddbutton').style.display = 'none';
         }
         displayNews();
       } else {
@@ -152,63 +137,6 @@ auth.onAuthStateChanged(function (user) {
     });
   }
 });
-
-// Add News
-const newsForm = document.getElementById('newsForm');
-
-// Event listener for form submission
-newsForm.addEventListener('submit', async (e) => {
-  e.preventDefault();
-
-  const formData = new FormData(newsForm);
-  const title = formData.get('title');
-  const description = formData.get('description');
-  const category = formData.get('category');
-  const link = formData.get('link');
-  const imageFile = formData.get('imageFile');
-
-  try {
-    // Upload image to Firebase Storage
-    const imageUrl = await uploadImageToStorage(imageFile);
-    // Add news data to Firestore
-    await addNewsToFirestore(title, description, imageUrl, category, link);
-    alert('News added successfully!');
-    // Clear the form after submission
-    newsForm.reset();
-  } catch (error) {
-    console.error("Error adding news: ", error);
-    alert('Failed to add news. Please try again later.');
-  }
-});
-
-// Function to upload image to Firebase Storage
-async function uploadImageToStorage(imageFile) {
-  try {
-    const storageRef = ref(storage, 'news_images/' + imageFile.name);
-    const snapshot = await uploadBytesResumable(storageRef, imageFile);
-    const downloadUrl = await getDownloadURL(snapshot.ref);
-    return downloadUrl;
-  } catch (error) {
-    throw error;
-  }
-}
-
-// Function to add news data to Firestore
-async function addNewsToFirestore(title, description, imageUrl, category, link) {
-  try {
-    const newDocRef = doc(collection(db, 'news')); // Create a new document reference with an auto-generated ID
-    await setDoc(newDocRef, {
-      title: title,
-      newsId: newDocRef.id, // Set the newsId field to the new document ID
-      description: description,
-      imageUrl: imageUrl,
-      category: category,
-      link: link
-    });
-  } catch (error) {
-    throw error;
-  }
-}
 
 
 //chatroom

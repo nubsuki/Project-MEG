@@ -64,6 +64,7 @@
                         <h1 id="pusername" class="username">Loading....</h1>
                         <a class="follow">Follow</a>
                         <span class="settings-icon" id="pfsettings"><i class="bi bi-gear"></i></span>
+                        <span class="settings-icon" id="controlpnl"><i class="bi bi-menu-button"></i></span>
                     </div>
                     <div class="profile-stats">
                         <span><strong>164</strong> posts</span>
@@ -92,8 +93,6 @@
     <section class="editprofilesection" style="display: none;" id="editprofil">
         <form method="post">
             <div class="editprofile" >
-                
-                
                 <div id="pfclose">
                     <i class="bi bi-x icon2"></i>
                 </div>
@@ -121,6 +120,12 @@
             <div class="addTags" >
                 <div id="Tagclose">
                     <i class="bi bi-x icon2"></i>
+                </div>
+                <div class="tag-selector">
+                    <input type="text" class="tag-input" id="tagInput" placeholder="Search tags...">
+                    <ul class="tag-list" id="tagList">
+                        <!-- Tags will be listed here -->
+                    </ul>
                 </div>
             </div>
         </div>

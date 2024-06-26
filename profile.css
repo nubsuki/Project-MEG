@@ -294,8 +294,8 @@ body {
     margin-bottom: 15px;
     border: none;
     border-radius: 5px;
-    background-color: #50555d;
-    color: #ffffff;
+    background-color: #afc7df;
+    color: #000000;
     font-size: 1em;
 }
 
@@ -322,7 +322,7 @@ body {
     margin: 10px;
     border: none;
     border-radius: 5px;
-    background-color: #eb3838c4;
+    background-color: #e46565c4;
     cursor: pointer;
     font-size: 1em;
 }
@@ -343,6 +343,9 @@ body {
   
 .editprofile .editup:hover {
     background-color: #2ca0c4;
+}
+.editprofile .edittag:hover {
+  background-color: #2ca0c4;
 }
 
 .icon2 {
@@ -426,4 +429,32 @@ body {
   top: 10%;
   transform: translate(-50%, -10%);
   z-index: 3333;
+}
+
+.tag-selector {
+  max-width: 300px;
+  margin: auto;
+}
+.tag-input {
+  width: 100%;
+  padding: 10px;
+  margin-top: 40px;
+  margin-bottom: 15px;
+  border-radius: 5px;
+  border: none;
+  background-color: #afc7df;
+}
+.tag-list {
+  list-style: none;
+  padding: 0;
+}
+.tag-list li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 5px;
+  border-bottom: 2px solid #695656;
+}
+.tag-list input[type="checkbox"] {
+  margin-right: 10px;
 }

@@ -64,64 +64,6 @@
         <div class="card-container"></div>
     </section>
 
-    <!--NewsfeedaAdd-->
-    <section class="newsfeedaddsection" id="newsfeedaddsection">
-        <div class="nfadd" id="nfaddbutton" style="display: none;">
-            <i class="bi bi-file-earmark-plus"></i>
-        </div>
-        <div class="nfadd" id="nfaddcancel" style="display: none;">
-            <i class="bi bi-x"></i>
-        </div>
-        <div class="nfaddform" id="nfaddform" style="display: none;">
-            <form id="newsForm">
-                <label for="title">Title:</label>
-                <input type="text" id="title" name="title" required><br><br>
-
-                <label for="description">Description:</label><br>
-                <textarea id="description" name="description" rows="4" maxlength="150" required></textarea><br>
-                <span id="charCount" style="margin-left: 10px;">100</span> characters remaining.<br><br>
-
-                <script>
-                    // Get the textarea element
-                    var description = document.getElementById("description");
-
-                    // Get the span element to display character count
-                    var charCount = document.getElementById("charCount");
-
-                    // Set initial character count
-                    charCount.textContent = description.maxLength;
-
-                    // Add input event listener
-                    description.addEventListener("input", function () {
-                        // Calculate remaining characters
-                        var remainingChars = description.maxLength - description.value.length;
-
-                        // Update character count
-                        charCount.textContent = remainingChars;
-
-                        // If character limit exceeded, truncate the input
-                        if (remainingChars < 0) {
-                            description.value = description.value.slice(0, description.maxLength);
-                            charCount.textContent = 0;
-                        }
-                    });
-                </script>
-
-                <label for="imageFile">Image File:</label>
-                <input type="file" id="imageFile" name="imageFile" accept="image/*" required><br><br>
-
-                <label for="category">Category:</label>
-                <input type="text" id="category" name="category" required><br><br>
-
-                <label for="link">Full Article Link:</label>
-                <input type="url" id="link" name="link" required><br><br>
-
-                <button type="submit">Add News</button>
-            </form>
-        </div>
-
-    </section>
-
     <!--Chatroom-->
     <section>
         <div class="chatIcon" id="chatIcon">

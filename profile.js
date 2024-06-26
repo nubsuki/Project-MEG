@@ -23,42 +23,42 @@ const storage = getStorage(app);
 
 
 document.addEventListener('DOMContentLoaded', async function () {
-    const userId = localStorage.getItem('loggedInUserId');
+  const userId = localStorage.getItem('loggedInUserId');
 
-    if (!userId) {
-        console.error('User ID not found in localStorage');
-        return;
+  if (!userId) {
+    console.error('User ID not found in localStorage');
+    return;
+  }
+
+  const app = initializeApp(firebaseConfig); // Initialize Firebase app
+  const db = getFirestore(app); // Get Firestore instance
+
+  try {
+    const userRef = doc(db, 'users', userId);
+    const docSnap = await getDoc(userRef);
+
+    if (docSnap.exists()) {
+      const userData = docSnap.data();
+
+      // Update profile image
+      const profilePic = document.getElementById('profileimg');
+      if (userData.profilePicUrl) {
+        profilePic.src = userData.profilePicUrl;
+      }
+
+      // Update username
+      const usernameElement = document.getElementById('pusername');
+      usernameElement.textContent = userData.username || 'Username';
+
+      // Update bio/description
+      const descriptionElement = document.getElementById('pdescription');
+      descriptionElement.textContent = userData.description || 'Bio';
+    } else {
+      console.log('No such document!');
     }
-
-    const app = initializeApp(firebaseConfig); // Initialize Firebase app
-    const db = getFirestore(app); // Get Firestore instance
-
-    try {
-        const userRef = doc(db, 'users', userId);
-        const docSnap = await getDoc(userRef);
-
-        if (docSnap.exists()) {
-            const userData = docSnap.data();
-
-            // Update profile image
-            const profilePic = document.getElementById('profileimg');
-            if (userData.profilePicUrl) {
-                profilePic.src = userData.profilePicUrl;
-            }
-
-            // Update username
-            const usernameElement = document.getElementById('pusername');
-            usernameElement.textContent = userData.username || 'Username';
-
-            // Update bio/description
-            const descriptionElement = document.getElementById('pdescription');
-            descriptionElement.textContent = userData.description || 'Bio';
-        } else {
-            console.log('No such document!');
-        }
-    } catch (error) {
-        console.error('Error fetching user profile:', error);
-    }
+  } catch (error) {
+    console.error('Error fetching user profile:', error);
+  }
 });
 
 
@@ -68,7 +68,7 @@ const descriptionInput = document.getElementById('description');
 const profilePicInput = document.getElementById('profilePic');
 const updateButton = document.getElementById('update');
 const avatarDiv = document.querySelector('.avatar');
-const loader = document.getElementById('loader'); 
+const loader = document.getElementById('loader');
 const updateText = document.getElementById('updateText');
 
 // Allowed file types and size limit
@@ -78,18 +78,18 @@ const maxSizeInBytes = 5 * 1024 * 1024; // 5MB
 
 // Event listener for file input change
 profilePicInput.addEventListener('change', () => {
-    const file = profilePicInput.files[0];
-    if (file) {
-        // Use FileReader to read file content
-        const reader = new FileReader();
-        reader.onload = function(e) {
-            avatarDiv.style.backgroundImage = `url(${e.target.result})`;
-        };
-        reader.readAsDataURL(file);
-    } else {
-        // Reset background image if no file selected
-        avatarDiv.style.backgroundImage = 'none';
-    }
+  const file = profilePicInput.files[0];
+  if (file) {
+    // Use FileReader to read file content
+    const reader = new FileReader();
+    reader.onload = function (e) {
+      avatarDiv.style.backgroundImage = `url(${e.target.result})`;
+    };
+    reader.readAsDataURL(file);
+  } else {
+    // Reset background image if no file selected
+    avatarDiv.style.backgroundImage = 'none';
+  }
 });
 // Fetch and display current user profile
 async function fetchAndDisplayProfile() {
@@ -201,7 +201,7 @@ updateButton.addEventListener('click', async (e) => {
     console.log('Profile updated successfully');
   } catch (error) {
     console.error('Error updating profile:', error);
-  }finally {
+  } finally {
     window.location.href = "profile.html";
     loader.style.display = 'none'; // Hide loader
   }
@@ -213,87 +213,125 @@ fetchAndDisplayProfile();
 
 document.addEventListener('DOMContentLoaded', function () {
   const profileEditButton = document.getElementById('pfsettings');
-  const profileCloseButton = document.getElementById('pfclose'); 
-  const profileEditSection = document.getElementById('editprofil'); 
-  const deleteProfileSection = document.getElementById('delete-confirmation'); 
-  const cancelButton = document.getElementById('nodelete'); 
-  const deleteAccountButton = document.getElementById('delete'); 
+  const profileCloseButton = document.getElementById('pfclose');
+  const profileEditSection = document.getElementById('editprofil');
+  const deleteProfileSection = document.getElementById('delete-confirmation');
+  const cancelButton = document.getElementById('nodelete');
+  const deleteAccountButton = document.getElementById('delete');
   const Tagclose = document.getElementById('Tagclose');
   const addTagsSection = document.getElementById('addTags');
   const editTagButton = document.getElementById('edittagbtn');
+  const controlpanel = document.getElementById('controlpnl');
 
-  // Function to open the profile edit section
+
   function openProfileEdit() {
     profileEditSection.style.display = 'block';
   }
 
-  // Function to close the profile edit section
   function closeProfileEdit() {
     profileEditSection.style.display = 'none';
     window.location.href = "profile.html";
   }
 
-  // Function to open the tags edit section
   function openTagsEdit() {
     addTagsSection.style.display = 'block';
   }
 
-  // Function to close the tags edit section
   function closeTagsEdit() {
     addTagsSection.style.display = 'none';
   }
 
-  // Function to open the delete profile confirmation
   function openDeleteConfirmation() {
     deleteProfileSection.style.display = 'block';
   }
 
-  // Function to cancel the delete profile confirmation
   function cancelDelete() {
     deleteProfileSection.style.display = 'none';
   }
 
-  // Add event listener to the button with the id #pfsettings
+  function openControls() {
+    window.location.href = "controlpanel.html";
+  }
+  if (controlpanel) {
+    controlpanel.addEventListener('click', function (event) {
+      event.stopPropagation(); 
+      openControls();
+    });
+  }
+
   if (profileEditButton) {
     profileEditButton.addEventListener('click', openProfileEdit);
   }
 
-  // Add event listener to the div with the id #pfclose
   if (profileCloseButton) {
-    profileCloseButton.addEventListener('click', function(event) {
-      event.stopPropagation(); // Stop the event from propagating to parent elements
+    profileCloseButton.addEventListener('click', function (event) {
+      event.stopPropagation();
       closeProfileEdit();
     });
   }
 
-  // Add event listener to the button with the id #edittagbtn
+
   if (editTagButton) {
     editTagButton.addEventListener('click', openTagsEdit);
   }
 
-  // Add event listener to the div with the id #Tagclose
+
   if (Tagclose) {
-    Tagclose.addEventListener('click', function(event) {
-      event.stopPropagation(); // Stop the event from propagating to parent elements
+    Tagclose.addEventListener('click', function (event) {
+      event.stopPropagation();
       closeTagsEdit();
     });
   }
 
-  // Add event listener to the delete account button
   if (deleteAccountButton) {
-    deleteAccountButton.addEventListener('click', function(event) {
-      event.stopPropagation(); // Stop the event from propagating to parent elements
+    deleteAccountButton.addEventListener('click', function (event) {
+      event.stopPropagation();
       openDeleteConfirmation();
       deleteAccountButton.style.pointerEvents = 'none';
     });
   }
 
-  // Add event listener to the cancel button with the id #nodelete
+
   if (cancelButton) {
-    cancelButton.addEventListener('click', function(event) {
-      event.stopPropagation(); // Stop the event from propagating to parent elements
+    cancelButton.addEventListener('click', function (event) {
+      event.stopPropagation();
       cancelDelete();
       deleteAccountButton.style.pointerEvents = 'auto';
     });
+  }
+});
+
+
+
+//Tag Selector
+
+const tags = [
+  'JavaScript', 'Python', 'Java', 'C++', 'PHP',
+  'Ruby', 'Go', 'Swift', 'Kotlin', 'Rust'
+];
+
+const tagInput = document.getElementById('tagInput');
+const tagList = document.getElementById('tagList');
+
+function displayTags(filteredTags) {
+  tagList.innerHTML = '';
+  filteredTags.forEach(tag => {
+      const li = document.createElement('li');
+      const checkbox = document.createElement('input');
+      checkbox.type = 'checkbox';
+      checkbox.value = tag;
+      li.appendChild(checkbox);
+      li.appendChild(document.createTextNode(tag));
+      tagList.appendChild(li);
+  });
+}
+
+tagInput.addEventListener('input', () => {
+  const searchTerm = tagInput.value.toLowerCase();
+  if (searchTerm === '') {
+      displayTags([]);  // Clear the list when the input is empty
+  } else {
+      const filteredTags = tags.filter(tag => tag.toLowerCase().includes(searchTerm));
+      displayTags(filteredTags);
   }
 });

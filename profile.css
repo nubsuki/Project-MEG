@@ -428,7 +428,24 @@ body {
   left: 50%;
   top: 10%;
   transform: translate(-50%, -10%);
-  z-index: 3333;
+  z-index: 3;
+}
+
+.tag-container{
+  margin-top: 20px;
+  overflow: scroll;
+  height: 325px;
+  scrollbar-width: none;
+  -ms-overflow-style: none; 
+}
+.tag {
+  display: inline-block;
+  background-color: #333;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 20px;
+  margin: 5px;
+  font-size: 14px;
 }
 
 .tag-selector {
@@ -444,17 +461,19 @@ body {
   border: none;
   background-color: #afc7df;
 }
-.tag-list {
-  list-style: none;
-  padding: 0;
-}
-.tag-list li {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 5px;
-  border-bottom: 2px solid #695656;
-}
+
 .tag-list input[type="checkbox"] {
   margin-right: 10px;
+}
+
+.delete-icon {
+  color: rgb(223, 111, 111);
+  margin-left: 10px;
+  cursor: pointer; 
+}
+
+.add-tagsicon {
+  color: rgb(92, 255, 17);
+  margin-left: 10px;
+  cursor: pointer; 
 }

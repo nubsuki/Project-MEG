@@ -1,10 +1,13 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+
+// Add the other Firebase services that you want to use
 import { getAuth, onAuthStateChanged, updateProfile as updateAuthProfile } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 import { getFirestore, doc, updateDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-storage.js";
+import { collection, getDocs} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
 
-// Firebase configuration
+//Firebase configuration
 const firebaseConfig = {
   apiKey: "AIzaSyBua35RMPI5GlO9riLYNYN8R2NwOTzjY0Y",
   authDomain: "porject-meg.firebaseapp.com",
@@ -333,33 +336,180 @@ document.addEventListener('DOMContentLoaded', function () {
 
 //Tag Selector
 
-const tags = [
-  'JavaScript', 'Python', 'Java', 'C++', 'PHP',
-  'Ruby', 'Go', 'Swift', 'Kotlin', 'Rust'
-];
+// Function to fetch user tags from Firestore using current user's UID
+async function fetchCurrentUserTags() {
+  const userId = localStorage.getItem('loggedInUserId');
+  const tagContainer = document.getElementById('tag-container');
 
-const tagInput = document.getElementById('tagInput');
-const tagList = document.getElementById('tagList');
+  if (!userId) {
+      console.error('User ID not found in localStorage');
+      tagContainer.innerHTML = 'User ID not found'; // Display an error message if user ID is not found
+      return;
+  }
 
-function displayTags(filteredTags) {
-  tagList.innerHTML = '';
-  filteredTags.forEach(tag => {
-      const li = document.createElement('li');
-      const checkbox = document.createElement('input');
-      checkbox.type = 'checkbox';
-      checkbox.value = tag;
-      li.appendChild(checkbox);
-      li.appendChild(document.createTextNode(tag));
-      tagList.appendChild(li);
-  });
+  try {
+      const userDocRef = doc(db, 'users', userId); // Reference to the user document
+      const userDocSnap = await getDoc(userDocRef);
+
+      if (userDocSnap.exists()) {
+          const userData = userDocSnap.data();
+          const userTags = userData.tags || []; // Get tags array from user data, default to empty array
+
+          tagContainer.innerHTML = ''; // Clear existing tags
+
+          if (userTags.length === 0) {
+              tagContainer.innerHTML = 'No tags yet added'; // Display message if no tags
+          } else {
+              userTags.forEach((tag) => {
+                  const tagElement = document.createElement('div');
+                  tagElement.classList.add('tag');
+
+                  // Display tag text
+                  const tagText = document.createElement('span');
+                  tagText.textContent = tag;
+                  tagElement.appendChild(tagText);
+
+                  // Create delete icon
+                  const deleteIcon = document.createElement('i');
+                  deleteIcon.classList.add('bi', 'bi-trash', 'delete-icon');
+                  deleteIcon.style.marginLeft = '10px';
+                  deleteIcon.style.cursor = 'pointer';
+                  deleteIcon.addEventListener('click', async () => {
+                      // Remove the tag from the user's profile
+                      try {
+                          const updatedTags = userTags.filter(t => t !== tag);
+                          await updateDoc(userDocRef, { tags: updatedTags });
+                          fetchCurrentUserTags(); // Refresh tag display
+                      } catch (error) {
+                          console.error('Error removing tag:', error);
+                      }
+                  });
+
+                  tagElement.appendChild(deleteIcon);
+                  tagContainer.appendChild(tagElement);
+              });
+          }
+      } else {
+          console.log('User document not found');
+      }
+  } catch (error) {
+      console.error('Error fetching tags:', error);
+  }
 }
 
-tagInput.addEventListener('input', () => {
-  const searchTerm = tagInput.value.toLowerCase();
-  if (searchTerm === '') {
-      displayTags([]);  // Clear the list when the input is empty
-  } else {
-      const filteredTags = tags.filter(tag => tag.toLowerCase().includes(searchTerm));
-      displayTags(filteredTags);
+fetchCurrentUserTags();
+
+
+
+// Function to fetch and filter tags based on user input
+async function fetchAndFilterTags() {
+  try {
+      const tagsRef = doc(db, 'TagList', 'tagsDocument');
+      const docSnap = await getDoc(tagsRef);
+
+      if (docSnap.exists()) {
+          const tagData = docSnap.data();
+          const allTags = tagData.tags || []; // Get tags array
+
+          const tagInput = document.getElementById('tagInput');
+          const tagList = document.getElementById('tagList');
+          const searchTerm = tagInput.value.trim().toLowerCase(); // Trim and lowercase input
+
+          // Clear existing tag list if search term is empty
+          if (searchTerm === '') {
+              tagList.innerHTML = '';
+              return; // Exit function early
+          }
+
+          // Fetch user's existing tags
+          const userId = localStorage.getItem('loggedInUserId');
+          let userTags = [];
+
+          if (userId) {
+              const userDocRef = doc(db, 'users', userId);
+              const userDocSnap = await getDoc(userDocRef);
+
+              if (userDocSnap.exists()) {
+                  const userData = userDocSnap.data();
+                  userTags = userData.tags || [];
+              } else {
+                  console.log('User document not found');
+              }
+          } else {
+              console.error('User ID not found in localStorage');
+          }
+
+          // Use a Set to store unique tags temporarily
+          const uniqueTags = new Set();
+
+          allTags.forEach(tag => {
+              const tagText = tag.toLowerCase();
+              if (tagText.includes(searchTerm) && !userTags.includes(tagText)) {
+                  uniqueTags.add(tag); // Add original tag to Set
+              }
+          });
+
+          // Convert Set back to Array and sort alphabetically
+          const uniqueTagsArray = Array.from(uniqueTags).sort();
+
+          // Clear existing tag list
+          tagList.innerHTML = '';
+
+          uniqueTagsArray.forEach(tag => {
+              const li = document.createElement('div');
+              li.textContent = tag;
+              li.classList.add('tag');
+
+              // Create plus icon for adding tag
+              const plusIcon = document.createElement('i');
+              plusIcon.classList.add('bi', 'bi-plus-lg', 'add-tagsicon');
+              plusIcon.style.marginLeft = '10px';
+              plusIcon.style.cursor = 'pointer';
+              plusIcon.addEventListener('click', async () => {
+                  // Add the tag to the user's profile
+                  const userId = localStorage.getItem('loggedInUserId');
+                  if (userId) {
+                      try {
+                          const userDocRef = doc(db, 'users', userId);
+                          const userDocSnap = await getDoc(userDocRef);
+
+                          if (userDocSnap.exists()) {
+                              const userData = userDocSnap.data();
+                              let userTags = userData.tags || [];
+
+                              if (!userTags.includes(tag)) {
+                                  userTags.push(tag); // Add the new tag
+
+                                  // Update the user document with new tags
+                                  await updateDoc(userDocRef, { tags: userTags });
+
+                                  // Update UI or trigger a refresh of user tags display
+                                  fetchCurrentUserTags();
+                              } else {
+                                  console.log('Tag already exists for the user');
+                                  // You can optionally provide user feedback that the tag is already added
+                              }
+                          } else {
+                              console.log('User document not found');
+                          }
+                      } catch (error) {
+                          console.error('Error updating user tags:', error);
+                      }
+                  } else {
+                      console.error('User ID not found in localStorage');
+                  }
+              });
+
+              li.appendChild(plusIcon);
+              tagList.appendChild(li);
+          });
+      } else {
+          console.log('Tags document not found');
+      }
+  } catch (error) {
+      console.error('Error fetching tags:', error);
   }
-});
+}
+
+// Event listener for tag input change
+document.getElementById('tagInput').addEventListener('input', fetchAndFilterTags);

@@ -87,7 +87,7 @@ body {
 }
 
 /*Newsfeed*/
-.newsfeedaddsection{
+.sections{
   height: 100vh;
   width: 100%;
   position: fixed;
@@ -216,4 +216,67 @@ body {
   .reports {
       margin: 5px; 
   }
+}
+
+
+
+.addTaglist{
+  position: absolute;
+  padding: 30px;
+  border-radius: 15px;
+  width: 350px;
+  text-align: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(5px);
+  border-radius: 20px;
+  border: 2px solid #afc7df;
+  left: 50%;
+  top: 40%;
+  transform: translate(-50%, -50%);
+  z-index: 3333;
+}
+
+.tag-container{
+  margin-top: 20px;
+  overflow: scroll;
+  height: 400px;
+  scrollbar-width: none;
+  -ms-overflow-style: none; 
+}
+.tag {
+  display: inline-block;
+  background-color: #333;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 20px;
+  margin: 5px;
+  font-size: 14px;
+}
+.delete-icon {
+  color: rgb(223, 111, 111);
+  margin-left: 10px;
+  cursor: pointer; 
+}
+.taginput{
+  width: 80%;
+  height: 35px;
+  border-radius: 5px;
+  border: none;
+  margin: 10px;
+  padding: 10px;
+  background-color: #afc7df;
+}
+.taginputbtn{
+  border: none;
+  background-color: #eee5;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 5px;
+  padding: 8px 16px;
+  cursor: pointer;
+  transition: .5s;
+}
+.taginputbtn:hover{
+  background-color: #fff;
+  color: black;
 }

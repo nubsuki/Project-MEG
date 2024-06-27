@@ -170,14 +170,17 @@ if (uid) {
 
 onAuthStateChanged(auth, (user) => {
     const followButton = document.getElementById('followButton');
+    const pfshare = document.getElementById('pfshare');
     if (user) {
         // User is logged in
         followButton.style.display = 'block';
         followButton.style.pointerEvents = 'auto';
         console.log("User is logged in:", user.email);
+        pfshare.style.display = 'block';
     } else {
         // User is not logged in
         followButton.style.display = 'none';
+        pfshare.style.display = 'none';
     }
 });
 

@@ -174,10 +174,7 @@ document.addEventListener('DOMContentLoaded', () => {
 };
 
 
-getUserInfo().then(() =>{
-  console.log('currentUserRole:', currentUserRole);
-  console.log('gotUserID:', gotUserID);
-});
+getUserInfo();
 
 
 
@@ -210,7 +207,7 @@ const loadchatroom = async (selectedchatroom) => {
               const userDocRef = doc(db, 'users', message.userID);
               const userDocSnapshot = await getDoc(userDocRef);
               const username = userDocSnapshot.exists() ? userDocSnapshot.data().username : 'Unknown User';
-              return { type: 'added', message, username };
+              return { type: 'added', message, username, userID: message.userID };
           }
           if (change.type === 'removed') {
               return { type: 'removed', messageIndex: message.index };
@@ -223,7 +220,7 @@ const loadchatroom = async (selectedchatroom) => {
       messagesWithUsernames.forEach((item) => {
           if (item) {
               if (item.type === 'added') {
-                  const { message, username } = item;
+                  const { message, username, userID } = item;
                   const messageElement = document.createElement('div');
                   messageElement.className = 'message';
                   messageElement.setAttribute('data-index', message.index); // Add index to msg
@@ -234,6 +231,9 @@ const loadchatroom = async (selectedchatroom) => {
                   const usernameElement = document.createElement('div');
                   usernameElement.className = 'username';
                   usernameElement.textContent = username;
+                  usernameElement.addEventListener('click', () => {
+                      window.location.href = `usersprofile.html?uid=${userID}`;
+                  });
 
                   const textElement = document.createElement('div');
                   textElement.className = 'text';

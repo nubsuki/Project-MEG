@@ -2,7 +2,7 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/fireba
 
 // Add the other Firebase services that you want to use
 import { getAuth, onAuthStateChanged, updateProfile as updateAuthProfile } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-import { getFirestore, doc, updateDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+import { getFirestore, doc, updateDoc, getDoc ,setDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-storage.js";
 import { collection, getDocs} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
@@ -126,6 +126,7 @@ profilePicInput.addEventListener('change', () => {
 async function fetchAndDisplayProfile() {
   try {
     const userId = localStorage.getItem('loggedInUserId');
+     
 
     if (!userId) {
       console.error('User ID not found in localStorage');
@@ -150,6 +151,10 @@ async function fetchAndDisplayProfile() {
     } else {
       console.log('No such document!');
     }
+    // Fetch follower and followed counts
+    await getFollowerCount(userId);
+    await getFollowedCount(userId);
+
   } catch (error) {
     console.error('Error fetching profile:', error);
   }
@@ -241,6 +246,46 @@ updateButton.addEventListener('click', async (e) => {
 
 // Initialize the profile form
 fetchAndDisplayProfile();
+
+//followers and following counts
+const getFollowerCount = async (userId) => {
+  try {
+      const friendsRef = doc(db, 'friends', userId);
+      const unsubscribe = onSnapshot(friendsRef, (doc) => {
+          if (doc.exists()) {
+              const friendsData = doc.data();
+              const followerCount = friendsData.followers ? friendsData.followers.length : 0;
+              document.getElementById('followerCount').textContent = followerCount.toString();
+          } else {
+              console.error('Friends document not found for user:', userId);
+          }
+      });
+
+      return unsubscribe; // Return unsubscribe function to detach listener if needed
+  } catch (error) {
+      console.error('Error fetching follower count:', error);
+  }
+};
+
+const getFollowedCount = async (userId) => {
+  try {
+      const friendsRef = doc(db, 'friends', userId);
+      const unsubscribe = onSnapshot(friendsRef, (doc) => {
+          if (doc.exists()) {
+              const friendsData = doc.data();
+              const followedCount = friendsData.followed ? friendsData.followed.length : 0;
+              document.getElementById('followingCount').textContent = followedCount.toString();
+          } else {
+              console.error('Friends document not found for user:', userId);
+          }
+      });
+
+      return unsubscribe; // Return unsubscribe function to detach listener if needed
+  } catch (error) {
+      console.error('Error fetching followed count:', error);
+  }
+};
+
 
 document.addEventListener('DOMContentLoaded', function () {
   const profileEditButton = document.getElementById('pfsettings');

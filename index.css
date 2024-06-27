@@ -286,9 +286,43 @@ body {
 }
 
 .username {
+  text-decoration: none; 
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
   font-weight: bold;
   font-size: 13px;
   margin-bottom: 7px;
+  position: relative;
+  display: inline-block;
+}
+
+.username::after {
+  content: '';
+  display: block;
+  position: absolute;
+  bottom: -2px; 
+  left: 0;
+  width: 100%;
+  height: 2px; 
+  background-color: transparent; 
+  transition: background-color 0.3s ease; 
+}
+
+.username:hover::after,
+.username:focus::after {
+  background-color: #007bff;
+}
+
+@keyframes underlineAnimation {
+  0% {
+    width: 0%;
+    background-color: transparent;
+  }
+  100% {
+    width: 100%;
+    background-color: #007bff;
+  }
 }
 
 .text {

@@ -1,19 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="profile.css">
+    <link rel="stylesheet" href="usersprofile.css">
     <link rel="stylesheet" href="Addons/navbar.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <script type="module" src="profile.js"></script>
+    <script type="module" src="usersprofile.js"></script>
     <title>MEG</title>
 </head>
-
 <body>
-    <!--Background-->
-    <section>
+     <!--Background-->
+     <section>
         <iframe src="Addons/background2.html" class="sectionbg"></iframe>
     </section>
     <!--Navbar-->
@@ -62,12 +60,11 @@
                 <div class="profile-info">
                     <div class="profile-name">
                         <h1 id="pusername" class="username">Loading....</h1>
-                        <span class="settings-icon" id="pfsettings"><i class="bi bi-gear"></i></span>
-                        <a class="settings-icon" id="controlpnl" style="display: none;"><i class="bi bi-menu-button"></i></a>
+                        <a class="follow" id="followButton" style="pointer-events: none;">Loading....</a>
                     </div>
                     <div class="profile-stats">
                         <span><strong id="followerCount">Loading...</strong> Followers</span>
-                        <span><strong id="followingCount">Loading...</strong> Following</span> 
+                        <span><strong id="followingCount">Loading...</strong> Following</span>                    
                     </div>
                     <div class="profile-bio">
                         <p id="pdescription">Loading....</p>
@@ -87,65 +84,7 @@
             </div>
         </div>
     </section>
-    <!--Edit Profile-->
-    <section class="editprofilesection" style="display: none;" id="editprofil">
-        <form method="post">
-            <div class="editprofile" >
-                <div id="pfclose">
-                    <i class="bi bi-x icon2"></i>
-                </div>
-                <div class="avatar">
-                    <label for="profilePic" class="ded">
-                        <input type="file" id="profilePic" style="display: none;">
-                    </label>
-                </div>
-                
-                <label for="username">Name</label>
-                <input type="text" id="username" autocomplete="on">
-                <label for="description">Description</label>
-                <textarea id="description" rows="4"autocomplete="on"></textarea>
-                <a id="update" class="editup">
-                    <span id="updateText">Update</span>
-                    <span class="loader" id="loader">
-                        <span class="loader-inner"></span>
-                    </span>
-                </a>
-                <a id="edittagbtn" class="edittag">Tags</a>
-                <a id="delete" class="editdel">Delete Account ?</a>
-            </div>
-        </form>
-        <div style="display: none;" id="addTags">
-            <div class="addTags">
-                <div id="Tagclose">
-                    <i class="bi bi-x icon2"></i>
-                </div>
-                <div id="tag-container" class="tag-container">
-                    <!-- Tags will be appended here -->
-                </div>
-                <div class="tag-selector">
-                    <input type="text" class="tag-input" id="tagInput" placeholder="Search tags...">
-                    <ul class="tag-list" id="tagList">
-                        <!-- Tags will be listed here -->
-                    </ul>
-                </div>
-            </div>
-        </div>
-
-        <div style="display: none;" id="delete-confirmation">
-            <div class="delete-confirmation" >
-                <h1>**Warning!!**</h1>
-                <p>This will not wipe out your every data from the system.</p>
-                <p>This will only Remove you as a user.</p>
-                <p>If you wanna remove your content please remove them before deleting your account.</p>
-                <a class="delete" id="yesdelete">Yes</a>
-                <a class="delete" id="nodelete">No</a>
-            </div>
-        </div>
-    </section>
 
     <script type="module" src="Addons/navbar.js"></script>
-    
-
 </body>
-
 </html>

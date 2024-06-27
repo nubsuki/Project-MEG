@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="shareprofile.css">
+    <link rel="stylesheet" href="Addons/navbar.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.5.0-beta4/html2canvas.min.js"></script>
+    <script type="module" src="shareprofile.js"></script>
+    <title>MEG</title>
+</head>
+<body>
+    <!--Background-->
+    <section>
+        <iframe src="Addons/background2.html" class="sectionbg"></iframe>
+    </section>
+    <!--Navbar-->
+    <section>
+        <nav class="navbar">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a href="userRegister.html" class="nav-link">
+                        <i class="bi bi-box-arrow-in-right"></i>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </section>
+
+    <div id="qrCodeModal" class="modal">
+        <div class="modal-content">
+            <div id="qrcode-container"></div>
+        </div>
+        <a id="downloadBtn" class="downloadBtn">Download QR Code</a>
+        <div class="closebtn">
+            <span class="close"><i class="bi bi-x"></i></span>
+        </div>
+    </div>
+    <!--profile-->
+    <section class="sectionprofile">
+        <div class="profile-container">
+            <header class="profile-header">
+                <div class="profile-image">
+                    <img id="profileimg" src="Assests/saberpf.jpg" alt="Profile Picture">
+                </div>
+                <div class="profile-info">
+                    <div class="profile-name">
+                        <h1 id="pusername" class="username">Loading....</h1>
+                        <a class="follow" id="followButton" style="pointer-events: none;">Loading....</a>
+                        <a class="shareprofile" id="pfshare"><span><p>QR Code</p></span></a>
+                    </div>
+                    <div class="profile-stats">
+                        <span><strong id="followerCount">Loading...</strong> Followers</span>
+                        <span><strong id="followingCount">Loading...</strong> Following</span>                    
+                    </div>
+                    <div class="profile-bio">
+                        <p id="pdescription">Loading....</p>
+                    </div>
+                </div>
+            </header>
+            <div class="profile-content">
+                <div class="content" data-type="image">
+                    <img src="https://picsum.photos/200/300?random=1">
+                    <i class="bi bi-image icon"></i>
+                </div>
+
+                <div class="content" data-type="video">
+                    <video src=""></video>
+                    <i class="bi bi-camera-video icon"></i>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    
+</body>
+</html>

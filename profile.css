@@ -168,6 +168,23 @@ body {
     background-color: #afc7df;
     color: #fff;
 }
+
+.shareprofile {
+  background-color: #afc7df;
+  align-items: center;
+  justify-content: center;
+  padding: 4px 5px;
+  border-radius:6px;
+  font-size: 18px;
+  margin-left: 20px;
+  cursor: pointer;
+}
+
+.shareprofile:hover{
+  background-color: #afc7df;
+  color: #fff;
+}
+
 .profile-stats {
     display: flex;
     gap: 20px;

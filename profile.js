@@ -558,3 +558,14 @@ async function fetchAndFilterTags() {
 
 // Event listener for tag input change
 document.getElementById('tagInput').addEventListener('input', fetchAndFilterTags);
+
+
+//pf share
+document.getElementById('pfshare').addEventListener('click', function() {
+  const loggedInUserId = localStorage.getItem('loggedInUserId');
+  if (loggedInUserId) {
+      window.location.href = `shareprofile.html?uid=${loggedInUserId}`;
+  } else {
+      alert('User not logged in');
+  }
+});

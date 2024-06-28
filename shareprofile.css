@@ -1,6 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap");
 
-*{
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -14,13 +14,21 @@ body {
     padding: 0;
     background-color: rgba(36, 32, 32, 0.863);
 }
-  
-.sectionbg{
-  height:100vh;
-  width: 100%;
-  position: fixed;
-  border: none;
-  overflow: hidden;
+
+.sectionbg {
+    height: 100vh;
+    width: 100%;
+    position: fixed;
+    border: none;
+    overflow: hidden;
+}
+.loadingsection{
+    height:100vh;
+    width: 100%;
+    position: fixed;
+    border: none;
+    overflow: hidden;
+    z-index: 999;
 }
 
 .sectionprofile {
@@ -37,7 +45,9 @@ body {
 .profile-container {
     position: absolute;
     max-width: 935px;
+    height: 90vh;
     margin: auto;
+    overflow: hidden;
     padding: 20px;
     backdrop-filter: blur(5px);
     border-radius: 20px;
@@ -45,6 +55,13 @@ body {
     left: 50%;
     top: 10%;
     transform: translate(-50%, -10%);
+}
+
+@media only screen and (max-width:750px) {
+    .profile-container {
+        height: 87vh;
+    }
+
 }
 
 .profile-header {
@@ -83,18 +100,21 @@ body {
     border: 2px solid #afc7df;
     background-color: #afc7df;
     border-radius: 5px;
+    pointer-events: none;
     cursor: pointer;
 }
+
 .follow:hover {
     background-color: #afc7df;
     color: #fff;
 }
+
 .settings-icon {
     background-color: #afc7df;
     align-items: center;
     justify-content: center;
     padding: 4px 5px;
-    border-radius:6px;
+    border-radius: 6px;
     font-size: 18px;
     margin-left: 20px;
     cursor: pointer;
@@ -116,14 +136,22 @@ body {
 }
 
 .profile-content {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 10px;
-    margin-top: 20px;
+    overflow: scroll;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    width: 100%;
+    height: 75%;
 }
 
 .content {
     position: relative;
+}
+
+.posts {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-top: 20px;
 }
 
 .content img {
@@ -133,6 +161,7 @@ body {
     border: 2px solid #afc7df;
     object-fit: cover;
 }
+
 .content video {
     width: 100%;
     height: 150px;
@@ -141,13 +170,32 @@ body {
     object-fit: cover;
 }
 
-.icon {
+.iconpost {
     position: absolute;
     top: 10px;
     right: 10px;
     font-size: 20px;
-    color: rgb(56, 52, 52); 
-    background-color: rgba(255, 255, 255, 0.479); 
+    color: rgb(56, 52, 52);
+    background-color: rgba(255, 255, 255, 0.479);
+    border-radius: 10%;
+    padding: 5px;
+}
+
+
+.iconpost:hover,
+.iconvideo:hover {
+    color: rgb(224, 200, 200);
+    background-color: rgba(63, 59, 59, 0.973);
+    cursor: pointer;
+}
+
+.iconvideo {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 20px;
+    color: rgb(56, 52, 52);
+    background-color: rgba(255, 255, 255, 0.479);
     border-radius: 10%;
     padding: 5px;
 }
@@ -164,7 +212,8 @@ body {
     margin-left: 20px;
     cursor: pointer;
 }
-.shareprofile:hover{
+
+.shareprofile:hover {
     background-color: #afc7df;
     color: #fff;
 }
@@ -183,8 +232,9 @@ body {
     border-radius: 20px;
     overflow: hidden;
 }
+
 @media only screen and (max-width:750px) {
-    .modal{
+    .modal {
         left: 8%;
         top: 10%;
     }
@@ -214,7 +264,7 @@ body {
     transition: .5s;
 }
 
-.closebtn{
+.closebtn {
     margin-left: 255px;
     margin-top: -20px;
 }
@@ -231,7 +281,8 @@ body {
     text-align: center;
     margin-bottom: 20px;
 }
-.downloadBtn{
+
+.downloadBtn {
     border: none;
     background-color: #eee5;
     color: #fff;
@@ -242,6 +293,7 @@ body {
     transition: .5s;
     margin-left: 59px;
 }
+
 .downloadBtn:hover {
     background-color: #afc7df;
     color: #524a4a;

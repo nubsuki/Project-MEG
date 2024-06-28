@@ -4,8 +4,7 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/fireba
 import { getAuth, onAuthStateChanged, updateProfile as updateAuthProfile } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 import { getFirestore, doc, updateDoc, getDoc ,setDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-storage.js";
-import { collection, getDocs} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
-
+import { collection, getDocs, query, where } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
 //Firebase configuration
 const firebaseConfig = {
@@ -228,3 +227,68 @@ if (uid) {
 } else {
     console.error('No user ID specified in the URL');
 }
+
+
+
+
+// Reference to Firestore collection
+const postsCollection = collection(db, 'posts');
+
+document.addEventListener('DOMContentLoaded', function () {
+    
+    // Function to show the loading screen
+    function showLoading() {
+        document.getElementById('loading').style.display = 'block';
+    }
+
+    // Function to hide the loading screen
+    function hideLoading() {
+        document.getElementById('loading').style.display = 'none';
+    }
+
+  // Function to fetch posts from Firestore
+  function fetchPosts() {
+    showLoading();
+      const q = query(postsCollection, where("userID", "==", uid)); // Filter posts by user ID
+
+      getDocs(q).then(querySnapshot => {
+        const postContainer = document.getElementById('postContainer');
+        postContainer.innerHTML = ''; // Clear previous content
+
+        querySnapshot.forEach(doc => {
+            const post = doc.data();
+            const postId = doc.id;
+
+            // Check if the post has an image URL
+            if (post.imgUrl) {
+                const postElement = document.createElement('div');
+                postElement.classList.add('content');
+                postElement.setAttribute('data-type', 'image');
+
+                // Create image element
+                const imgElement = document.createElement('img');
+                imgElement.src = post.imgUrl;
+                postElement.appendChild(imgElement);
+
+                // Create icon for opening in another window
+                const iconElement = document.createElement('i');
+                iconElement.classList.add('bi', 'bi-image', 'iconpost');
+                iconElement.addEventListener('click', function () {
+                    window.open(post.imgUrl, '_blank');
+                });
+                postElement.appendChild(iconElement);
+
+                // Append post element to container
+                postContainer.appendChild(postElement);
+            }
+        });
+        hideLoading();
+    }).catch(error => {
+        console.error('Error fetching posts:', error);
+        hideLoading();
+    });
+}
+
+// Call fetchPosts function when DOM content is loaded
+fetchPosts();
+});

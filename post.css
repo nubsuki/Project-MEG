@@ -1,0 +1,465 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap");
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Roboto", sans-serif;
+}
+
+
+body {
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+    background-color: rgba(36, 32, 32, 0.863);
+}
+
+.loadingsection {
+    height: 100vh;
+    width: 100%;
+    position: fixed;
+    border: none;
+    overflow: hidden;
+    z-index: 999;
+}
+
+.sectionbg {
+    height: 100vh;
+    width: 100%;
+    position: fixed;
+    border: none;
+    overflow: hidden;
+}
+
+.sectionpostfetch {
+    height: 100vh;
+    width: 90%;
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    border: none;
+    overflow: hidden;
+
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100%;
+    position: relative;
+}
+
+.post-section,
+.comment-section {
+    padding: 20px;
+    overflow-y: auto;
+}
+
+.post-section {
+    position: fixed;
+    width: 50%;
+    height: 90%;
+    left: 20px;
+    margin: auto;
+    backdrop-filter: blur(5px);
+    border-radius: 20px;
+    border: 2px solid #afc7df;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.comment-s {
+    position: fixed;
+    width: 40%;
+    height: 90%;
+    right: 50px;
+    display: flex;
+}
+
+.comment-section {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    backdrop-filter: blur(5px);
+    border-radius: 20px;
+    border: 2px solid #afc7df;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.comments-window {
+    flex: 1;
+    overflow-y: auto;
+    padding: 20px;
+    backdrop-filter: blur(55px);
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    border-bottom: 1px solid #ddd;
+}
+
+.comment-input-bar {
+    display: flex;
+    padding: 10px;
+    border-top: 1px solid #ddd;
+    backdrop-filter: blur(55px);
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+}
+
+.comment-input-bar input {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.comment-input-bar button {
+    padding: 10px 20px;
+    margin-left: 10px;
+    border: none;
+    background-color: #007bff;
+    color: white;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.comment-input-bar button:hover {
+    background-color: #0056b3;
+}
+
+.comment {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+    position: relative;
+    /* Added for absolute positioning of actions */
+}
+
+.comment-user {
+    font-weight: bold;
+}
+
+.comment-text {
+    margin-top: 5px;
+    margin-bottom: 5px;
+    font-size: 15px;
+}
+
+.comment-timestamp {
+    font-size: 0.8em;
+    color: #777;
+}
+
+/* Post header and icons */
+.post-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.post-icons {
+    position: absolute;
+    top: 17%;
+    border: none;
+    transition: .5s;
+    right: 60px;
+    z-index: 2;
+    font-size: 20px;
+}
+
+.post-icons i {
+    background-color: #eee5;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 5px;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+.post-icons i:hover {
+    background-color: #fff;
+    color: rgb(39, 37, 37);
+}
+
+/* Post content */
+.post-content {
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+
+}
+
+.post {
+    position: fixed;
+    height: 10%;
+    width: 90%;
+    top: 2%;
+    left: 5%;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background-color: #9cc1e9c5;
+}
+
+.post-caption {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    z-index: 3;
+}
+
+.post-description {
+    font-size: 14px;
+    color: #555;
+}
+
+.post-img {
+    position: fixed;
+    width: 90%;
+    height: 80%;
+    left: 5%;
+    object-fit: cover;
+    margin-top: 40px;
+    backdrop-filter: blur(5px);
+    border-radius: 10px;
+    border: 1px solid #afc7df;
+}
+
+/* Arrow buttons */
+.arrow-container {
+    position: absolute;
+    top: 4%;
+    border: none;
+    background-color: #eee5;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 5px;
+    padding: 5px 10px;
+    cursor: pointer;
+    transition: .5s;
+}
+
+.arrow-container:hover {
+    background-color: #fff;
+    color: rgb(39, 37, 37);
+}
+
+.left-arrow {
+    right: 120px;
+}
+
+.right-arrow {
+    right: 60px;
+}
+
+.arrow-container i {
+    font-size: 20px;
+}
+
+/* Modal Styles */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+    z-index: 1001;
+    
+}
+
+.modal-content {
+    position: absolute;
+    margin: auto;
+    padding: 30px;
+    border-radius: 15px;
+    width: 350px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(15px);
+    border-radius: 20px;
+    border: 2px solid #afc7df;
+    left: 50%;
+    top: 40%;
+    transform: translate(-50%, -50%);
+    z-index: 3;
+}
+
+.modal-content input {
+    
+    width: 90%;
+    height: 35px;
+    border-radius: 5px;
+    border: none;
+    margin: 10px;
+    padding: 10px;
+    background-color: #afc7df;
+}
+
+.modal-content textarea {
+    width: 90%;
+    height: 100px;
+    margin-left: 10px;
+    border-radius: 5px;
+    border: none;
+    margin-bottom: 10px;
+    padding: 10px;
+    background-color: #afc7df;
+}
+
+.tagss {
+    display: inline-block;
+    background-color: #333;
+    border: none;
+    color: white;
+    padding: 10px;
+    border-radius: 20px;
+    margin: 5px;
+    font-size: 14px;
+}
+
+.modal-content button {
+    border: none;
+    display: inline-block;
+    background-color: #eee5;
+    color: #fff;
+    margin: auto;
+    text-decoration: none;
+    border-radius: 5px;
+    padding: 8px;
+    cursor: pointer;
+    transition: .5s;
+}
+
+.modal-content button:hover {
+    background-color: #fff;
+    color: black;
+}
+
+.close-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 20px;
+    color: rgb(56, 52, 52);
+    background-color: rgba(255, 255, 255, 0.479);
+    border-top-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+    padding: 5px;
+    cursor: pointer;
+}
+
+.close-button:hover {
+    color: rgb(56, 52, 52);
+    background-color: rgba(226, 213, 213, 0.808);
+    cursor: pointer;
+}
+
+/* Form Styles */
+#addPostForm {
+    display: flex;
+    flex-direction: column;
+}
+
+#tagList {
+    margin-top: 10px;
+    list-style-type: none;
+}
+
+#tagList li {
+    display: inline-block;
+    background-color: #333;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 20px;
+    margin: 5px;
+    font-size: 14px
+}
+
+/* Drop-down Menu Styles */
+.comment-actions {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+.comment-actions .dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.comment-actions .dropdown-toggle {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+}
+
+.comment-actions .dropdown-toggle i {
+    font-size: 16px;
+}
+
+.comment-actions .dropdown-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background-color: white;
+    border: 1px solid #ddd;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+}
+
+.comment-actions .dropdown-menu.show {
+    display: block;
+}
+
+.comment-actions .dropdown-menu a {
+    color: black;
+    padding: 8px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.comment-actions .dropdown-menu a:hover {
+    background-color: #ddd;
+}
+
+
+@media only screen and (max-width:850px) {
+    .comment-s {
+        position: absolute;
+        margin-top: 390px;
+        width: 90%;
+        height: 30%;
+        display: flex;
+        left: 5%;
+    }
+
+    .post-section {
+        width: 100%;
+        height: 80%;
+        left: 0;
+        margin: auto;
+        backdrop-filter: blur(5px);
+        border-radius: 20px;
+        border: 2px solid #afc7df;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .post-img {
+        width: 90%;
+        height: 310px;
+        object-fit: cover;
+        border-radius: 4px;
+        margin-top: 10px;
+    }
+
+    .post {
+        width: 90%;
+        left: 5%;
+    }
+}

@@ -83,7 +83,7 @@ body {
 }
 
 /* Small screens */
-@media only screen and (max-width:750px) {
+@media only screen and (max-width:850px) {
     .navbar {
       bottom: 0;
       width: 100vw; 

@@ -421,6 +421,7 @@ const scrollToBottom = () => {
         messageText: messageText,
         messageUserID: messageUserID,
         reporterID: reporterID,
+        type: 'chat',
         timestamp: serverTimestamp()
       };
 

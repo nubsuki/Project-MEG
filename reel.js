@@ -101,6 +101,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 postContent: postData.description, // Assuming post description is the content to be reported
                 posterId: postData.userID, // Assuming userID is stored in the posts collection
                 reporterId: reporterId,
+                vidLink: postData.imgUrl,
                 type: "reels",
                 timestamp: serverTimestamp()
             };

@@ -6,14 +6,12 @@
     <link rel="stylesheet" href="post.css">
     <link rel="stylesheet" href="Addons/navbar.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <script type="module" src="post.js"></script>
+    <script type="module" src="reel.js"></script>
     <title>MEG</title>
 </head>
 <body>
     <!--loading-->
-    <section id="loading">
-        <iframe src="Addons/loading.html" class="loadingsection"></iframe>
-    </section>
+
 
     <!--Background-->
     <section>
@@ -97,9 +95,9 @@
         <div class="modal" id="addPostModal">
             <div class="modal-content">
                 <span class="close-button" id="closeModal"><i class="bi bi-x icon2"></i></span>
-                <h2>Add a New Post</h2>
+                <h2>Add a New Reel</h2>
                 <form id="addPostForm">
-                    <label for="postName">Post Name:</label>
+                    <label for="postName">Reel Name:</label>
                     <input type="text" id="postName" name="postName" required><br><br>
                     <label for="caption">Caption:</label>
                     <input type="text" id="caption" name="caption" required><br><br>
@@ -112,7 +110,7 @@
                     <ul id="tagList"></ul>
                     <br>
                     <label for="fileUpload">Upload File:</label>
-                    <input type="file" id="fileUpload" name="fileUpload" accept="image/*"><br><br>
+                    <input type="file" id="fileUpload" name="fileUpload" accept="video/*"><br><br>
                     <button type="submit" id="submitButton">Submit</button>
                 </form>
                 <div id="successMessage" style="display:none; color: green;">Uploaded UwU</div>

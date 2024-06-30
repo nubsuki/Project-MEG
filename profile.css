@@ -230,11 +230,15 @@ body {
   position: relative;
 }
 
-.posts {
+.posts,.reels {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 10px;
   margin-top: 20px;
+  margin-bottom: 20px;
+  overflow: scroll;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
 
 .content img {
@@ -275,6 +279,17 @@ body {
   padding: 5px;
 }
 
+.icondelete2 {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 20px;
+  color: rgb(56, 52, 52);
+  background-color: rgba(255, 255, 255, 0.479);
+  border-radius: 10%;
+  padding: 5px;
+}
+
 .iconpost:hover,
 .iconvideo:hover {
   color: rgb(224, 200, 200);
@@ -282,7 +297,7 @@ body {
   cursor: pointer;
 }
 
-.icondelete:hover {
+.icondelete:hover,.icondelete2:hover {
   color: rgb(199, 113, 113);
   background-color: rgba(63, 59, 59, 0.973);
   cursor: pointer;

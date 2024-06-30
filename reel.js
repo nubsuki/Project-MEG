@@ -83,7 +83,7 @@ document.addEventListener('DOMContentLoaded', () => {
     reportPostIcon.addEventListener('click', async () => {
         const currentPostIndex = displayArr[currentIndex];
         const reporterId = localStorage.getItem('loggedInUserId');
-        const postRef = query(collection(db, "posts"), where("index", "==", currentPostIndex));
+        const postRef = query(collection(db, "reels"), where("index", "==", currentPostIndex));
         const postSnapshot = await getDocs(postRef);
         if (!postSnapshot.empty) {
             const postId = postSnapshot.docs[0].id; // Assuming the first document is the correct post
@@ -101,7 +101,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 postContent: postData.description, // Assuming post description is the content to be reported
                 posterId: postData.userID, // Assuming userID is stored in the posts collection
                 reporterId: reporterId,
-                type: "posts",
+                type: "reels",
                 timestamp: serverTimestamp()
             };
             await addDoc(collection(db, "reports"), reportData);
@@ -165,6 +165,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function displayPost(index) {
         console.log("index value: ", index);
         // Function to show the loading screen
+        /*
         function showLoading() {
             document.getElementById('loading').style.display = 'block';
         }
@@ -172,38 +173,40 @@ document.addEventListener('DOMContentLoaded', () => {
         // Function to hide the loading screen
         function hideLoading() {
             document.getElementById('loading').style.display = 'none';
-        }
+        }*/
         if (index < 0 || index >= displayArr.length) {
             console.error("Index out of bounds");
             return;
         }
 
-        console.log('Displaying post at index:', index); // Debug log
+        console.log('Displaying reel at index:', index); // Debug log
 
         const postIndex = displayArr[index];
-        console.log('Post index for loading comments:', postIndex); // Debug log for postIndex
+        console.log('reel index for loading comments:', postIndex); // Debug log for postIndex
 
-        const postRef = query(collection(db, "posts"), where("index", "==", postIndex));
+        const postRef = query(collection(db, "reels"), where("index", "==", postIndex));
         getDocs(postRef).then((querySnapshot) => {
             if (!querySnapshot.empty) {
-                showLoading();
+                //showLoading();
                 const post = querySnapshot.docs[0].data();
                 const postContent = document.getElementById('postContent');
                 postContent.innerHTML = `
                     <div class="post">
                         <div class="post-caption" alt="Loading....">${post.caption}</div>
                         <div class="post-description" alt="Loading....">${post.description}</div>
-                        <img class="post-img"src="${post.imgUrl}" alt="Loading....">
+                        <video class="post-img" controls>
+                            <source src="${post.imgUrl}" type="video/mp4">
+                        </video>
                     </div>
                 `;
                 loadComments(postIndex); // Call to load comments for the current post
             } else {
                 console.log("No post found with this index");
             }
-            hideLoading();
+            //hideLoading();
         }).catch((error) => {
             console.error("Error fetching post: ", error);
-            hideLoading();
+            //hideLoading();
         });
     }
 
@@ -228,9 +231,9 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         if (fileUpload) {
-            const maxSizeInBytes = 20 * 1024 * 1024; // 20MB
+            const maxSizeInBytes = 200 * 1024 * 1024; // 200MB
             if (fileUpload.size > maxSizeInBytes) {
-                alert('File size exceeds the 50MB limit. Please choose a smaller file.');
+                alert('File size exceeds the 200MB limit. Please choose a smaller file.');
                 return;
             }
         }
@@ -241,7 +244,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (fileUpload) {
             const timestamp = new Date().getTime(); // Generate a timestamp
             const uniqueFileName = `${timestamp}_${fileUpload.name}`; // Combine timestamp with the original file name
-            const storageRef = ref(storage, `PostImg/${uniqueFileName}`);
+            const storageRef = ref(storage, `ReelVid/${uniqueFileName}`);
             const uploadTask = uploadBytesResumable(storageRef, fileUpload);
 
             uploadTask.on('state_changed',
@@ -266,7 +269,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     async function savePost(postName, caption, description, tags, userID, imgUrl) {
         try {
-            await addDoc(collection(db, "posts"), {
+            await addDoc(collection(db, "reels"), {
                 userID,
                 postName,
                 caption,
@@ -293,7 +296,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     const getNewIndex = async () => {
-        const postsQuery = query(collection(db, "posts"), orderBy('index', 'desc'), limit(1));
+        const postsQuery = query(collection(db, "reels"), orderBy('index', 'desc'), limit(1));
         const queryS = await getDocs(postsQuery);
         if (!queryS.empty) {
             const lastpost = queryS.docs[0].data();
@@ -330,15 +333,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (tags.length === 0) {
             // If tags array is empty, fetch all post indexes
-            const postsQuery = query(collection(db, "posts"));
+            const postsQuery = query(collection(db, "reels"));
             const querySnapshot = await getDocs(postsQuery);
             querySnapshot.forEach((doc) => {
                 const post = doc.data();
                 displayArr.push(post.index);
             });
         } else {
-            // If tags array is not empty, filter posts by tags
-            const postsQuery = query(collection(db, "posts"));
+            // If tags array is not empty, filter reels by tags
+            const postsQuery = query(collection(db, "reels"));
             const querySnapshot = await getDocs(postsQuery);
             querySnapshot.forEach((doc) => {
                 const post = doc.data();
@@ -377,6 +380,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
 
+
     function clearComments() {
         const commentsWindow = document.querySelector('.comments-window');
         commentsWindow.innerHTML = ''; // Clear previous comments
@@ -400,7 +404,7 @@ document.addEventListener('DOMContentLoaded', () => {
     async function addComment(postIndex, commentText) {
         try {
             const userName = await getCurrentUsername(); // Await here to get the username correctly
-            const newCommentRef = await addDoc(collection(db, "comments"), {
+            const newCommentRef = await addDoc(collection(db, "reelComments"), {
                 comment: commentText,
                 commentIndex: await getNewCommentIndex(displayArr[postIndex]), // Use displayArr to get the actual postIndex value
                 postIndex: displayArr[postIndex], // Use displayArr to get the actual postIndex value
@@ -433,7 +437,7 @@ document.addEventListener('DOMContentLoaded', () => {
         console.log('Loading comments for post index:', postIndex); // Debug log
     
         const commentsQuery = query(
-            collection(db, "comments"),
+            collection(db, "reelComments"),
             where("postIndex", "==", postIndex),
             orderBy('timestamp', 'asc')
         );
@@ -481,6 +485,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
+    
 
     async function appendCommentToUI(comment, commentId) {
         const commentElement = document.createElement('div');
@@ -594,7 +599,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     async function getNewCommentIndex(postIndex) {
-        const commentsQuery = query(collection(db, "comments"), where("postIndex", "==", postIndex), orderBy('commentIndex', 'desc'), limit(1));
+        const commentsQuery = query(collection(db, "reelComments"), where("postIndex", "==", postIndex), orderBy('commentIndex', 'desc'), limit(1));
 
         const querySnapshot = await getDocs(commentsQuery);
         if (!querySnapshot.empty) {
@@ -624,7 +629,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     async function reportComment(commentId, reporterId, commentT) {
         try {
-            const commentRef = doc(db, "comments", commentId);
+            const commentRef = doc(db, "reelComments", commentId);
             const commentDoc = await getDoc(commentRef);
             if (commentDoc.exists()) {
                 const commentData = commentDoc.data();
@@ -633,7 +638,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     commentText: commentT,
                     commenterId: commentData.userID, // Assuming userId is stored in comments collection
                     reporterId: reporterId,
-                    type: "post-comment",
+                    type: "reel-comment",
                     timestamp: serverTimestamp()
                 };
                 await addDoc(collection(db, "reports"), reportData);
@@ -651,7 +656,7 @@ document.addEventListener('DOMContentLoaded', () => {
     async function deleteComment(commentId) {
         try {
             // Delete comment document from Firestore
-            await deleteDoc(doc(db, "comments", commentId));
+            await deleteDoc(doc(db, "reelComments", commentId));
             console.log(`Comment with ID: ${commentId} has been deleted from Firestore.`);
 
             // Remove comment from UI

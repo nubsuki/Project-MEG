@@ -637,101 +637,179 @@ document.getElementById('yesdelete').addEventListener('click', async () => {
 });
 
 
-// Reference to Firestore collection
+// Posts and Reels collections
 const postsCollection = collection(db, 'posts');
+const reelsCollection = collection(db, 'reels');
 
 document.addEventListener('DOMContentLoaded', function () {
   const loggedInUserId = localStorage.getItem('loggedInUserId'); // Retrieve logged in user ID from localStorage
 
   // Function to show the loading screen
-    function showLoading() {
-        document.getElementById('loading').style.display = 'block';
-    }
+  function showLoading() {
+    document.getElementById('loading').style.display = 'block';
+  }
 
-    // Function to hide the loading screen
-    function hideLoading() {
-        document.getElementById('loading').style.display = 'none';
-    }
+  // Function to hide the loading screen
+  function hideLoading() {
+    document.getElementById('loading').style.display = 'none';
+  }
 
-
-  // Function to fetch posts from Firestore
-  function fetchPosts() {
+  // Function to fetch posts and reels from Firestore
+  function fetchPostsAndReels() {
     showLoading();
-      const q = query(postsCollection, where("userID", "==", loggedInUserId)); // Filter posts by logged-in user ID
 
-      getDocs(q).then(querySnapshot => {
-          const postContainer = document.getElementById('postContainer');
-          postContainer.innerHTML = ''; // Clear previous content
+    // Query for both posts and reels
+    const postsQuery = query(postsCollection, where("userID", "==", loggedInUserId));
+    const reelsQuery = query(reelsCollection, where("userID", "==", loggedInUserId));
 
-          querySnapshot.forEach(doc => {
-              const post = doc.data();
-              const postId = doc.id;
+    // Fetch posts
+    getDocs(postsQuery).then(postsSnapshot => {
+      const postContainer = document.getElementById('postContainer');
+      postContainer.innerHTML = ''; // Clear previous content
 
-              // Check if the post has an image URL
-              if (post.imgUrl) {
-                  const postElement = document.createElement('div');
-                  postElement.classList.add('content');
-                  postElement.setAttribute('data-type', 'image');
+      postsSnapshot.forEach(doc => {
+        const post = doc.data();
+        const postId = doc.id;
 
-                  // Create image element
-                  const imgElement = document.createElement('img');
-                  imgElement.src = post.imgUrl;
-                  postElement.appendChild(imgElement);
-
-                  // Create icon for opening in another window
-                  const iconElement = document.createElement('i');
-                  iconElement.classList.add('bi', 'bi-image', 'iconpost');
-                  iconElement.addEventListener('click', function () {
-                      window.open(post.imgUrl, '_blank');
-                  });
-                  postElement.appendChild(iconElement);
-
-                  // Create delete button icon
-                  const deleteButton = document.createElement('i');
-                  deleteButton.classList.add('bi', 'bi-trash', 'icondelete');
-                  deleteButton.addEventListener('click', function () {
-                      deletePost(postId, post.imgUrl);
-                  });
-
-                  // Create a container for the bottom elements (like delete button)
-                  const bottomContainer = document.createElement('div');
-                  bottomContainer.classList.add('bottom-container');
-                  bottomContainer.appendChild(deleteButton);
-
-                  // Append the bottom container to the post element
-                  postElement.appendChild(bottomContainer);
-
-                  // Append post element to container
-                  postContainer.appendChild(postElement);
-              }
-          });
-          hideLoading();
-      }).catch(error => {
-          console.error('Error fetching posts:', error);
-          hideLoading();
+        // Check if the post has an image URL
+        if (post.imgUrl) {
+          const postElement = createPostElement(post, postId);
+          postContainer.appendChild(postElement);
+        }
       });
+    }).catch(error => {
+      console.error('Error fetching posts:', error);
+    });
+
+    // Fetch reels (videos)
+    getDocs(reelsQuery).then(reelsSnapshot => {
+      const reelsContainer = document.getElementById('reelsContainer');
+      reelsContainer.innerHTML = ''; // Clear previous content
+
+      reelsSnapshot.forEach(doc => {
+        const reel = doc.data();
+        const reelId = doc.id;
+
+        // Check if the reel has a video URL
+        if (reel.imgUrl) {
+          const reelElement = createReelElement(reel, reelId);
+          reelsContainer.appendChild(reelElement);
+        }
+      });
+      hideLoading();
+    }).catch(error => {
+      console.error('Error fetching reels:', error);
+      hideLoading();
+    });
+  }
+
+  // Function to create a post element
+  function createPostElement(post, postId) {
+    const postElement = document.createElement('div');
+    postElement.classList.add('content');
+    postElement.setAttribute('data-type', 'image');
+
+    // Create image element
+    const imgElement = document.createElement('img');
+    imgElement.src = post.imgUrl;
+    postElement.appendChild(imgElement);
+
+    // Create icon for opening in another window
+    const iconElement = document.createElement('i');
+    iconElement.classList.add('bi', 'bi-image', 'iconpost');
+    iconElement.addEventListener('click', function () {
+      window.open(post.imgUrl, '_blank');
+    });
+    postElement.appendChild(iconElement);
+
+    // Create delete button icon
+    const deleteButton = document.createElement('i');
+    deleteButton.classList.add('bi', 'bi-trash', 'icondelete');
+    deleteButton.addEventListener('click', function () {
+      deletePost(postId, post.imgUrl);
+    });
+
+    // Create a container for the bottom elements (like delete button)
+    const bottomContainer = document.createElement('div');
+    bottomContainer.classList.add('bottom-container');
+    bottomContainer.appendChild(deleteButton);
+
+    // Append the bottom container to the post element
+    postElement.appendChild(bottomContainer);
+
+    return postElement;
+  }
+
+  // Function to create a reel element (video)
+  function createReelElement(reel, reelId) {
+    const reelElement = document.createElement('div');
+    reelElement.classList.add('content');
+    reelElement.setAttribute('data-type', 'video');
+
+    // Create video element
+    const videoElement = document.createElement('video');
+    videoElement.src = reel.imgUrl;
+    videoElement.controls = true; // Enable controls
+    reelElement.appendChild(videoElement);
+
+    // Create delete button icon
+    const deleteButton = document.createElement('i');
+    deleteButton.classList.add('bi', 'bi-trash', 'icondelete2');
+    deleteButton.addEventListener('click', function () {
+      deleteReel(reelId, reel.imgUrl);
+    });
+
+    // Create a container for the bottom elements (like delete button)
+    const bottomContainer = document.createElement('div');
+    bottomContainer.classList.add('bottom-container');
+    bottomContainer.appendChild(deleteButton);
+
+    // Append the bottom container to the reel element
+    reelElement.appendChild(bottomContainer);
+
+    return reelElement;
   }
 
   // Function to delete post from Firestore and Storage
   function deletePost(postId, imgUrl) {
-      // Delete the post document from Firestore
-      deleteDoc(doc(db, 'posts', postId)).then(() => {
-          console.log('Post deleted from Firestore:', postId);
+    // Delete the post document from Firestore
+    deleteDoc(doc(db, 'posts', postId)).then(() => {
+      console.log('Post deleted from Firestore:', postId);
 
-          // Delete the image from Storage
-          const storageRef = ref(storage, imgUrl);
-          deleteObject(storageRef).then(() => {
-              console.log('Image deleted from Storage:', imgUrl);
-              // Refresh the posts after deletion
-              fetchPosts();
-          }).catch(error => {
-              console.error('Error deleting image from Storage:', error);
-          });
+      // Delete the image from Storage
+      const storageRef = ref(storage, imgUrl);
+      deleteObject(storageRef).then(() => {
+        console.log('Image deleted from Storage:', imgUrl);
+        // Refresh the posts after deletion
+        fetchPostsAndReels();
       }).catch(error => {
-          console.error('Error deleting post from Firestore:', error);
+        console.error('Error deleting image from Storage:', error);
       });
+    }).catch(error => {
+      console.error('Error deleting post from Firestore:', error);
+    });
   }
 
-  // Call fetchPosts function when DOM content is loaded
-  fetchPosts();
+  // Function to delete reel (video) from Firestore and Storage
+  function deleteReel(reelId, imgUrl) {
+    // Delete the reel document from Firestore
+    deleteDoc(doc(db, 'reels', reelId)).then(() => {
+      console.log('Reel deleted from Firestore:', reelId);
+
+      // Delete the video from Storage (if applicable)
+      const storageRef = ref(storage, imgUrl);
+      deleteObject(storageRef).then(() => {
+        console.log('Video deleted from Storage:', imgUrl);
+        // Refresh the reels after deletion
+        fetchPostsAndReels();
+      }).catch(error => {
+        console.error('Error deleting video from Storage:', error);
+      });
+    }).catch(error => {
+      console.error('Error deleting reel from Firestore:', error);
+    });
+  }
+
+  // Call fetchPostsAndReels function when DOM content is loaded
+  fetchPostsAndReels();
 });

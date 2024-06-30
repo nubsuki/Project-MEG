@@ -233,9 +233,10 @@ if (uid) {
 
 // Reference to Firestore collection
 const postsCollection = collection(db, 'posts');
+const reelsCollection = collection(db, 'reels');
 
 document.addEventListener('DOMContentLoaded', function () {
-    
+
     // Function to show the loading screen
     function showLoading() {
         document.getElementById('loading').style.display = 'block';
@@ -246,49 +247,94 @@ document.addEventListener('DOMContentLoaded', function () {
         document.getElementById('loading').style.display = 'none';
     }
 
-  // Function to fetch posts from Firestore
-  function fetchPosts() {
-    showLoading();
-      const q = query(postsCollection, where("userID", "==", uid)); // Filter posts by user ID
+    // Function to fetch posts and reels from Firestore
+    function fetchPostsAndReels() {
+        showLoading();
+        const postsQuery = query(postsCollection, where("userID", "==", uid)); // Filter posts by user ID
+        const reelsQuery = query(reelsCollection, where("userID", "==", uid));
 
-      getDocs(q).then(querySnapshot => {
-        const postContainer = document.getElementById('postContainer');
-        postContainer.innerHTML = ''; // Clear previous content
+        // Fetch posts
+        getDocs(postsQuery).then(postsSnapshot => {
+            const postContainer = document.getElementById('postContainer');
+            postContainer.innerHTML = ''; // Clear previous content
 
-        querySnapshot.forEach(doc => {
-            const post = doc.data();
-            const postId = doc.id;
+            postsSnapshot.forEach(doc => {
+                const post = doc.data();
+                const postId = doc.id;
 
-            // Check if the post has an image URL
-            if (post.imgUrl) {
-                const postElement = document.createElement('div');
-                postElement.classList.add('content');
-                postElement.setAttribute('data-type', 'image');
-
-                // Create image element
-                const imgElement = document.createElement('img');
-                imgElement.src = post.imgUrl;
-                postElement.appendChild(imgElement);
-
-                // Create icon for opening in another window
-                const iconElement = document.createElement('i');
-                iconElement.classList.add('bi', 'bi-image', 'iconpost');
-                iconElement.addEventListener('click', function () {
-                    window.open(post.imgUrl, '_blank');
-                });
-                postElement.appendChild(iconElement);
-
-                // Append post element to container
-                postContainer.appendChild(postElement);
-            }
+                // Check if the post has an image URL
+                if (post.imgUrl) {
+                    const postElement = createPostElement(post, postId);
+                    postContainer.appendChild(postElement);
+                }
+            });
+        }).catch(error => {
+            console.error('Error fetching posts:', error);
         });
-        hideLoading();
-    }).catch(error => {
-        console.error('Error fetching posts:', error);
-        hideLoading();
-    });
-}
 
-// Call fetchPosts function when DOM content is loaded
-fetchPosts();
+        // Fetch reels (videos)
+        getDocs(reelsQuery).then(reelsSnapshot => {
+            const reelsContainer = document.getElementById('reelsContainer');
+            reelsContainer.innerHTML = ''; // Clear previous content
+
+            reelsSnapshot.forEach(doc => {
+                const reel = doc.data();
+                const reelId = doc.id;
+
+                // Check if the reel has a video URL
+                if (reel.imgUrl) {
+                    const reelElement = createReelElement(reel, reelId);
+                    reelsContainer.appendChild(reelElement);
+                }
+            });
+            hideLoading();
+        }).catch(error => {
+            console.error('Error fetching reels:', error);
+            hideLoading();
+        });
+    }
+
+    // Function to create a post element
+    function createPostElement(post, postId) {
+        const postElement = document.createElement('div');
+        postElement.classList.add('content');
+        postElement.setAttribute('data-type', 'image');
+
+        // Create image element
+        const imgElement = document.createElement('img');
+        imgElement.src = post.imgUrl;
+        postElement.appendChild(imgElement);
+
+        // Create icon for opening in another window
+        const iconElement = document.createElement('i');
+        iconElement.classList.add('bi', 'bi-image', 'iconpost');
+        iconElement.addEventListener('click', function () {
+            window.open(post.imgUrl, '_blank');
+        });
+        postElement.appendChild(iconElement);
+
+        // No delete button or bottom container for posts without delete functionality
+
+        return postElement;
+    }
+
+    // Function to create a reel element (video)
+    function createReelElement(reel, reelId) {
+        const reelElement = document.createElement('div');
+        reelElement.classList.add('content');
+        reelElement.setAttribute('data-type', 'video');
+
+        // Create video element
+        const videoElement = document.createElement('video');
+        videoElement.src = reel.imgUrl;
+        videoElement.controls = true; // Enable controls
+        reelElement.appendChild(videoElement);
+
+        // No delete button or bottom container for reels without delete functionality
+
+        return reelElement;
+    }
+
+    // Call fetchPostsAndReels function when DOM content is loaded
+    fetchPostsAndReels();
 });

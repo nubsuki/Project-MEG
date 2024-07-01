@@ -123,7 +123,34 @@
                     <label for="caption">Caption:</label>
                     <input type="text" id="caption" name="caption" required><br><br>
                     <label for="description">Description:</label>
-                    <textarea id="description" name="description" required></textarea><br><br>
+                    <textarea id="description" name="description" maxlength="50" required></textarea><br><br>
+                    <span id="charCount" style="margin-left: 10px;">50</span> characters remaining.<br><br>
+
+                    <script>
+                        // Get the textarea element
+                        var description = document.getElementById("description");
+
+                        // Get the span element to display character count
+                        var charCount = document.getElementById("charCount");
+
+                        // Set initial character count
+                        charCount.textContent = description.maxLength;
+
+                        // Add input event listener
+                        description.addEventListener("input", function () {
+                            // Calculate remaining characters
+                            var remainingChars = description.maxLength - description.value.length;
+
+                            // Update character count
+                            charCount.textContent = remainingChars;
+
+                            // If character limit exceeded, truncate the input
+                            if (remainingChars < 0) {
+                                description.value = description.value.slice(0, description.maxLength);
+                                charCount.textContent = 0;
+                            }
+                        });
+                    </script>
                     <label for="tag">Tags:</label>
                     <select id="tag" class="tagss">
                         <option value="">Select a tag</option>

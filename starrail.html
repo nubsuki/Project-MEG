@@ -57,89 +57,71 @@
         <section class="starrailcharacter">
             <div class="character">
                 <div class="character-img">
-                    <img src="Assests/saberpf.jpg" alt="Picture">
-                </div>
-                <div class="character-img">
-                    <img src="Assests/saberpf.jpg" alt="Picture">
-                </div>
-                <div class="character-img">
-                    <img src="Assests/saberpf.jpg" alt="Picture">
-                </div>
-                <div class="character-img">
-                    <img src="Assests/saberpf.jpg" alt="Picture">
-                </div>
-                <div class="character-img" id="adddata">
-                    <i class="bi bi-patch-plus"></i>
-                </div>
+                    <!--avatars-->
+                    <div class="character-img" id="adddata">
+                      <i class="bi bi-patch-plus"></i>
+                    </div>
             </div>
         </section>
-        <section class="starraildata" id="starraildata">
+        <section class="starraildata" id="starraildata" style="display: none;">
             <div id="closeicon"><i class="bi bi-x icon2"></i></div>
             <div class="page">
                 <details class="card">
                     <summary class="card__header">
-                        <img class="card__avatar" src="https://picsum.photos/id/1032/64/64">
+                        <img class="card__avatar" id="avatarimg" src="https://picsum.photos/id/1032/64/64">
                         <h1>NAME</h1>
                         <span class="card__indicator"></span>
                         <div class="card__actions">
-                            <button type="button">delete</button>
+                            <button id="deleteButt" type="button">delete</button>
                         </div>
                     </summary>
                     <div class="card__body">
-                        <p>details</p>
+                        <p id="chardet">details</p>
                     </div>
                 </details>
                 <details class="card">
                     <summary class="card__header">
-                        <img class="card__avatar" src="https://picsum.photos/id/1032/64/64">
+                        <img class="card__avatar" id="artifactimg" src="https://picsum.photos/id/1032/64/64">
                         <h1>Artifact</h1>
                         <span class="card__indicator"></span>
                         <div class="card__actions">
                         </div>
                     </summary>
                     <div class="card__body">
-                        <img class="card__avatar" src="https://picsum.photos/id/1032/64/64">
-                        <p>detailsd dwa dwa wd ad wad aw Lorem ipsum dolor sit amet consectetur, adipisicing elit. Fugit
-                            voluptatum, vero expedita deserunt velit quibusdam mollitia magnam ea. Eaque a iusto
-                            laboriosam. Eligendi laboriosam corporis ex asperiores aliquid vero similique?</p>
-                        <img class="card__avatar" src="https://picsum.photos/id/1032/64/64">
-                        <p>details Lorem ipsum, dolor sit amet consectetur adipisicing elit. Excepturi atque
-                            consectetur, unde corporis sit soluta, reprehenderit, fuga reiciendis quisquam tempora
-                            facilis quod! Obcaecati dolor nisi modi, cumque vitae est tempora.</p>
+                        <img class="card__avatar" id="artifactimg1" src="https://picsum.photos/id/1032/64/64">
+                        <p>Loading.....</p>
+                        <img class="card__avatar" id="artifactimg2" src="https://picsum.photos/id/1032/64/64">
+                        <p>Loading.....</p>
                     </div>
                 </details>
                 <details class="card">
                     <summary class="card__header">
-                        <img class="card__avatar" src="https://picsum.photos/id/1032/64/64">
+                        <img class="card__avatar" id="weapon" src="https://picsum.photos/id/1032/64/64">
                         <h1>Wepons</h1>
                         <span class="card__indicator"></span>
                         <div class="card__actions">
                         </div>
                     </summary>
                     <div class="card__body">
-                        <img class="card__avatar" src="https://picsum.photos/id/1032/64/64">
-                        <p>detailsd dwa dwa wd ad wad aw Lorem ipsum dolor sit amet consectetur, adipisicing elit. Fugit
-                            voluptatum, vero expedita deserunt velit quibusdam mollitia magnam ea. Eaque a iusto
-                            laboriosam. Eligendi laboriosam corporis ex asperiores aliquid vero similique?</p>
-                        <img class="card__avatar" src="https://picsum.photos/id/1032/64/64">
-                        <p>details Lorem ipsum, dolor sit amet consectetur adipisicing elit. Excepturi atque
-                            consectetur, unde corporis sit soluta, reprehenderit, fuga reiciendis quisquam tempora
-                            facilis quod! Obcaecati dolor nisi modi, cumque vitae est tempora.</p>
+                        <img class="card__avatar" id="weapon1" src="https://picsum.photos/id/1032/64/64">
+                        <p>Loading.....</p>
+                        <img class="card__avatar" id="weapon2" src="https://picsum.photos/id/1032/64/64">
+                        <p>Loading.....</p>
                     </div>
                 </details>
                 <details class="card">
                     <summary class="card__header">
-                        <img class="card__avatar" src="https://picsum.photos/id/1032/64/64">
+                        <img class="card__avatar" id="team" src="https://picsum.photos/id/1032/64/64">
                         <h1>Best Team</h1>
                         <span class="card__indicator"></span>
                         <div class="card__actions">
                         </div>
                     </summary>
                     <div class="card__body">
-                        <img class="card__avatar" src="https://picsum.photos/id/1032/64/64" alt="first">
-                        <img class="card__avatar" src="https://picsum.photos/id/1032/64/64" alt="second">
-                        <img class="card__avatar" src="https://picsum.photos/id/1032/64/64" alt="third">
-                        <img class="card__avatar" src="https://picsum.photos/id/1032/64/64" alt="fourth">
+                        <img class="card__avatar" id="team1" src="https://picsum.photos/id/1032/64/64" alt="first">
+                        <img class="card__avatar" id="team2" src="https://picsum.photos/id/1032/64/64" alt="second">
+                        <img class="card__avatar" id="team3" src="https://picsum.photos/id/1032/64/64" alt="third">
+                        <img class="card__avatar" id="team4" src="https://picsum.photos/id/1032/64/64" alt="fourth">
                     </div>
                 </details>
             </div>
@@ -203,7 +185,7 @@
                 <label for="teamAvatar4">Avatar Image 4:</label>
                 <input type="file" id="teamAvatar4" name="teamAvatar4" required>
 
-                <button type="submit">Upload</button>
+                <button id="submitButton" type="submit">Upload</button>
             </form>
         </div>
     </section>

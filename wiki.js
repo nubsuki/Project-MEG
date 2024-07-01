@@ -2,18 +2,18 @@ const cards = document.querySelectorAll('.card');
 
 const cardOptions = {
     1: [
-        { name: 'Valorant', url: 'valorant.html' },
+        { name: 'Valorant', url: 'starrail.html' },
         { name: 'Honkai Star Rail', url: 'starrail.html' },
-        { name: 'Extensions', url: 'extension.html' }
+        { name: 'Extensions', url: 'starrail.html' }
     ],
     2: [
-        { name: 'Screen Capture', url: 'software.html' },
-        { name: 'Editing Softwares', url: 'software.html' },
-        { name: 'Extensions', url: 'extension.html' }
+        { name: 'Screen Capture', url: 'record.html' },
+        { name: 'Editing Softwares', url: 'record.html' },
+        { name: 'Extensions', url: 'record.html' }
     ],
     3: [
-        { name: 'Option 3-1', url: 'option3-1.html' },
-        { name: 'Option 3-2', url: 'option3-2.html' }
+        { name: 'PiratedGames', url: 'option3-1.html' },
+        { name: 'PiratedSoftwares', url: 'option3-2.html' }
     ]
 };
 

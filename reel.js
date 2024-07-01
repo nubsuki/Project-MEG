@@ -365,23 +365,18 @@ document.addEventListener('DOMContentLoaded', () => {
             console.error("Tags parameter is not an array:", tags);
             return;
         }
-
+    
         displayArr = []; // Ensure displayArr is cleared before populating
-
-        if (tags.length === 0) {
-            // If tags array is empty, fetch all post indexes
-            const postsQuery = query(collection(db, "reels"));
-            const querySnapshot = await getDocs(postsQuery);
-            querySnapshot.forEach((doc) => {
-                const post = doc.data();
+    
+        const postsQuery = query(collection(db, "reels"));
+        const querySnapshot = await getDocs(postsQuery);
+        querySnapshot.forEach((doc) => {
+            const post = doc.data();
+            if (tags.length === 0) {
+                // If tags array is empty, add all post indexes
                 displayArr.push(post.index);
-            });
-        } else {
-            // If tags array is not empty, filter reels by tags
-            const postsQuery = query(collection(db, "reels"));
-            const querySnapshot = await getDocs(postsQuery);
-            querySnapshot.forEach((doc) => {
-                const post = doc.data();
+            } else {
+                // If tags array is not empty, filter posts by tags
                 if (Array.isArray(post.tags)) {
                     if (post.tags.some(tag => tags.includes(tag))) {
                         displayArr.push(post.index);
@@ -389,11 +384,20 @@ document.addEventListener('DOMContentLoaded', () => {
                 } else {
                     console.error("Post tags are not an array:", post.tags);
                 }
-            });
+            }
+        });
+    
+        // Function to shuffle an array
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
         }
-
-        displayArr.sort((a, b) => a - b); // Optional: Sort the displayArr by index
+    
+        shuffleArray(displayArr); // Shuffle the displayArr
     }
+    
 
 
 

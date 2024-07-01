@@ -12,8 +12,8 @@ body {
 	font: 1em/1.5 sans-serif;
 	height: 100vh;
 	transition:
-		background-color 0.3s cubic-bezier(0.65,0,0.35,1),
-		color 0.3s cubic-bezier(0.65,0,0.35,1);
+		background-color 0.3s cubic-bezier(0.65, 0, 0.35, 1),
+		color 0.3s cubic-bezier(0.65, 0, 0.35, 1);
 	font-size: calc(14px + (30 - 14) * (100vw - 280px) / (3840 - 280));
 }
 
@@ -26,7 +26,7 @@ body {
 
 .loading:before,
 .loading:after {
-	animation: pl-before 2.5s cubic-bezier(0.65,0,0.35,1) infinite;
+	animation: pl-before 2.5s cubic-bezier(0.65, 0, 0.35, 1) infinite;
 	background-color: currentColor;
 	content: "";
 	display: block;
@@ -46,7 +46,7 @@ body {
 @media (prefers-color-scheme: dark) {
 	body {
 		background-color: hsla(228, 10%, 10%, 0.274);
-		backdrop-filter: blur( 5px);
+		backdrop-filter: blur(5px);
 		color: hsl(223, 10%, 90%);
 	}
 }
@@ -54,40 +54,50 @@ body {
 /* Animations */
 @keyframes pl-before {
 	from {
-		transform: rotate(0) translate(-100%,-100%) rotate(-90deg);
+		transform: rotate(0) translate(-100%, -100%) rotate(-90deg);
 	}
+
 	20% {
-		transform: rotate(0) translate(-100%,-100%) rotate(90deg);
+		transform: rotate(0) translate(-100%, -100%) rotate(90deg);
 	}
+
 	40% {
-		transform: rotate(0) translate(-300%,-100%) rotate(90deg);
+		transform: rotate(0) translate(-300%, -100%) rotate(90deg);
 	}
+
 	60% {
-		transform: rotate(90deg) translate(-300%,-100%) rotate(-90deg);
+		transform: rotate(90deg) translate(-300%, -100%) rotate(-90deg);
 	}
+
 	80% {
-		transform: rotate(90deg) translate(-100%,-100%) rotate(-90deg);
+		transform: rotate(90deg) translate(-100%, -100%) rotate(-90deg);
 	}
+
 	to {
-		transform: rotate(90deg) translate(-100%,100%) rotate(90deg);
+		transform: rotate(90deg) translate(-100%, 100%) rotate(90deg);
 	}
 }
 
 @keyframes pl-after {
+
 	from,
 	20% {
-		transform: rotate(0) scale(1,1);
+		transform: rotate(0) scale(1, 1);
 	}
+
 	40% {
-		transform: rotate(0) scale(3,1);
+		transform: rotate(0) scale(3, 1);
 	}
+
 	60% {
-		transform: rotate(90deg) scale(3,1);
+		transform: rotate(90deg) scale(3, 1);
 	}
+
 	80% {
-		transform: rotate(90deg) scale(1,1);
+		transform: rotate(90deg) scale(1, 1);
 	}
+
 	to {
-		transform: rotate(90deg) scale(1,1) translate(0,200%);
+		transform: rotate(90deg) scale(1, 1) translate(0, 200%);
 	}
 }

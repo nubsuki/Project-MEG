@@ -819,16 +819,16 @@ document.addEventListener('DOMContentLoaded', function () {
 function showAlert(message) {
   const alertPopup = document.getElementById('alertPopup');
   const alertMessage = document.getElementById('alertMessage');
-  
+
   alertMessage.textContent = message;
   alertPopup.style.display = 'block';
-  
+
   setTimeout(() => {
-      alertPopup.classList.add('hide');
+    alertPopup.classList.add('hide');
   }, 4500); // Start hiding after 4.5 seconds
-  
+
   setTimeout(() => {
-      alertPopup.style.display = 'none';
-      alertPopup.classList.remove('hide');
+    alertPopup.style.display = 'none';
+    alertPopup.classList.remove('hide');
   }, 5000); // Completely hide after 5 seconds
 }

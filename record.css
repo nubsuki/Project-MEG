@@ -23,6 +23,15 @@ body {
     overflow: hidden;
 }
 
+.loadingsection {
+    height: 100vh;
+    width: 100%;
+    position: fixed;
+    border: none;
+    overflow: hidden;
+    z-index: 999;
+}
+
 .starrail {
     position: fixed;
     width: 50%;
@@ -139,7 +148,7 @@ button:hover {
     height: 100px;
     margin-top: 10px;
     border: 2px solid #afc7df;
-   
+
     object-fit: cover;
 }
 
@@ -190,42 +199,47 @@ button:hover {
     object-fit: cover;
 
 }
-.card__body p{
+
+.card__body p {
     font-size: 15px;
     color: white;
     margin: 10px;
 
 }
+
 .icon2 {
     position: absolute;
     top: 10px;
     right: 10px;
     font-size: 20px;
-    color: rgb(56, 52, 52); 
-    background-color: rgba(255, 255, 255, 0.479); 
+    color: rgb(56, 52, 52);
+    background-color: rgba(255, 255, 255, 0.479);
     border-top-right-radius: 10px;
     border-bottom-left-radius: 10px;
     padding: 5px;
     cursor: pointer;
-  }
-  .icon2:hover{
-    color: rgb(56, 52, 52); 
-    background-color: rgba(219, 185, 185, 0.479); 
+}
+
+.icon2:hover {
+    color: rgb(56, 52, 52);
+    background-color: rgba(219, 185, 185, 0.479);
     cursor: pointer;
-  }
+}
 
 @media (max-width: 750px) {
-    .starrail{
+    .starrail {
         height: 85vh;
         margin-top: -30px;
         width: 90%;
     }
+
     .card__body {
         display: flex;
         flex-direction: column;
     }
-    
+
 }
+
 .uploaddata {
     position: fixed;
     width: 25%;
@@ -237,28 +251,32 @@ button:hover {
     z-index: 3;
     overflow-y: scroll;
     scrollbar-width: none;
-    -ms-overflow-style: none; 
+    -ms-overflow-style: none;
     border: 2px solid #afc7df;
     backdrop-filter: blur(20px);
     border-radius: 10px;
 }
 
 .upload-form {
-    width: 100%; /* Make the form take the full width of the container */
+    width: 100%;
+    /* Make the form take the full width of the container */
     padding: 20px;
-   
+
 }
+
 .upload-form h2 {
     margin: 10px;
     color: #ffffff;
     text-align: center;
 
 }
+
 .upload-form label {
     display: block;
     margin-bottom: 10px;
     color: #ffffff;
 }
+
 .upload-form input[type="text"],
 .upload-form input[type="file"],
 .upload-form input[type="url"],
@@ -271,6 +289,7 @@ button:hover {
     border-radius: 4px;
     background-color: #afc7df;
 }
+
 .upload-form button {
     padding: 10px 16px;
     border-radius: 8px;
@@ -283,6 +302,7 @@ button:hover {
     user-select: none;
     font-size: 14px;
 }
+
 .upload-form button:hover {
     background-color: #fff;
     color: black;
@@ -301,7 +321,25 @@ button:hover {
     user-select: none;
     font-size: 14px;
 }
+
 .btn:hover {
     background-color: #fff;
     color: black;
+}
+
+.alert-popup {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #444;
+    color: #fff;
+    padding: 15px;
+    border-radius: 5px;
+    z-index: 1000;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    transition: opacity 0.3s ease;
+}
+
+.alert-popup.hide {
+    opacity: 0;
 }

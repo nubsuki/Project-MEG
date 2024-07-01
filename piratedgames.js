@@ -17,7 +17,6 @@ const auth = getAuth();
 const db = getFirestore(app);
 const storage = getStorage(app);
 
-
 // Global variable to store admin status
 let isAdmin = false;
 
@@ -63,8 +62,105 @@ document.getElementById('closeiconuploaddata').addEventListener('click', functio
 });
 
 
+document.addEventListener('DOMContentLoaded', () => {
+    console.log("DOM fully loaded and parsed");
+
+    const form = document.getElementById("nameCardForm");
+    const subButton = document.getElementById("submitButton");
+
+    showCharacters();
+
+    form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+
+        const name = document.getElementById("name").value;
+        const avatar = document.getElementById("avatar").files[0];
+        const details = document.getElementById("nameDetails").value;
+        const webUrl = document.getElementById("websiteURL").value;
+        const anti = document.getElementById("antivirusURL").value;
+
+        try {
+            if (subButton) {
+                subButton.disabled = true;
+                subButton.textContent = 'Uploading...';
+            }
+
+            const avatarUrl = await uploadImage(avatar, `pirategames/${generateUniqueName(avatar.name)}`);
+
+            const docRef = await addDoc(collection(db, "piratedgames"), {
+                id: generateUniqueId(),
+                Name: name,
+                details: details,
+                weburl: webUrl,
+                antiurl: anti,
+                avatarImg: avatarUrl
+            });
+
+            form.reset();
+            location.reload();
+            console.log("Doc written with ID: ", docRef.id);
+            showAlert("Upload successful!!");
+        } catch (e) {
+            console.error("Error adding doc: ", e);
+            alert("Error uploading data: " + e.message);
+        } finally {
+            if (subButton) {
+                subButton.disabled = false;
+                subButton.textContent = 'Submit';
+            }
+        }
+    });
+
+    function generateUniqueName(originalName) {
+        const timestamp = Date.now();
+        const fileExtension = originalName.split('.').pop();
+        return `${originalName.split('.')[0]}_${timestamp}.${fileExtension}`;
+    }
+
+    async function uploadImage(file, path) {
+        const storageRef = ref(storage, path);
+        await uploadBytes(storageRef, file);
+        return getDownloadURL(storageRef); // Return the download URL directly
+    }
+
+    function generateUniqueId() {
+        // Generate a random 20-character string as ID
+        return Math.random().toString(36).substring(2, 12) + Math.random().toString(36).substring(2, 12);
+    }
+
+    const closeIcon = document.getElementById('closeiconuploaddata');
+    if (closeIcon) {
+        closeIcon.addEventListener('click', () => {
+            form.reset();
+            document.getElementById('uploaddata').style.display = 'none';
+        });
+    }
+
+    const Del = document.getElementById("deleteButt");
+    if (Del) {
+        Del.addEventListener('click', async () => {
+            await DeleteDoc();
+            //clearDisplay();
+            document.getElementById('starraildata').style.display = 'none';
+        });
+    }
+
+});
+
+document.getElementById('closeicon').addEventListener('click', function () {
+    document.getElementById('starraildata').style.display = 'none';
+});
+
+document.getElementById('adddata').addEventListener('click', function () {
+    document.getElementById('uploaddata').style.display = 'block';
+});
+
+document.getElementById('closeiconuploaddata').addEventListener('click', function () {
+    document.getElementById('uploaddata').style.display = 'none';
+});
+
 async function showCharacters() {
-    console.log("Showing avatars");
+    console.log("showCharacters function called");
 
     // Function to show the loading screen
     function showLoading() {
@@ -79,12 +175,19 @@ async function showCharacters() {
     const characterDiv = document.querySelector('.character');
 
     try {
-        const querySnapshot = await getDocs(collection(db, "record"));
+        const querySnapshot = await getDocs(collection(db, "piratedgames"));
         showLoading();
+
+        if (querySnapshot.empty) {
+            console.log("No documents found in piratedgames collection");
+            return;
+        }
 
         querySnapshot.forEach((doc) => {
             const data = doc.data();
             const avatarImgUrl = data.avatarImg;
+
+            console.log("avatarImgUrl:", avatarImgUrl);
 
             //create HTML structure
             const characterImgDiv = document.createElement('div');
@@ -112,7 +215,7 @@ async function showCharacters() {
         });
         hideLoading();
     } catch (error) {
-        console.log(error);
+        console.log("Error fetching documents:", error);
         hideLoading();
     }
 }
@@ -123,19 +226,21 @@ async function DisplayInfo(Cname) {
     const avatar = document.getElementById("avatarimg");
     const software = document.getElementById("software");
     const detail = document.getElementById("des");
-    const Glink = document.getElementById("Link");
+    const Glink = document.getElementById("Link1");
+    const Alink = document.getElementById("Link2");
 
     try {
-        const docRef = doc(db, "record", Cname);
+        const docRef = doc(db, "piratedgames", Cname);
         const docSnap = await getDoc(docRef);
 
-        if (!docSnap.empty) {
+        if (docSnap.exists()) {
             const charInfo = docSnap.data();
 
             avatar.src = charInfo.avatarImg;
             software.textContent = charInfo.Name;
             detail.textContent = charInfo.details;
-            Glink.href = charInfo.url;
+            Glink.href = charInfo.weburl;
+            Alink.href = charInfo.antiurl;
 
             const delButton = document.getElementById("deleteButt");
             if (delButton) {
@@ -167,27 +272,28 @@ async function DisplayInfo(Cname) {
             clearDisplay();
         }
     } catch (e) {
-        console.error("Error getting document: ", e);
+        console.error("Error getting document:", e);
         clearDisplay();
     }
-
 }
 
 function clearDisplay() {
     const avatar = document.getElementById("avatarimg");
     const software = document.getElementById("software");
     const detail = document.getElementById("des");
-    const Glink = document.getElementById("Link");
+    const Glink = document.getElementById("Link1");
+    const Alink = document.getElementById("Link2");
 
     avatar.src = "";
     software.textContent = "";
     detail.textContent = "";
     Glink.href = "";
+    Alink.href = "";
 }
 
 async function DeleteDoc(Cname) {
     try {
-        const docRef = doc(db, "record", Cname);
+        const docRef = doc(db, "piratedgames", Cname);
 
         const docSnap = await getDoc(docRef);
         if (docSnap.exists()) {
@@ -198,10 +304,10 @@ async function DeleteDoc(Cname) {
             await deleteDoc(docRef);
 
         } else {
-            console.log("No such document: ", Cname);
+            console.log("No such document:", Cname);
         }
     } catch (e) {
-        console.error("Error deleting document: ", e);
+        console.error("Error deleting document:", e);
         throw e;
     }
 }
@@ -211,95 +317,10 @@ async function deleteImage(url) {
         const storageRef = ref(storage, url);
         await deleteObject(storageRef);
     } catch (e) {
-        console.error("Error deleting image: ", e);
+        console.error("Error deleting image:", e);
         throw e;
     }
 }
-
-
-document.addEventListener('DOMContentLoaded', () => {
-    const form = document.getElementById("nameCardForm");
-    const subButton = document.getElementById("submitButton");
-
-    showCharacters();
-
-    form.addEventListener("submit", async (e) => {
-        e.preventDefault();
-
-        const name = document.getElementById("name").value;
-        const avatar = document.getElementById("avatar").files[0];
-        const details = document.getElementById("nameDetails").value;
-        const url = document.getElementById("avatarUrl").value;
-
-        try {
-            if (subButton) {
-                subButton.disabled = true;
-                subButton.textContent = 'Uploading...';
-            }
-
-            const avatarUrl = await uploadImage(avatar, `record/${generateUniqueName(avatar.name)}`);
-
-            const docRef = await addDoc(collection(db, "record"), {
-                id: generateUniqueId(),
-                Name: name,
-                details: details,
-                url: url,
-                avatarImg: avatarUrl
-            });
-
-            form.reset();
-            location.reload();
-            console.log("Doc written with ID: ", docRef.id);
-            showAlert("Upload successful!!");
-        } catch (e) {
-            console.error("Error adding doc: ", e);
-            alert("Error uploading data: " + e.message);
-        } finally {
-            if (subButton) {
-                subButton.disabled = false;
-                subButton.textContent = 'Submit';
-            }
-        }
-    });
-
-
-    function generateUniqueName(originalName) {
-        const timestamp = Date.now();
-        const fileExtension = originalName.split('.').pop();
-        return `${originalName.split('.')[0]}_${timestamp}.${fileExtension}`;
-    }
-
-    async function uploadImage(file, path) {
-        const storageRef = ref(storage, path);
-        await uploadBytes(storageRef, file);
-        return getDownloadURL(storageRef); // Return the download URL directly
-    }
-
-
-    function generateUniqueId() {
-        // Generate a random 20-character string as ID
-        return Math.random().toString(36).substring(2, 12) + Math.random().toString(36).substring(2, 12);
-    }
-
-    const closeIcon = document.getElementById('closeiconuploaddata');
-    if (closeIcon) {
-        closeIcon.addEventListener('click', () => {
-            form.reset();
-            document.getElementById('uploaddata').style.display = 'none';
-        });
-    }
-
-    const Del = document.getElementById("deleteButt");
-    if (Del) {
-        Del.addEventListener('click', async () => {
-            await DeleteDoc();
-            //clearDisplay();
-            document.getElementById('starraildata').style.display = 'none';
-        });
-    }
-
-});
-
 
 function showAlert(message) {
     const alertPopup = document.getElementById('alertPopup');

@@ -1,10 +1,11 @@
-body, html {
+body,
+html {
 	width: 100%;
 	height: 100vh;
 	margin: 0;
-    overflow: hidden;
+	overflow: hidden;
 	background-color: #869ba8;
-	background-image: 
+	background-image:
 		radial-gradient(in oklch circle at 0% 0%, #ffd100, transparent 50%),
 		radial-gradient(in oklch circle at 80% 50%, #7ba7bc, transparent),
 		radial-gradient(in oklch circle at 0% 100%, #ff6a13, transparent);
@@ -52,16 +53,29 @@ svg path {
 	0% {
 		opacity: 0%;
 		transform: translateY(200%) scale(0.7);
-	} 15%, 40% {
+	}
+
+	15%,
+	40% {
 		opacity: 1;
 		transform: translateY(0) scale(1);
-	} 55%, 100% {
+	}
+
+	55%,
+	100% {
 		opacity: 0%;
 		transform: translateY(-200%) scale(0.7);
 	}
 }
 
 @keyframes fade_in {
-	0%, 60% { opacity: 0; }
-	100% { opacity: 1; }
+
+	0%,
+	60% {
+		opacity: 0;
+	}
+
+	100% {
+		opacity: 1;
+	}
 }

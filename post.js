@@ -98,7 +98,7 @@ document.addEventListener('DOMContentLoaded', () => {
         event.preventDefault();
 
         reportButton.disabled = true;
-        reportButton.textContent = 'Reporting OwO';
+        reportButton.textContent = 'Reporting';
         
         const currentPostIndex = displayArr[currentIndex];
         const reporterId = localStorage.getItem('loggedInUserId');
@@ -424,7 +424,7 @@ document.addEventListener('DOMContentLoaded', () => {
     sendCommentButton.addEventListener('click', async () => {
         const commentText = commentInput.value.trim();
         sendButton.disabled = true;
-        sendButton.textContent = 'Sending...UwU';
+        sendButton.textContent = 'Sending...';
         if (commentText !== '') {
             await addComment(currentIndex, commentText);
             commentInput.value = ''; // Clear input field after adding comment

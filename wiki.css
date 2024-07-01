@@ -31,6 +31,7 @@ body {
     left: 50%;
     top: 50%;
     translate: -50% -50%;
+    overflow: scroll;
     z-index: 2
 }
 
@@ -54,7 +55,8 @@ body {
     border-radius: 10px;
     overflow: hidden;
     transition: transform 0.6s ease;
-    position: relative; /* Ensure relative positioning */
+    position: relative;
+    /* Ensure relative positioning */
 }
 
 .card h2 {
@@ -62,7 +64,7 @@ body {
     font-weight: 500;
     margin-bottom: 10px;
     background-color: #eee5;
-  color: #fff;
+    color: #fff;
     border-radius: 10px;
     padding: 5px;
 }
@@ -78,7 +80,7 @@ body {
     width: 100%;
     padding: 8px;
     margin-top: 8px;
-    overflow: hidden; 
+    overflow: hidden;
     border-radius: 5px;
     border: none;
     background-color: #afc7df;
@@ -98,7 +100,7 @@ body {
     padding: 8px;
     border: 2px solid #afc7df;
     background-color: #eee5;
-  color: #fff;
+    color: #fff;
     border-radius: 10px;
     margin-bottom: 4px;
     cursor: pointer;
@@ -107,7 +109,7 @@ body {
 
 .search-results li:hover {
     background-color: #fff;
-  color: black;
+    color: black;
 }
 
 .content {

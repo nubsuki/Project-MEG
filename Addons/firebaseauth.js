@@ -1,7 +1,7 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import {getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail, sendEmailVerification} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-import {getFirestore, setDoc, doc, getDoc} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail, sendEmailVerification } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+import { getFirestore, setDoc, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyBua35RMPI5GlO9riLYNYN8R2NwOTzjY0Y",
@@ -26,15 +26,15 @@ function showMessage(message, divId) {
   messageDiv.innerHTML = message;
   messageDiv.style.display = 'block';
   messageDiv.style.opacity = '1';
-  setTimeout(function() {
-      messageDiv.style.opacity = '0';
+  setTimeout(function () {
+    messageDiv.style.opacity = '0';
   }, 3000);
 
 }
 //Event SignUp
 
 const signup = document.getElementById('submitsignup');
-signup.addEventListener('click', function(event) {
+signup.addEventListener('click', function (event) {
   event.preventDefault();
   const email = document.getElementById('remail').value;
   const username = document.getElementById('rusername').value;
@@ -45,13 +45,13 @@ signup.addEventListener('click', function(event) {
   const defaultRole = 'user';
 
   createUserWithEmailAndPassword(auth, email, password)
-  .then((userCredential) => {
+    .then((userCredential) => {
       const user = userCredential.user;
       const userData = {
-          username: username,
-          email: email,
-          uid: user.uid,
-          role: defaultRole
+        username: username,
+        email: email,
+        uid: user.uid,
+        role: defaultRole
       };
 
       showMessage('Your good to Go !!!!!', 'signupmsg');
@@ -62,7 +62,7 @@ signup.addEventListener('click', function(event) {
           sendEmailVerification(user)
             .then(() => {
               showMessage('Verification email sent!', 'signupmsg');
-              setTimeout(function() {
+              setTimeout(function () {
                 window.location.href = "../userRegister.html";
               }, 3000);
             })
@@ -93,7 +93,7 @@ function isValidEmail(email) {
 }
 
 const login = document.getElementById('submitlogin');
-login.addEventListener('click', async function(event) { 
+login.addEventListener('click', async function (event) {
   event.preventDefault();
   const email = document.getElementById('lemail').value;
   const password = document.getElementById('lpassword').value;
@@ -111,7 +111,7 @@ login.addEventListener('click', async function(event) {
     const userCredential = await signInWithEmailAndPassword(auth, email, password);
     const user = userCredential.user;
     const userDoc = await getDoc(doc(db, 'users', user.uid)); // Await the getDoc promise
-    
+
     if (userDoc.exists()) {
       if (user.emailVerified) {
         const userData = userDoc.data();
@@ -120,7 +120,7 @@ login.addEventListener('click', async function(event) {
         if (allowedRoles.includes(userRole)) {
           showMessage('Here We Gooooo!!!!!', 'loginmsg');
           localStorage.setItem('loggedInUserId', user.uid);
-          setTimeout(function() {
+          setTimeout(function () {
             window.location.href = "../index.html";
           }, 2300);
         } else {
@@ -132,32 +132,32 @@ login.addEventListener('click', async function(event) {
     } else {
       showMessage('User data not found', 'loginmsg');
     }
-    
+
   } catch (error) {
     console.error("Error during login:", error);
     const errorCode = error.code;
-      showMessage(error, 'loginmsg');
+    showMessage(error, 'loginmsg');
   }
 });
 
 //Event Reset Password
 
 const resetForm = document.getElementById('submitreset');
-resetForm.addEventListener('click', function(event) {
+resetForm.addEventListener('click', function (event) {
   event.preventDefault();
   const auth = getAuth();
   const email = document.getElementById('Femail').value;
 
   sendPasswordResetEmail(auth, email)
-  .then(() => {
+    .then(() => {
       showMessage('Check your email!!<br>Re-direct to login 3s.....', 'resetmsg');
-      setTimeout(function() {
+      setTimeout(function () {
         window.location.href = "../userRegister.html";
       }, 3000);
-  })
-  .catch((error) => {
+    })
+    .catch((error) => {
       console.error("Error during password reset:", error);
       showMessage('Something went wrong', 'resetmsg');
-  });
+    });
 });
 

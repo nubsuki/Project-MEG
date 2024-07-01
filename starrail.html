@@ -12,6 +12,10 @@
 </head>
 
 <body>
+    <!--loading-->
+    <section id="loading">
+        <iframe src="Addons/loading.html" class="loadingsection"></iframe>
+    </section>
     <!--Background-->
     <section>
         <iframe src="Addons/background2.html" class="sectionbg"></iframe>
@@ -53,15 +57,19 @@
             </ul>
         </nav>
     </section>
+    <!--alertPopup-->
+    <div id="alertPopup" class="alert-popup" style="display: none;">
+        <p id="alertMessage"></p>
+    </div>
     <section class="starrail">
         <section class="starrailcharacter">
             <div class="character">
                 <div class="character-img">
                     <!--avatars-->
                     <div class="character-img" id="adddata">
-                      <i class="bi bi-patch-plus"></i>
+                        <i class="bi bi-patch-plus"></i>
                     </div>
-            </div>
+                </div>
         </section>
         <section class="starraildata" id="starraildata" style="display: none;">
             <div id="closeicon"><i class="bi bi-x icon2"></i></div>
@@ -129,10 +137,10 @@
     </section>
     <section class="uploaddata" id="uploaddata" style="display: none;">
         <div class="upload-form">
-            
+
             <h2>Upload Data for Character Card</h2>
             <div id="closeiconuploaddata"><i class="bi bi-x icon2"></i></div>
-            
+
             <form id="nameCardForm">
                 <label for="name">Name:</label>
                 <input type="text" id="name" name="name" required>

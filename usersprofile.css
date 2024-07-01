@@ -35,8 +35,8 @@ body {
     transform: translate(-50%, -50%);
 }
 
-.loadingsection{
-    height:100vh;
+.loadingsection {
+    height: 100vh;
     width: 100%;
     position: fixed;
     border: none;
@@ -137,19 +137,21 @@ body {
     font-size: 16px;
     color: #332f2f;
 }
+
 .profile-content {
     overflow: scroll;
     scrollbar-width: none;
     -ms-overflow-style: none;
     width: 100%;
     height: 75%;
-  }
-  
-  .content {
+}
+
+.content {
     position: relative;
-  }
-  
-  .posts,.reels {
+}
+
+.posts,
+.reels {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 10px;
@@ -158,25 +160,25 @@ body {
     overflow: scroll;
     scrollbar-width: none;
     -ms-overflow-style: none;
-  }
-  
-  .content img {
+}
+
+.content img {
     width: 100%;
     height: 150px;
     border-radius: 5px;
     border: 2px solid #afc7df;
     object-fit: cover;
-  }
-  
-  .content video {
+}
+
+.content video {
     width: 100%;
     height: 150px;
     border-radius: 5px;
     border: 2px solid #afc7df;
     object-fit: cover;
-  }
-  
-  .iconpost {
+}
+
+.iconpost {
     position: absolute;
     top: 10px;
     right: 10px;
@@ -185,13 +187,13 @@ body {
     background-color: rgba(255, 255, 255, 0.479);
     border-radius: 10%;
     padding: 5px;
-  }
-  
- 
-  
-  
-  .iconpost:hover {
+}
+
+
+
+
+.iconpost:hover {
     color: rgb(224, 200, 200);
     background-color: rgba(63, 59, 59, 0.973);
     cursor: pointer;
-  }
+}

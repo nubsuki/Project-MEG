@@ -1,6 +1,6 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import { getAuth } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-import { getFirestore,doc,getDoc,deleteDoc, collection, addDoc,where, getDocs } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+import { getFirestore, doc, getDoc, deleteDoc, collection, addDoc, where, getDocs } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-storage.js";
 
 const firebaseConfig = {
@@ -17,15 +17,47 @@ const auth = getAuth();
 const db = getFirestore(app);
 const storage = getStorage(app);
 
-document.getElementById('closeicon').addEventListener('click', function() {
+
+// Global variable to store admin status
+let isAdmin = false;
+
+auth.onAuthStateChanged(function (user) {
+  if (user) {
+    // User is signed in. Fetch user data from Firestore
+    const userRef = doc(db, "users", user.uid);
+    getDoc(userRef).then((docSnapshot) => {
+      if (docSnapshot.exists()) {
+        const userData = docSnapshot.data();
+        if (userData.role === 'admin') {
+          isAdmin = true;
+          showAlert(`User is admin: ${isAdmin}`);
+          // Show admin control panel icon
+          document.getElementById('adddata').style.display = 'flex';
+          document.getElementById('deleteButt').style.display = 'flex';
+          
+        } else {
+          console.log("User is admin:", isAdmin);
+          document.getElementById('adddata').style.display = 'none';
+          document.getElementById('deleteButt').style.display = 'none';
+        }
+      } else {
+        console.log("No such document!");
+      }
+    }).catch((error) => {
+      console.log("Error getting document:", error);
+    });
+  }
+});
+
+document.getElementById('closeicon').addEventListener('click', function () {
     document.getElementById('starraildata').style.display = 'none';
 });
 
-document.getElementById('adddata').addEventListener('click', function() {
+document.getElementById('adddata').addEventListener('click', function () {
     document.getElementById('uploaddata').style.display = 'block';
 });
 
-document.getElementById('closeiconuploaddata').addEventListener('click', function() {
+document.getElementById('closeiconuploaddata').addEventListener('click', function () {
     document.getElementById('uploaddata').style.display = 'none';
 });
 
@@ -33,9 +65,20 @@ async function showCharacters() {
     console.log("showing avatars");
     const characterDiv = document.querySelector('.character');
 
+    // Function to show the loading screen
+    function showLoading() {
+        document.getElementById('loading').style.display = 'block';
+    }
+
+    // Function to hide the loading screen
+    function hideLoading() {
+        document.getElementById('loading').style.display = 'none';
+    }
+
     try {
         // Fetch all documents from the "starrail" collection
         const querySnapshot = await getDocs(collection(db, "starrail"));
+        showLoading();
 
         querySnapshot.forEach((doc) => {
             const data = doc.data();
@@ -57,7 +100,7 @@ async function showCharacters() {
             imgElement.addEventListener('click', async (event) => {
                 const clickedId = event.target.dataset.id;
                 console.log('Image clicked, ID:', clickedId);
-                
+
                 await DisplayInfo(clickedId);
 
                 // Show the starraildata section
@@ -65,8 +108,10 @@ async function showCharacters() {
                 starraildataSection.style.display = 'block';
             });
         });
+        hideLoading();
     } catch (e) {
         console.error("Error fetching documents: ", e);
+        hideLoading();
     }
 }
 
@@ -136,16 +181,16 @@ async function DisplayInfo(Cname) {
                             deleteButton.textContent = 'Deleting...';
                         }
 
-                        console.log("before passing to del:",Cname);
+                        console.log("before passing to del:", Cname);
 
-                        await DeleteDoc(Cname); 
+                        await DeleteDoc(Cname);
                         clearDisplay();
                         document.getElementById('starraildata').style.display = 'none';
                         location.reload();
                     } catch (error) {
                         console.error('Error deleting document:', error);
                         // Handle error if necessary
-                    }finally{
+                    } finally {
                         if (deleteButton) {
                             deleteButton.disabled = false;
                             deleteButton.textContent = 'Delete';
@@ -334,7 +379,7 @@ document.addEventListener('DOMContentLoaded', () => {
             });
 
             console.log("Document written with ID: ", docRef.id);
-            alert("Data uploaded successfully!");
+            showAlert("Data uploaded successfully!");
         } catch (e) {
             console.error("Error adding document: ", e);
             alert("Error uploading data: " + e.message);
@@ -345,31 +390,31 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
 
-       /* const deleteButton = document.getElementById('deleteButt');
-    if (deleteButton) {
-        deleteButton.addEventListener('click', async () => {
-            try {
-                deleteButton.disabled = true;
-                deleteButton.textContent = 'Deleting...';
-
-                // Get the ID of the document to delete
-                const Cname = document.getElementById("avatarimg").nextElementSibling.textContent.trim();
-
-                // Call DeleteDoc function
-                await DeleteDoc(Cname);
-
-                // Clear display and hide modal or section
-                clearDisplay();
-                document.getElementById('starraildata').style.display = 'none';
-            } catch (error) {
-                console.error('Error deleting document:', error);
-                // Handle error if necessary
-            } finally {
-                deleteButton.disabled = false;
-                deleteButton.textContent = 'Delete';
-            }
-        });
-    }*/
+        /* const deleteButton = document.getElementById('deleteButt');
+     if (deleteButton) {
+         deleteButton.addEventListener('click', async () => {
+             try {
+                 deleteButton.disabled = true;
+                 deleteButton.textContent = 'Deleting...';
+ 
+                 // Get the ID of the document to delete
+                 const Cname = document.getElementById("avatarimg").nextElementSibling.textContent.trim();
+ 
+                 // Call DeleteDoc function
+                 await DeleteDoc(Cname);
+ 
+                 // Clear display and hide modal or section
+                 clearDisplay();
+                 document.getElementById('starraildata').style.display = 'none';
+             } catch (error) {
+                 console.error('Error deleting document:', error);
+                 // Handle error if necessary
+             } finally {
+                 deleteButton.disabled = false;
+                 deleteButton.textContent = 'Delete';
+             }
+         });
+     }*/
     });
 
     function generateUniqueName(originalName) {
@@ -393,14 +438,15 @@ document.addEventListener('DOMContentLoaded', () => {
     if (closeIcon) {
         closeIcon.addEventListener('click', () => {
             clearDisplay();
+            form.reset();
             // Optionally, close your popup or hide the relevant section here
             document.getElementById('starraildata').style.display = 'none';
         });
     }
 
     const Del = document.getElementById("deleteButt");
-    if(Del){
-        Del.addEventListener('click',async () => {
+    if (Del) {
+        Del.addEventListener('click', async () => {
             await DeleteDoc();
             //clearDisplay();
             document.getElementById('starraildata').style.display = 'none';
@@ -408,3 +454,21 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
+
+
+function showAlert(message) {
+    const alertPopup = document.getElementById('alertPopup');
+    const alertMessage = document.getElementById('alertMessage');
+
+    alertMessage.textContent = message;
+    alertPopup.style.display = 'block';
+
+    setTimeout(() => {
+        alertPopup.classList.add('hide');
+    }, 4500); // Start hiding after 4.5 seconds
+
+    setTimeout(() => {
+        alertPopup.style.display = 'none';
+        alertPopup.classList.remove('hide');
+    }, 5000); // Completely hide after 5 seconds
+}

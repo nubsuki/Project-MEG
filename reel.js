@@ -1,6 +1,6 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import { getAuth } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-import { getFirestore, doc, setDoc, addDoc, deleteDoc, getDoc, orderBy, collection, limit, query, serverTimestamp, onSnapshot,updateDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+import { getFirestore, doc, setDoc, addDoc, deleteDoc, getDoc, orderBy, collection, limit, query, serverTimestamp, onSnapshot, updateDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 import { getDocs, where } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-storage.js";
 
@@ -98,23 +98,23 @@ document.addEventListener('DOMContentLoaded', () => {
         event.preventDefault();
 
         reportButton.disabled = true;
-        reportButton.textContent = 'Reporting OwO';
-        
+        reportButton.textContent = 'Reporting';
+
         const currentPostIndex = displayArr[currentIndex];
         const reporterId = localStorage.getItem('loggedInUserId');
         const reportReason = reportReasonInput.value;
-    
+
         const postRef = query(collection(db, "reels"), where("index", "==", currentPostIndex));
         const postSnapshot = await getDocs(postRef);
-    
+
         if (!postSnapshot.empty) {
-            const postId = postSnapshot.docs[0].id; 
+            const postId = postSnapshot.docs[0].id;
             const postData = postSnapshot.docs[0].data();
             await reportPost(postId, reporterId, postData, reportReason);
         } else {
             console.error("No post found with this index");
         }
-        
+
         // Hide the modal after submitting the report
         reportPostModal.style.display = 'none';
 
@@ -129,10 +129,10 @@ document.addEventListener('DOMContentLoaded', () => {
             const reportData = {
                 reelId: postId,
                 caption: postData.caption,
-                postContent: postData.description, 
-                posterId: postData.userID, 
+                postContent: postData.description,
+                posterId: postData.userID,
                 imgUrl: postData.imgUrl,
-                reason: reportReason 
+                reason: reportReason
             };
             // Add the report to Firestore and get the document reference
             const reportDocRef = await addDoc(collection(db, "reports"), reportData)
@@ -141,8 +141,8 @@ document.addEventListener('DOMContentLoaded', () => {
             const reportDocId = reportDocRef.id;
             // Update the document with the document ID
             await updateDoc(reportDocRef, { reportId: reportDocId });
-      
-            console.log("Reel report added successfully:", {...reportData, reportId: reportDocId});
+
+            console.log("Reel report added successfully:", { ...reportData, reportId: reportDocId });
             showAlert('Post reported successfully.');
         } catch (error) {
             console.error("Error reporting post:", error);
@@ -202,7 +202,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function displayPost(index) {
         console.log("index value: ", index);
         // Function to show the loading screen
-        
+
         function showLoading() {
             document.getElementById('loading').style.display = 'block';
         }
@@ -426,7 +426,7 @@ document.addEventListener('DOMContentLoaded', () => {
     sendCommentButton.addEventListener('click', async () => {
         const commentText = commentInput.value.trim();
         sendButton.disabled = true;
-        sendButton.textContent = 'Sending...UwU';
+        sendButton.textContent = 'Sending...';
         if (commentText !== '') {
             await addComment(currentIndex, commentText);
             commentInput.value = ''; // Clear input field after adding comment
@@ -472,35 +472,35 @@ document.addEventListener('DOMContentLoaded', () => {
 
     async function loadComments(postIndex) {
         console.log('Loading comments for post index:', postIndex); // Debug log
-    
+
         const commentsQuery = query(
             collection(db, "reelComments"),
             where("postIndex", "==", postIndex),
             orderBy('timestamp', 'asc')
         );
-    
+
         // Clear any existing snapshot listener
         if (commentsSnapshot) {
             commentsSnapshot(); // Detach the previous listener
         }
-    
+
         // Clear the loadedCommentIds set
         loadedCommentIds.clear();
-    
+
         // Clear the comments window
         commentsWindow.innerHTML = '';
-    
+
         // Create and append the comment count element
         const commentCountElement = document.createElement('p');
         commentCountElement.id = 'comment-count';
         commentsWindow.appendChild(commentCountElement);
-    
+
         commentsSnapshot = onSnapshot(commentsQuery, (querySnapshot) => {
             console.log('Snapshot received:', querySnapshot.size, 'comments'); // Debug
-    
+
             const commCount = querySnapshot.size;
             commentCountElement.textContent = 'Comment count: ' + commCount;
-    
+
             if (querySnapshot.empty) {
                 // Append a message if no comments are available
                 const noCommentsElement = document.createElement('p');
@@ -522,7 +522,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
-    
+
 
     async function appendCommentToUI(comment, commentId) {
         const commentElement = document.createElement('div');
@@ -717,14 +717,14 @@ document.addEventListener('DOMContentLoaded', () => {
 function showAlert(message) {
     const alertPopup = document.getElementById('alertPopup');
     const alertMessage = document.getElementById('alertMessage');
-    
+
     alertMessage.textContent = message;
     alertPopup.style.display = 'block';
-    
+
     setTimeout(() => {
         alertPopup.classList.add('hide');
     }, 4500); // Start hiding after 4.5 seconds
-    
+
     setTimeout(() => {
         alertPopup.style.display = 'none';
         alertPopup.classList.remove('hide');

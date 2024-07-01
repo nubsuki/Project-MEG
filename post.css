@@ -98,8 +98,8 @@ body {
     border-top-right-radius: 20px;
     border-bottom: 1px solid #ddd;
     /* hide scrollbar*/
-  scrollbar-width: none;
-  -ms-overflow-style: none;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
 }
 
 .comment-input-bar {
@@ -272,7 +272,7 @@ body {
     justify-content: center;
     align-items: center;
     z-index: 1001;
-    
+
 }
 
 .modal-content {
@@ -293,7 +293,7 @@ body {
 }
 
 .modal-content input {
-    
+
     width: 90%;
     height: 35px;
     border-radius: 5px;
@@ -465,14 +465,16 @@ body {
         width: 90%;
         left: 5%;
     }
-    .post-icons{
+
+    .post-icons {
         top: 110px;
         right: 40px;
     }
+
     .left-arrow {
         right: 80px;
     }
-    
+
     .right-arrow {
         right: 30px;
     }

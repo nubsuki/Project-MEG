@@ -12,8 +12,8 @@ const cardOptions = {
         { name: 'Extensions', url: 'record.html' }
     ],
     3: [
-        { name: 'PiratedGames', url: 'option3-1.html' },
-        { name: 'PiratedSoftwares', url: 'option3-2.html' }
+        { name: 'PiratedGames', url: 'piratedgames.html' },
+        { name: 'PiratedSoftwares', url: 'piratedgames.html' }
     ]
 };
 

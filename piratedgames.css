@@ -150,7 +150,6 @@ button:hover {
     border: 2px solid #afc7df;
 
     object-fit: cover;
-    cursor: pointer;
 }
 
 
@@ -198,7 +197,6 @@ button:hover {
     margin-top: 10px;
     border: 2px solid #afc7df;
     object-fit: cover;
-    cursor: pointer;
 
 }
 
@@ -245,7 +243,7 @@ button:hover {
 .uploaddata {
     position: fixed;
     width: 25%;
-    height: 90%;
+    height: 60%;
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
@@ -281,6 +279,7 @@ button:hover {
 
 .upload-form input[type="text"],
 .upload-form input[type="file"],
+.upload-form input[type="url"],
 .upload-form textarea {
     width: 100%;
     padding: 8px;
@@ -309,6 +308,24 @@ button:hover {
     color: black;
 }
 
+.btn {
+    padding: 10px 16px;
+    border-radius: 8px;
+    height: 35px;
+    text-decoration: none;
+    border: none;
+    background-color: #eee5;
+    color: #fff;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    user-select: none;
+    font-size: 14px;
+}
+
+.btn:hover {
+    background-color: #fff;
+    color: black;
+}
 
 .alert-popup {
     position: fixed;

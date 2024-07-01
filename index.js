@@ -154,148 +154,148 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const getUserInfo = async () => {
     try {
-        const user = currentUserID;
-        const userDocRef = doc(db, 'users', user);
-        const userDocSnapshot = await getDoc(userDocRef);
+      const user = currentUserID;
+      const userDocRef = doc(db, 'users', user);
+      const userDocSnapshot = await getDoc(userDocRef);
 
-        if (userDocSnapshot.exists()) {
-            currentUserRole = userDocSnapshot.data().role;
-            gotUserID = userDocSnapshot.data().uid;
-        } else {
-            console.error('User not found');
-            currentUserRole = null;
-            gotUserID = null;
-        }
-    } catch (error) {
-        console.error('Error fetching user role:', error);
+      if (userDocSnapshot.exists()) {
+        currentUserRole = userDocSnapshot.data().role;
+        gotUserID = userDocSnapshot.data().uid;
+      } else {
+        console.error('User not found');
         currentUserRole = null;
         gotUserID = null;
+      }
+    } catch (error) {
+      console.error('Error fetching user role:', error);
+      currentUserRole = null;
+      gotUserID = null;
     }
-};
+  };
 
 
-getUserInfo();
+  getUserInfo();
 
 
 
-const loadchatroom = async (selectedchatroom) => {
-  chatroom = selectedchatroom;
-  lastDisplayedIndex = -1;
+  const loadchatroom = async (selectedchatroom) => {
+    chatroom = selectedchatroom;
+    lastDisplayedIndex = -1;
 
-  const N = await getindex();
-  console.log('Last index in db:', N); // Debug-checking the value
+    const N = await getindex();
+    console.log('Last index in db:', N); // Debug-checking the value
 
-  if (N === undefined) {
+    if (N === undefined) {
       console.error('N is undefined'); // Function-display if N is null
       return;
-  }
+    }
 
-  chatWindow.innerHTML = '';
+    chatWindow.innerHTML = '';
 
-  // Unsubscribe from previous listener if exists
-  if (unsubscribe) {
+    // Unsubscribe from previous listener if exists
+    if (unsubscribe) {
       unsubscribe();
-  }
+    }
 
-  const MQ = query(collection(db, chatroom), orderBy('timestamp', 'asc'));
-  console.log('MQ:', MQ); // Debug-checking the query
+    const MQ = query(collection(db, chatroom), orderBy('timestamp', 'asc'));
+    console.log('MQ:', MQ); // Debug-checking the query
 
-  unsubscribe = onSnapshot(MQ, async (snapshot) => {
+    unsubscribe = onSnapshot(MQ, async (snapshot) => {
       const messagePromises = snapshot.docChanges().map(async (change) => {
-          const message = change.doc.data();
-          if (change.type === 'added' && message.index > lastDisplayedIndex) {
-              const userDocRef = doc(db, 'users', message.userID);
-              const userDocSnapshot = await getDoc(userDocRef);
-              const username = userDocSnapshot.exists() ? userDocSnapshot.data().username : 'Unknown User';
-              return { type: 'added', message, username, userID: message.userID };
-          }
-          if (change.type === 'removed') {
-              return { type: 'removed', messageIndex: message.index };
-          }
-          return null;
+        const message = change.doc.data();
+        if (change.type === 'added' && message.index > lastDisplayedIndex) {
+          const userDocRef = doc(db, 'users', message.userID);
+          const userDocSnapshot = await getDoc(userDocRef);
+          const username = userDocSnapshot.exists() ? userDocSnapshot.data().username : 'Unknown User';
+          return { type: 'added', message, username, userID: message.userID };
+        }
+        if (change.type === 'removed') {
+          return { type: 'removed', messageIndex: message.index };
+        }
+        return null;
       });
 
       const messagesWithUsernames = await Promise.all(messagePromises);
 
       messagesWithUsernames.forEach((item) => {
-          if (item) {
-              if (item.type === 'added') {
-                  const { message, username, userID } = item;
-                  const messageElement = document.createElement('div');
-                  messageElement.className = 'message';
-                  messageElement.setAttribute('data-index', message.index); // Add index to msg
+        if (item) {
+          if (item.type === 'added') {
+            const { message, username, userID } = item;
+            const messageElement = document.createElement('div');
+            messageElement.className = 'message';
+            messageElement.setAttribute('data-index', message.index); // Add index to msg
 
-                  const textContainer = document.createElement('div');
-                  textContainer.className = 'text-container';
+            const textContainer = document.createElement('div');
+            textContainer.className = 'text-container';
 
-                  const usernameElement = document.createElement('div');
-                  usernameElement.className = 'username';
-                  usernameElement.textContent = username;
-                  usernameElement.addEventListener('click', () => {
-                      window.location.href = `usersprofile.html?uid=${userID}`;
-                  });
+            const usernameElement = document.createElement('div');
+            usernameElement.className = 'username';
+            usernameElement.textContent = username;
+            usernameElement.addEventListener('click', () => {
+              window.location.href = `usersprofile.html?uid=${userID}`;
+            });
 
-                  const textElement = document.createElement('div');
-                  textElement.className = 'text';
-                  textElement.textContent = message.text;
+            const textElement = document.createElement('div');
+            textElement.className = 'text';
+            textElement.textContent = message.text;
 
-                  const dropdownContainer = document.createElement('div');
-                  dropdownContainer.className = 'options-container';
+            const dropdownContainer = document.createElement('div');
+            dropdownContainer.className = 'options-container';
 
-                  const dropdownButton = document.createElement('a');
-                  dropdownButton.className = 'options-icon';
-                  dropdownButton.textContent = '⋮';
+            const dropdownButton = document.createElement('a');
+            dropdownButton.className = 'options-icon';
+            dropdownButton.textContent = '⋮';
 
-                  const dropdownMenu = document.createElement('div');
-                  dropdownMenu.className = 'dropdown-menu';
+            const dropdownMenu = document.createElement('div');
+            dropdownMenu.className = 'dropdown-menu';
 
-                  if (currentUserRole === 'admin' || message.userID === currentUserID) {
-                      const deleteOption = document.createElement('div');
-                      deleteOption.className = 'dropdown-option';
-                      deleteOption.textContent = 'Delete';
-                      deleteOption.addEventListener('click', () => deleteMessage(message.index, messageElement));
-                      dropdownMenu.appendChild(deleteOption);
-                  }
+            if (currentUserRole === 'admin' || message.userID === currentUserID) {
+              const deleteOption = document.createElement('div');
+              deleteOption.className = 'dropdown-option';
+              deleteOption.textContent = 'Delete';
+              deleteOption.addEventListener('click', () => deleteMessage(message.index, messageElement));
+              dropdownMenu.appendChild(deleteOption);
+            }
 
-                  if (message.userID !== currentUserID) {
-                      const reportOption = document.createElement('div');
-                      reportOption.className = 'dropdown-option';
-                      reportOption.textContent = 'Report';
-                      reportOption.addEventListener('click', () => reportMessage(message.index, message.text, message.userID));
-                      dropdownMenu.appendChild(reportOption);
-                  }
+            if (message.userID !== currentUserID) {
+              const reportOption = document.createElement('div');
+              reportOption.className = 'dropdown-option';
+              reportOption.textContent = 'Report';
+              reportOption.addEventListener('click', () => reportMessage(message.index, message.text, message.userID));
+              dropdownMenu.appendChild(reportOption);
+            }
 
-                  dropdownContainer.appendChild(dropdownButton);
-                  dropdownContainer.appendChild(dropdownMenu);
+            dropdownContainer.appendChild(dropdownButton);
+            dropdownContainer.appendChild(dropdownMenu);
 
-                  textContainer.appendChild(usernameElement);
-                  textContainer.appendChild(textElement);
+            textContainer.appendChild(usernameElement);
+            textContainer.appendChild(textElement);
 
-                  messageElement.appendChild(textContainer);
-                  messageElement.appendChild(dropdownContainer);
+            messageElement.appendChild(textContainer);
+            messageElement.appendChild(dropdownContainer);
 
-                  chatWindow.appendChild(messageElement);
+            chatWindow.appendChild(messageElement);
 
-                  dropdownButton.addEventListener('click', () => {
-                      dropdownMenu.style.display = dropdownMenu.style.display === 'none' ? 'block' : 'none';
-                  });
+            dropdownButton.addEventListener('click', () => {
+              dropdownMenu.style.display = dropdownMenu.style.display === 'none' ? 'block' : 'none';
+            });
 
-                  LimitChat();
+            LimitChat();
 
-                  lastDisplayedIndex = message.index;
-                  scrollToBottom();
-              } else if (item.type === 'removed') {
-                  yeetFromUI(item.messageIndex);
-              }
+            lastDisplayedIndex = message.index;
+            scrollToBottom();
+          } else if (item.type === 'removed') {
+            yeetFromUI(item.messageIndex);
           }
+        }
       });
-  });
-};
+    });
+  };
 
-//well it is what it is
-const scrollToBottom = () => {
-  chatWindow.scrollTop = chatWindow.scrollHeight;
-};
+  //well it is what it is
+  const scrollToBottom = () => {
+    chatWindow.scrollTop = chatWindow.scrollHeight;
+  };
 
 
 
@@ -328,7 +328,7 @@ const scrollToBottom = () => {
       // Change the send button to waiting
       sendButton.disabled = true;
       sendButton.textContent = 'Waiting...';
-  
+
       const newMessage = {
         text: text,
         userID: currentUserID,
@@ -336,19 +336,19 @@ const scrollToBottom = () => {
         index: await getNewIndex()
       };
       await addDoc(collection(db, chatroom), newMessage);
-  
+
       // Clear text and re enable send button
       chatInput.value = '';
       sendButton.disabled = false;
       sendButton.textContent = 'Send'; // restore send button to send
-  
+
       manageMessageLimit();
     }
   };
-  
+
   sendButton.addEventListener('click', sendMessage);
-  
-  
+
+
 
   //add a new index to new msgs 
   const getNewIndex = async () => {
@@ -364,7 +364,7 @@ const scrollToBottom = () => {
   };
 
   //yeet the oldest msg
-   const LimitChat = () =>{
+  const LimitChat = () => {
     while (chatWindow.childElementCount > chatLimit) {
       chatWindow.removeChild(chatWindow.firstChild);
     }
@@ -377,21 +377,21 @@ const scrollToBottom = () => {
       const user = currentUserID;
       const userDocRef = doc(db, 'users', user);
       const userDocSnapshot = await getDoc(userDocRef);
-  
+
       if (!userDocSnapshot.exists()) {
         console.error('User not found');
         return;
       }
-  
+
       const currentUserRole = userDocSnapshot.data().role;
-  
+
       const messageQuery = query(collection(db, chatroom), where('index', '==', messageIndex), limit(1));
       const querySnapshot = await getDocs(messageQuery);
-  
+
       if (!querySnapshot.empty) {
         const messageDoc = querySnapshot.docs[0];
         const messageData = messageDoc.data();
-  
+
         // checking the user role
         if (currentUserRole === 'admin' || messageData.userID === currentUserID) {
           await deleteDoc(messageDoc.ref);  //yeet from the forestore collection 
@@ -410,7 +410,7 @@ const scrollToBottom = () => {
       console.error('Error deleting message: ', error);
     }
   };
-  
+
 
   //gae ban
   const reportMessage = async (messageIndex, messageText, messageUserID) => {
@@ -426,12 +426,12 @@ const scrollToBottom = () => {
       const reportDocRef = await addDoc(collection(db, "reports"), reportData)
       // Get the document ID
       const reportDocId = reportDocRef.id;
-      
+
       // Update the document with the document ID
       await updateDoc(reportDocRef, { reportId: reportDocId });
-          
-      console.log("Reel report added successfully:", {...reportData, reportId: reportDocId});
-      
+
+      console.log("Reel report added successfully:", { ...reportData, reportId: reportDocId });
+
       showAlert('Message reported successfully.');
 
       lastDisplayedIndex = await getindex();
@@ -445,52 +445,52 @@ const scrollToBottom = () => {
   const yeetFromUI = (messageIndex) => {
     const messageElement = document.querySelector(`.message[data-index="${messageIndex}"]`);
     if (messageElement) {
-        messageElement.remove();
+      messageElement.remove();
     }
   };
 
   //yeet the old msgs from the db
   const manageMessageLimit = async () => {
     try {
-        const messagesQuery = query(collection(db, chatroom), orderBy('index', 'asc'));
-        const querySnapshot = await getDocs(messagesQuery);
-        const messageCount = querySnapshot.size;
-      
-        console.log(`Total messages in ${chatroom}: ${messageCount}`);
+      const messagesQuery = query(collection(db, chatroom), orderBy('index', 'asc'));
+      const querySnapshot = await getDocs(messagesQuery);
+      const messageCount = querySnapshot.size;
 
-        if (messageCount > 10) {
-            // Delete the oldest 5 messages
-            const messagesToDelete = querySnapshot.docs.slice(0, 6);
-            const batch = writeBatch(db);
-            messagesToDelete.forEach((doc) => {
-                batch.delete(doc.ref);
-            });
-            await batch.commit();
-            console.log('Deleted the oldest 10 messages.');
-          }
-      } catch (error) {
-        console.error('Error managing message limit:', error);
-       }
+      console.log(`Total messages in ${chatroom}: ${messageCount}`);
+
+      if (messageCount > 10) {
+        // Delete the oldest 5 messages
+        const messagesToDelete = querySnapshot.docs.slice(0, 6);
+        const batch = writeBatch(db);
+        messagesToDelete.forEach((doc) => {
+          batch.delete(doc.ref);
+        });
+        await batch.commit();
+        console.log('Deleted the oldest 10 messages.');
+      }
+    } catch (error) {
+      console.error('Error managing message limit:', error);
+    }
   };
 
-  
 
- 
- // Example event listeners to change channels
- document.getElementById('ch1').addEventListener('click', () => {
-   loadchatroom('General');
- });
- document.getElementById('ch2').addEventListener('click', () => {
-   loadchatroom('Question');
- });
- document.getElementById('ch3').addEventListener('click', () => {
-   loadchatroom('Game Related');
- });
- 
-  
+
+
+  // Example event listeners to change channels
+  document.getElementById('ch1').addEventListener('click', () => {
+    loadchatroom('General');
+  });
+  document.getElementById('ch2').addEventListener('click', () => {
+    loadchatroom('Question');
+  });
+  document.getElementById('ch3').addEventListener('click', () => {
+    loadchatroom('Game Related');
+  });
+
+
 });
 
-  
+
 
 document.addEventListener('DOMContentLoaded', function () {
   const chatIcon = document.getElementById('chatIcon');
@@ -518,16 +518,16 @@ document.addEventListener('DOMContentLoaded', function () {
 function showAlert(message) {
   const alertPopup = document.getElementById('alertPopup');
   const alertMessage = document.getElementById('alertMessage');
-  
+
   alertMessage.textContent = message;
   alertPopup.style.display = 'block';
-  
+
   setTimeout(() => {
-      alertPopup.classList.add('hide');
+    alertPopup.classList.add('hide');
   }, 4500); // Start hiding after 4.5 seconds
-  
+
   setTimeout(() => {
-      alertPopup.style.display = 'none';
-      alertPopup.classList.remove('hide');
+    alertPopup.style.display = 'none';
+    alertPopup.classList.remove('hide');
   }, 5000); // Completely hide after 5 seconds
 }

@@ -19,7 +19,7 @@ const setup = () => {
 	const squaresInY = Math.floor((windowHeight / squareSize) + 1)
 	svg.setAttribute('viewBox', `0 0 ${windowWidth} ${windowHeight}`)
 
-	
+
 	const createRandomSquare = () => {
 		const fillStyle = colors[Math.floor(Math.random() * colors.length)]
 		const svgns = "http://www.w3.org/2000/svg";

@@ -2,18 +2,18 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/fireba
 
 // Add the other Firebase services that you want to use
 import { getAuth, onAuthStateChanged, updateProfile as updateAuthProfile } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-import { getFirestore, doc, updateDoc, getDoc ,setDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+import { getFirestore, doc, updateDoc, getDoc, setDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-storage.js";
 import { collection, getDocs, query, where } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
 //Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyBua35RMPI5GlO9riLYNYN8R2NwOTzjY0Y",
-  authDomain: "porject-meg.firebaseapp.com",
-  projectId: "porject-meg",
-  storageBucket: "porject-meg.appspot.com",
-  messagingSenderId: "787863360422",
-  appId: "1:787863360422:web:60923e03fe9d59e9e2f567"
+    apiKey: "AIzaSyBua35RMPI5GlO9riLYNYN8R2NwOTzjY0Y",
+    authDomain: "porject-meg.firebaseapp.com",
+    projectId: "porject-meg",
+    storageBucket: "porject-meg.appspot.com",
+    messagingSenderId: "787863360422",
+    appId: "1:787863360422:web:60923e03fe9d59e9e2f567"
 };
 
 // Initialize Firebase
@@ -213,7 +213,7 @@ const disableFollowButton = () => {
     const followButton = document.getElementById('followButton');
     followButton.textContent = 'Profile';
     followButton.disabled = true;
-    followButton.style.pointerEvents = 'none'; 
+    followButton.style.pointerEvents = 'none';
 };
 
 if (uid) {

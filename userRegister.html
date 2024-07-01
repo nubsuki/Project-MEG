@@ -1,254 +1,271 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="userRegister.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <script type="module" src="Addons/firebaseauth.js"></script>
-    <title> MEG</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="userRegister.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <script type="module" src="Addons/firebaseauth.js"></script>
+  <title> MEG</title>
 </head>
+
 <body>
-    <!--Intro-->
-    <div class="intro" >
-        <div class="logo-header">
-            <img class="logo" src="Assests/meg.png">
-        </div>
-        <div class="bglogo">
-            <img class="bglogo1" src="Assests/msg.png">
-            <img class="bglogo2" src="Assests/Reels add.png">
-            <img class="bglogo3" src="Assests/user.png">
-            <img class="bglogo4" src="Assests/wiki.png">
-        </div>
+  <!--Intro-->
+  <div class="intro">
+    <div class="logo-header">
+      <img class="logo" src="Assests/meg.png">
     </div>
-    <!--background -->
-    <section>
-        <iframe src="Addons/background.html" class="sectionbg"></iframe>
-    </section>
-    <!--navbar -->
-    
-    <section class ="sectionnav">
-      <nav class="navbar">
-          <ul class="navbar-nav">
-              <li>
-                  <a class="nav-link">
-                      <i class="icon-logo" ></i>
-                  </a>
-              </li>
-              <li class="nav-item">
-                  <a href="#" class="nav-link" id="loginnav" title="Login">
-                    <i class="bi bi-box-arrow-in-left"></i>
-                  </a>
-              </li>
-              <li class="nav-item">
-                  <a href="#" class="nav-link" id="infonav" title="About MEG">
-                    <i class="bi bi-info-circle"></i>
-                  </a>
-              </li>
-              <li class="nav-item">
-                  <a href="#" class="nav-link" id="infofaq" title="Most Common Issues">
-                    <i class="bi bi-patch-question"></i>
-                  </a>
-              </li>
-              <li class="nav-item">
-                  <a href="#" class="nav-link" title="About Us">
-                    <i class="bi bi-file-earmark-person"></i>
-                  </a>
-              </li>
-          </ul>
-      </nav>
+    <div class="bglogo">
+      <img class="bglogo1" src="Assests/msg.png">
+      <img class="bglogo2" src="Assests/Reels add.png">
+      <img class="bglogo3" src="Assests/user.png">
+      <img class="bglogo4" src="Assests/wiki.png">
+    </div>
+  </div>
+  <!--background -->
+  <section>
+    <iframe src="Addons/background.html" class="sectionbg"></iframe>
   </section>
-    <!--Login & Sign Up -->
-    <section class="sectionlogin" id="logsingsec">
-        <div class="square">
-            <i style="--clr:#00ff0a"></i>
-            <i style="--clr:#ff0057"></i>
-            <i style="--clr:#fffd44"></i>
-        
-            <div class="form-container">
-                <div class="login" id="loginForm">
-                    <h1>Login</h1>
-                    <form method="post" action="">
-                        <div id="loginmsg" class="msgdiv" style="display: none;"></div>
-                        <div class="inputbx">
-                            <input type="text" name="id" id="lemail" placeholder="Email" required>
-                        </div>
-                        <div class="inputbx">
-                            <input type="password" id="lpassword" placeholder="Password" required>
-                        </div>
-                        <div class="inputbx">
-                            <input type="submit" id="submitlogin" value="Sign in">
-                        </div>
-                        <div class="links">
-                            <a href="#" id="toSignup">Signup</a>
-                        </div>
-                        <div class="links">
-                            <a href="#" id="toreset">Forgot Password ?</a>
-                        </div>
-                    </form>
-                </div>
-                <div class="signup" id="signupForm" style="display: none;">
-                    <h1>Signp</h1>
-                    <form method="post" action="">
-                        <div id="signupmsg" class="msgdiv" style="display: none;"></div>	
-                        <div class="inputbx">
-                            <input type="text" name="id" id="rusername" placeholder="Username" required>
-                        </div>
-                        <div class="inputbx">
-                            <input type="text" name="id" id="remail" placeholder="Email" required>
-                        </div>
-                        <div class="inputbx">
-                            <input type="password" id="rpassword" placeholder="Password" required>
-                        </div>
-                        <div class="inputbx">
-                            <input type="submit" id="submitsignup" value="Sign up">
-                        </div>
-                        <div class="links">
-                            <a href="#" id="toLogin">Already have an account? Login</a>
-                        </div>
-                    </form>
-                </div>
-    
-                <div class="reset" id="resetForm" style="display: none;">
-                    <h1>Signp</h1>
-                    <form method="post" action="">
-                        <div id="resetmsg" class="msgdiv" style="display: none;"></div>	
-                        <div class="inputbx">
-                            <input type="text" name="id" id="Femail" placeholder="Email" required>
-                        </div>
-                        <div class="inputbx">
-                            <input type="submit" id="submitreset" value="Send Mail">
-                        </div>
-                        <div class="links">
-                            <a href="#" id="toLoginfr">Login</a>
-                        </div>
-                    </form>
-                </div>
+  <!--navbar -->
+
+  <section class="sectionnav">
+    <nav class="navbar">
+      <ul class="navbar-nav">
+        <li>
+          <a class="nav-link">
+            <i class="icon-logo"></i>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a href="#" class="nav-link" id="loginnav" title="Login">
+            <i class="bi bi-box-arrow-in-left"></i>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a href="#" class="nav-link" id="infonav" title="About MEG">
+            <i class="bi bi-info-circle"></i>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a href="#" class="nav-link" id="infofaq" title="Most Common Issues">
+            <i class="bi bi-patch-question"></i>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a href="#" class="nav-link" title="About Us">
+            <i class="bi bi-file-earmark-person"></i>
+          </a>
+        </li>
+      </ul>
+    </nav>
+  </section>
+  <!--Login & Sign Up -->
+  <section class="sectionlogin" id="logsingsec">
+    <div class="square">
+      <i style="--clr:#00ff0a"></i>
+      <i style="--clr:#ff0057"></i>
+      <i style="--clr:#fffd44"></i>
+
+      <div class="form-container">
+        <div class="login" id="loginForm">
+          <h1>Login</h1>
+          <form method="post" action="">
+            <div id="loginmsg" class="msgdiv" style="display: none;"></div>
+            <div class="inputbx">
+              <input type="text" name="id" id="lemail" placeholder="Email" required>
             </div>
+            <div class="inputbx">
+              <input type="password" id="lpassword" placeholder="Password" required>
+            </div>
+            <div class="inputbx">
+              <input type="submit" id="submitlogin" value="Sign in">
+            </div>
+            <div class="links">
+              <a href="#" id="toSignup">Signup</a>
+            </div>
+            <div class="links">
+              <a href="#" id="toreset">Forgot Password ?</a>
+            </div>
+          </form>
         </div>
-    </section>
-    <!--Indormation -->
-    <section class="infomeg" id="infomeg" style="display: none;">
-        <div class="infocontainer">
-            <div class="card">
-              <div class="face face1">
-                <div class="content">
-                  <img src="Assests/privacy.jpg">
-                  <h3>Privacy</h3>
-                </div>
-              </div>
-              <div class="face face2">
-                <div class="content">
-                  <p>"We do not collect any of your data, only the data you have provided. Furthermore, we do not sell any of your data to third parties."</p>
-                  
-                </div>
-              </div>
+        <div class="signup" id="signupForm" style="display: none;">
+          <h1>Signp</h1>
+          <form method="post" action="">
+            <div id="signupmsg" class="msgdiv" style="display: none;"></div>
+            <div class="inputbx">
+              <input type="text" name="id" id="rusername" placeholder="Username" required>
             </div>
-            <div class="card">
-              <div class="face face1">
-                <div class="content">
-                  <img src="Assests/newsfeed.jpg">
-                  <h3>Newsfeed</h3>
-                </div>
-              </div>
-              <div class="face face2">
-                <div class="content">
-                  <p>"In the newsfeed section, you'll find updates on new technologies, information on game releases, and primarily gaming-related news."</p>
-                </div>
-              </div>
+            <div class="inputbx">
+              <input type="text" name="id" id="remail" placeholder="Email" required>
             </div>
-            <div class="card">
-              <div class="face face1">
-                <div class="content">
-                  <img src="Assests/entertaintment.jpg">
-                  <h3>Entertainment</h3>
-                </div>
-              </div>
-              <div class="face face2">
-                <div class="content">
-                  <p>"For entertainment and professional use, we offer a post section and a shorts section where you can expect a blend of entertainment and professional content."</p>
-                </div>
-              </div>
+            <div class="inputbx">
+              <input type="password" id="rpassword" placeholder="Password" required>
             </div>
-            <div class="card">
-              <div class="face face1">
-                <div class="content">
-                  <img src="Assests/grow.png">
-                  <h3>Grow</h3>
-                </div>
-              </div>
-              <div class="face face2">
-                <div class="content">
-                  <p>"As Project Meg expands, we're committed to supporting our creators by compensating them for their contributions through platform ads. It's important to emphasize that we prioritize user privacy, using only the data voluntarily provided by users for ad targeting, ensuring a respectful and secure experience."</p>
-                </div>
-              </div>
+            <div class="inputbx">
+              <input type="submit" id="submitsignup" value="Sign up">
             </div>
-            <div class="card">
-              <div class="face face1">
-                <div class="content">
-                  <img src="Assests/community.png">
-                  <h3>Community</h3>
-                </div>
-              </div>
-              <div class="face face2">
-                <div class="content">
-                  <p>"As the Project Meg team, we strive to build a reliable and safe community for all users. Our goal is to create an inclusive environment where everyone feels secure and valued, fostering connections and engagement among members."</p>
-                </div>
-              </div>
+            <div class="links">
+              <a href="#" id="toLogin">Already have an account? Login</a>
             </div>
-            <div class="card">
-                <div class="face face1">
-                  <div class="content">
-                    <img src="Assests/rules.png">
-                    <h3>Rules</h3>
-                  </div>
-                </div>
-                <div class="face face2">
-                  <div class="content">
-                    <p>"Our rules emphasize that users must be friendly and respectful to one another. We do not tolerate toxicity, racism, discrimination, sexual content, harassment, or LGBTQ+ activity. Those who break these rules will be permanently banned from the platform.As gamers, we are a family and aim to create a welcoming community."</p>
-                  </div>
-                </div>
-              </div>
+          </form>
         </div>
-    </section>
-    <!--Faq -->
-    <section id="faqsection" class="faqsection" style="display: none;">
-        <div class="faq-container">
-          <h1>FAQ</h1>
-          <div class="faq">
-              <div class="faq-question">
-                  Can't log-in?
-              </div>
-              <div class="faq-answer">
-                  Make sure your email has no spaces between or after it. If you don't remember your password, reset it. Ensure your password is longer than 6 characters for safety purposes; otherwise, your password won't work.
-              </div>
-          </div>
-          <div class="faq">
-              <div class="faq-question">
-                  Cant Sign-up?
-              </div>
-              <div class="faq-answer">
-                Make sure your email has no spaces between or after it.Ensure your password is longer than 6 characters for safety purposes; otherwise, your password won't work.
-              </div>
-          </div>
-          <div class="faq">
-              <div class="faq-question">
-                  Access denied?
-              </div>
-              <div class="faq-answer">
-                  Oh... shoot well your violate our rules! You know what that means... everyone who violate our rules will get banned permenetly.
-              </div>
-          </div>
-          <div class="faq">
-            <div class="faq-question">
-                Dint get verification/reste email?
+
+        <div class="reset" id="resetForm" style="display: none;">
+          <h1>Signp</h1>
+          <form method="post" action="">
+            <div id="resetmsg" class="msgdiv" style="display: none;"></div>
+            <div class="inputbx">
+              <input type="text" name="id" id="Femail" placeholder="Email" required>
             </div>
-            <div class="faq-answer">
-              Check your spam box or wait few min and check again.
+            <div class="inputbx">
+              <input type="submit" id="submitreset" value="Send Mail">
             </div>
+            <div class="links">
+              <a href="#" id="toLoginfr">Login</a>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!--Indormation -->
+  <section class="infomeg" id="infomeg" style="display: none;">
+    <div class="infocontainer">
+      <div class="card">
+        <div class="face face1">
+          <div class="content">
+            <img src="Assests/privacy.jpg">
+            <h3>Privacy</h3>
           </div>
         </div>
-    </section>
-    <script src="userRegister.js"></script>
+        <div class="face face2">
+          <div class="content">
+            <p>"We do not collect any of your data, only the data you have provided. Furthermore, we do not sell any of
+              your data to third parties."</p>
+
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="face face1">
+          <div class="content">
+            <img src="Assests/newsfeed.jpg">
+            <h3>Newsfeed</h3>
+          </div>
+        </div>
+        <div class="face face2">
+          <div class="content">
+            <p>"In the newsfeed section, you'll find updates on new technologies, information on game releases, and
+              primarily gaming-related news."</p>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="face face1">
+          <div class="content">
+            <img src="Assests/entertaintment.jpg">
+            <h3>Entertainment</h3>
+          </div>
+        </div>
+        <div class="face face2">
+          <div class="content">
+            <p>"For entertainment and professional use, we offer a post section and a shorts section where you can
+              expect a blend of entertainment and professional content."</p>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="face face1">
+          <div class="content">
+            <img src="Assests/grow.png">
+            <h3>Grow</h3>
+          </div>
+        </div>
+        <div class="face face2">
+          <div class="content">
+            <p>"As Project Meg expands, we're committed to supporting our creators by compensating them for their
+              contributions through platform ads. It's important to emphasize that we prioritize user privacy, using
+              only the data voluntarily provided by users for ad targeting, ensuring a respectful and secure
+              experience."</p>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="face face1">
+          <div class="content">
+            <img src="Assests/community.png">
+            <h3>Community</h3>
+          </div>
+        </div>
+        <div class="face face2">
+          <div class="content">
+            <p>"As the Project Meg team, we strive to build a reliable and safe community for all users. Our goal is to
+              create an inclusive environment where everyone feels secure and valued, fostering connections and
+              engagement among members."</p>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="face face1">
+          <div class="content">
+            <img src="Assests/rules.png">
+            <h3>Rules</h3>
+          </div>
+        </div>
+        <div class="face face2">
+          <div class="content">
+            <p>"Our rules emphasize that users must be friendly and respectful to one another. We do not tolerate
+              toxicity, racism, discrimination, sexual content, harassment, or LGBTQ+ activity. Those who break these
+              rules will be permanently banned from the platform.As gamers, we are a family and aim to create a
+              welcoming community."</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!--Faq -->
+  <section id="faqsection" class="faqsection" style="display: none;">
+    <div class="faq-container">
+      <h1>FAQ</h1>
+      <div class="faq">
+        <div class="faq-question">
+          Can't log-in?
+        </div>
+        <div class="faq-answer">
+          Make sure your email has no spaces between or after it. If you don't remember your password, reset it. Ensure
+          your password is longer than 6 characters for safety purposes; otherwise, your password won't work.
+        </div>
+      </div>
+      <div class="faq">
+        <div class="faq-question">
+          Cant Sign-up?
+        </div>
+        <div class="faq-answer">
+          Make sure your email has no spaces between or after it.Ensure your password is longer than 6 characters for
+          safety purposes; otherwise, your password won't work.
+        </div>
+      </div>
+      <div class="faq">
+        <div class="faq-question">
+          Access denied?
+        </div>
+        <div class="faq-answer">
+          Oh... shoot well your violate our rules! You know what that means... everyone who violate our rules will get
+          banned permenetly.
+        </div>
+      </div>
+      <div class="faq">
+        <div class="faq-question">
+          Dint get verification/reste email?
+        </div>
+        <div class="faq-answer">
+          Check your spam box or wait few min and check again.
+        </div>
+      </div>
+    </div>
+  </section>
+  <script src="userRegister.js"></script>
 </body>
+
 </html>

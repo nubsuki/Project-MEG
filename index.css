@@ -1,55 +1,58 @@
 @import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap");
 
-*{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: "Roboto", sans-serif;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Roboto", sans-serif;
 }
 
 
 body {
-    min-height: 100vh;
-    margin: 0;
-    padding: 0;
-    background-color: rgba(36, 32, 32, 0.863);
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  background-color: rgba(36, 32, 32, 0.863);
 }
-  
-.sectionbg{
-  height:100vh;
+
+.sectionbg {
+  height: 100vh;
   width: 100%;
   position: fixed;
   border: none;
   overflow: hidden;
 }
 
-.loadingsection{
-  height:100vh;
+.loadingsection {
+  height: 100vh;
   width: 100%;
   position: fixed;
   border: none;
   overflow: hidden;
   z-index: 999;
 }
+
 /* newsfeedsection */
 
-.newsfeedsection{
+.newsfeedsection {
   position: fixed;
   height: 90%;
   width: 80%;
   left: 30%;
   top: 50%;
   transform: translate(-26%, -50%);
-  overflow-x: hidden; /* Hide horizontal scrollbar */
+  overflow-x: hidden;
+  /* Hide horizontal scrollbar */
   overflow-y: scroll;
   border-radius: 10px;
   z-index: 2;
   /* hide scrollbar*/
   scrollbar-width: none;
-  -ms-overflow-style: none; 
+  -ms-overflow-style: none;
 }
+
 @media only screen and (max-width:750px) {
-  .newsfeedsection{
+  .newsfeedsection {
     height: 75%;
     width: 80%;
     left: 30%;
@@ -58,7 +61,7 @@ body {
 }
 
 
-.newsfeedsection .card-container{
+.newsfeedsection .card-container {
   flex-grow: 1;
   display: flex;
   justify-content: center;
@@ -68,42 +71,43 @@ body {
   bottom: 15px;
 }
 
-.newsfeedsection .card{
+.newsfeedsection .card {
   width: 325px;
-  height:500px;
+  height: 500px;
   background-color: #66617c91;
   border-radius: 10px;
-  box-shadow: 0px 2px 4px rgba( 0, 0, 0, 0.3);
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.3);
   overflow: hidden;
   transition: transform 0.6s ease;
 }
 
-.newsfeedsection .card:hover{
+.newsfeedsection .card:hover {
   transform: translateY(-10px);
 }
 
-.newsfeedsection .card img{
+.newsfeedsection .card img {
   width: 100%;
   height: 250px;
   object-fit: cover;
   transition: transform 0.6s ease;
 }
 
-.newsfeedsection .card img:hover{
+.newsfeedsection .card img:hover {
   transform: translateY(-5px);
 }
 
-.newsfeedsection .card-content{
+.newsfeedsection .card-content {
   padding: 7px;
 }
 
-.newsfeedsection .card-content h1{
+.newsfeedsection .card-content h1 {
   font-size: 24px;
   text-transform: uppercase;
   margin-bottom: 10px;
   color: rgba(223, 205, 205, 0.9);
 }
-.newsfeedsection .card-content p{
+
+.newsfeedsection .card-content p {
   font-size: 15px;
   overflow: hidden;
   color: rgba(223, 205, 205, 0.9);
@@ -111,7 +115,8 @@ body {
   margin-bottom: 10px;
   margin-right: 10px;
 }
-.newsfeedsection .card-content p:nth-child(1){
+
+.newsfeedsection .card-content p:nth-child(1) {
   font-size: 15px;
   text-transform: uppercase;
   letter-spacing: 2px;
@@ -119,7 +124,7 @@ body {
   margin-bottom: 10px;
 }
 
-.newsfeedsection .card-button{
+.newsfeedsection .card-button {
   display: inline-block;
   background-color: #eee5;
   color: #fff;
@@ -129,12 +134,13 @@ body {
   transition: .5s;
   cursor: pointer;
 }
-.newsfeedsection .card-button p{
+
+.newsfeedsection .card-button p {
   background-color: #fff;
   color: black;
 }
 
-.newsfeedsection .card-button:hover{
+.newsfeedsection .card-button:hover {
   background-color: #fff;
   color: black;
 }
@@ -142,7 +148,7 @@ body {
 
 /* Chatrooms */
 
-.chatIcon{
+.chatIcon {
   position: absolute;
   display: flex;
   background-color: rgb(54, 61, 52);
@@ -150,18 +156,18 @@ body {
   border-radius: 10px;
   color: rgba(255, 255, 255, 0.9);
   font-size: 35px;
-  left:94%;
+  left: 94%;
   top: 80%;
   transform: translate(-60%, 40%);
   z-index: 3;
-  
+
 }
 
 
 #Chatroom {
   display: none;
   transition: opacity 0.5s ease-in-out;
-  
+
 }
 
 .Chatroom {
@@ -169,19 +175,19 @@ body {
   position: absolute;
   left: 68%;
   top: 33%;
-  height: 50vh; 
+  height: 50vh;
   width: 25%;
   margin: auto;
   justify-content: center;
   z-index: 5;
-  
+
 }
 
 @media only screen and (max-width:750px) {
   .Chatroom {
-      left: 35%;
-      top: 33%;
-   
+    left: 35%;
+    top: 33%;
+
   }
 }
 
@@ -211,9 +217,9 @@ body {
 }
 
 .middle-section {
-  flex-grow: 1; 
+  flex-grow: 1;
   padding: 3px;
-  
+
 }
 
 .chat-container {
@@ -222,22 +228,22 @@ body {
   height: 100%;
   width: 100%;
   font-family: Arial, sans-serif;
-  
+
 }
 
 .chat-window {
   flex-grow: 1;
   padding: 20px;
-  display: flex; 
-  flex-direction: column; 
-  align-items: flex-start; 
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
   padding: 20px;
   overflow-y: auto;
   border-radius: 10px;
-  backdrop-filter: blur( 5px);
+  backdrop-filter: blur(5px);
   /* hide scrollbar*/
   scrollbar-width: none;
-  -ms-overflow-style: none; 
+  -ms-overflow-style: none;
 }
 
 
@@ -250,7 +256,7 @@ body {
   flex-grow: 1;
   padding: 10px;
   border: none;
-  border-radius:10px;
+  border-radius: 10px;
   margin-right: 10px;
   font-size: 16px;
 }
@@ -286,7 +292,7 @@ body {
 }
 
 .username {
-  text-decoration: none; 
+  text-decoration: none;
   border: none;
   border-radius: 3px;
   cursor: pointer;
@@ -301,12 +307,12 @@ body {
   content: '';
   display: block;
   position: absolute;
-  bottom: -2px; 
+  bottom: -2px;
   left: 0;
   width: 100%;
-  height: 2px; 
-  background-color: transparent; 
-  transition: background-color 0.3s ease; 
+  height: 2px;
+  background-color: transparent;
+  transition: background-color 0.3s ease;
 }
 
 .username:hover::after,
@@ -319,6 +325,7 @@ body {
     width: 0%;
     background-color: transparent;
   }
+
   100% {
     width: 100%;
     background-color: #007bff;
@@ -330,7 +337,7 @@ body {
   flex-grow: 1;
 }
 
-.message + .message {
+.message+.message {
   margin-top: 10px;
 }
 

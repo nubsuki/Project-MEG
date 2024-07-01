@@ -186,10 +186,10 @@ async function addTag() {
   try {
     const tagsDocRef = doc(db, 'TagList', 'tagsDocument');
     const tagsDoc = await getDoc(tagsDocRef);
-    
+
     if (tagsDoc.exists()) {
       const tags = tagsDoc.data().tags;
-      
+
       // Check if the new tag already exists
       if (tags.includes(newTag)) {
         showAlert("Tag already exists.");
@@ -258,7 +258,7 @@ function displayUsers(users) {
 }
 
 // Function to toggle user role between 'banned' and 'user'
-window.toggleUserRole = async function(userId, currentRole) {
+window.toggleUserRole = async function (userId, currentRole) {
   try {
     const newRole = currentRole === 'banned' ? 'user' : 'banned';
     const userRef = doc(db, 'users', userId);
@@ -542,7 +542,7 @@ document.addEventListener('DOMContentLoaded', function () {
     addtagsbtn.addEventListener('click', openaddTagsSection);
   }
 
-  if (closetagsbtn ) {
+  if (closetagsbtn) {
     closetagsbtn.addEventListener('click', function (event) {
       event.stopPropagation();
       closeaddTagsSection();
@@ -560,7 +560,7 @@ document.addEventListener('DOMContentLoaded', function () {
     banusersbtn.addEventListener('click', openaddusersSection);
   }
 
-  if (userscloseicon ) {
+  if (userscloseicon) {
     userscloseicon.addEventListener('click', function (event) {
       event.stopPropagation();
       closeaddusersSection();
@@ -572,16 +572,16 @@ document.addEventListener('DOMContentLoaded', function () {
 function showAlert(message) {
   const alertPopup = document.getElementById('alertPopup');
   const alertMessage = document.getElementById('alertMessage');
-  
+
   alertMessage.textContent = message;
   alertPopup.style.display = 'block';
-  
+
   setTimeout(() => {
-      alertPopup.classList.add('hide');
+    alertPopup.classList.add('hide');
   }, 4500); // Start hiding after 4.5 seconds
-  
+
   setTimeout(() => {
-      alertPopup.style.display = 'none';
-      alertPopup.classList.remove('hide');
+    alertPopup.style.display = 'none';
+    alertPopup.classList.remove('hide');
   }, 5000); // Completely hide after 5 seconds
 }

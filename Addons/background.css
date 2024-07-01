@@ -1,5 +1,4 @@
-
-body{
+body {
     margin: 0;
     height: 100vh;
     background-color: #201e1e;
@@ -7,7 +6,7 @@ body{
 }
 
 .bg-track {
-    
+
     position: absolute;
     top: 0;
     right: 0;
@@ -52,12 +51,10 @@ body{
     font-weight: 500;
     word-wrap: break-word;
     opacity: 0;
-    mask-image: radial-gradient(
-        calc(100vh * 0.6) circle at var(--x) var(--y), 
-        rgb(255, 255, 255) 20%, 
-        rgba(255, 255, 255, 0.418), 
-        transparent
-    );
+    mask-image: radial-gradient(calc(100vh * 0.6) circle at var(--x) var(--y),
+            rgb(255, 255, 255) 20%,
+            rgba(255, 255, 255, 0.418),
+            transparent);
     scale: 1.03;
     z-index: 1;
 }
@@ -66,17 +63,15 @@ body{
     height: 100%;
     width: 100%;
     position: absolute;
-    background: radial-gradient(
-        circle closest-side at 50% 50%, 
-        rgb(30, 41, 59) 10%, 
-        rgb(159, 77, 226) 50%, 
-        rgb(56, 182, 255),
-        rgb(124, 64, 202)
-    );
+    background: radial-gradient(circle closest-side at 50% 50%,
+            rgb(30, 41, 59) 10%,
+            rgb(159, 77, 226) 50%,
+            rgb(56, 182, 255),
+            rgb(124, 64, 202));
     mix-blend-mode: darken;
     pointer-events: none;
     z-index: 2;
-  
+
 }
 
 .bg:hover .bg-letters {

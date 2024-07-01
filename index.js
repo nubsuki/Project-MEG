@@ -1,6 +1,6 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import { getAuth } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-import { getFirestore, getDoc, addDoc, doc, setDoc, deleteDoc, collection, query, orderBy, onSnapshot, serverTimestamp, limit, writeBatch, where } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+import { getFirestore, getDoc, addDoc, doc, setDoc, deleteDoc, collection, query, orderBy, onSnapshot, serverTimestamp, limit, writeBatch, where, updateDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 import { getDocs } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 import { getStorage, ref, uploadBytesResumable, getDownloadURL, deleteObject } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-storage.js";
 
@@ -96,10 +96,10 @@ cardContainer.addEventListener('click', async (e) => {
       // Delete news document from Firestore
       await deleteNewsFromFirestore(newsId);
       e.target.closest('.card').remove(); // Remove the card from UI
-      alert('News deleted successfully!');
+      showAlert('News deleted successfully!');
     } catch (error) {
       console.error("Error deleting news: ", error);
-      alert('Failed to delete news. Please try again later.');
+      showAlert('Failed to delete news. Please try again later.');
     }
   }
 });
@@ -417,21 +417,27 @@ const scrollToBottom = () => {
     try {
       const reporterID = currentUserID;
       const reportData = {
-        messageIndex: messageIndex,
         messageText: messageText,
         messageUserID: messageUserID,
         reporterID: reporterID,
-        type: 'chat',
-        timestamp: serverTimestamp()
+        room: chatroom,
       };
-
-      await addDoc(collection(db, 'reports'), reportData); // Store the report data in the 'reports' collection
-      alert('Message reported successfully.');
+      // Add the report to Firestore and get the document reference
+      const reportDocRef = await addDoc(collection(db, "reports"), reportData)
+      // Get the document ID
+      const reportDocId = reportDocRef.id;
+      
+      // Update the document with the document ID
+      await updateDoc(reportDocRef, { reportId: reportDocId });
+          
+      console.log("Reel report added successfully:", {...reportData, reportId: reportDocId});
+      
+      showAlert('Message reported successfully.');
 
       lastDisplayedIndex = await getindex();
     } catch (error) {
       console.error('Error reporting message: ', error);
-      alert('Error reporting message.');
+      showAlert('Error reporting message.');
     }
   };
 
@@ -507,3 +513,21 @@ document.addEventListener('DOMContentLoaded', function () {
     chatIcon.style.display = 'block'; // Show chat icon
   });
 });
+
+
+function showAlert(message) {
+  const alertPopup = document.getElementById('alertPopup');
+  const alertMessage = document.getElementById('alertMessage');
+  
+  alertMessage.textContent = message;
+  alertPopup.style.display = 'block';
+  
+  setTimeout(() => {
+      alertPopup.classList.add('hide');
+  }, 4500); // Start hiding after 4.5 seconds
+  
+  setTimeout(() => {
+      alertPopup.style.display = 'none';
+      alertPopup.classList.remove('hide');
+  }, 5000); // Completely hide after 5 seconds
+}

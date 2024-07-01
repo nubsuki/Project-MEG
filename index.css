@@ -367,3 +367,21 @@ body {
   border-radius: 5px;
   background-color: #5bb2e4a6;
 }
+
+
+.alert-popup {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: #444;
+  color: #fff;
+  padding: 15px;
+  border-radius: 5px;
+  z-index: 1000;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  transition: opacity 0.3s ease;
+}
+
+.alert-popup.hide {
+  opacity: 0;
+}

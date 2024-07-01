@@ -37,7 +37,7 @@ onAuthStateChanged(auth, (user) => {
         const userData = docSnapshot.data();
         if (userData.role === 'admin') {
           isAdmin = true;
-          console.log("User is admin:", isAdmin);
+          showAlert(`User is admin: ${isAdmin}`);
           // Show admin control panel icon
           document.getElementById('controlpnl').style.display = 'flex';
         } else {
@@ -165,7 +165,7 @@ updateButton.addEventListener('click', async (e) => {
   e.preventDefault();
 
   if (!usernameInput.value.trim() || !descriptionInput.value.trim()) {
-    alert('Please fill in all required fields.');
+    showAlert('Please fill in all required fields.');
     return;
   }
 
@@ -234,7 +234,7 @@ updateButton.addEventListener('click', async (e) => {
       photoURL: profilePicUrl
     });
 
-    console.log('Profile updated successfully');
+    showAlert('Profile updated successfully');
   } catch (error) {
     console.error('Error updating profile:', error);
   } finally {
@@ -566,7 +566,7 @@ document.getElementById('pfshare').addEventListener('click', function () {
   if (loggedInUserId) {
     window.location.href = `shareprofile.html?uid=${loggedInUserId}`;
   } else {
-    alert('User not logged in');
+    showAlert('User not logged in');
   }
 });
 
@@ -595,7 +595,7 @@ async function reauthenticateUser(user) {
 document.getElementById('yesdelete').addEventListener('click', async () => {
   const userId = localStorage.getItem('loggedInUserId');
   if (!userId) {
-    alert('User not logged in');
+    showAlert('User not logged in');
     return;
   }
 
@@ -625,14 +625,14 @@ document.getElementById('yesdelete').addEventListener('click', async () => {
       // Delete the user from Firebase Authentication
       await deleteUser(user);
 
-      alert('User account deleted successfully.');
+      showAlert('User account deleted successfully.');
       // Redirect or perform additional actions if necessary
     } else {
-      alert('User document not found');
+      showAlert('User document not found');
     }
   } catch (error) {
     console.error('Error deleting user:', error);
-    alert('Error deleting user');
+    showAlert('Error deleting user');
   }
 });
 
@@ -813,3 +813,22 @@ document.addEventListener('DOMContentLoaded', function () {
   // Call fetchPostsAndReels function when DOM content is loaded
   fetchPostsAndReels();
 });
+
+
+
+function showAlert(message) {
+  const alertPopup = document.getElementById('alertPopup');
+  const alertMessage = document.getElementById('alertMessage');
+  
+  alertMessage.textContent = message;
+  alertPopup.style.display = 'block';
+  
+  setTimeout(() => {
+      alertPopup.classList.add('hide');
+  }, 4500); // Start hiding after 4.5 seconds
+  
+  setTimeout(() => {
+      alertPopup.style.display = 'none';
+      alertPopup.classList.remove('hide');
+  }, 5000); // Completely hide after 5 seconds
+}

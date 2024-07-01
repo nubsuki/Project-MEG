@@ -1,25 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="usersprofile.css">
+    <link rel="stylesheet" href="wiki.css">
     <link rel="stylesheet" href="Addons/navbar.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <script type="module" src="usersprofile.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script type="module" src="wiki.js"></script>
     <title>MEG</title>
 </head>
+
 <body>
-    <!--loading-->
-    <section id="loading">
-        <iframe src="Addons/loading.html" class="loadingsection"></iframe>
-    </section>
-     <!--Background-->
-     <section>
+    <!--Background-->
+    <section>
         <iframe src="Addons/background2.html" class="sectionbg"></iframe>
     </section>
     <!--Navbar-->
-    
     <section>
         <nav class="navbar">
             <ul class="navbar-nav">
@@ -56,37 +54,36 @@
             </ul>
         </nav>
     </section>
-    <section class="sectionprofile">
-        <div class="profile-container">
-            <header class="profile-header">
-                <div class="profile-image">
-                    <img id="profileimg" src="Assests/saberpf.jpg" alt="Profile Picture">
-                </div>
-                <div class="profile-info">
-                    <div class="profile-name">
-                        <h1 id="pusername" class="username">Loading....</h1>
-                        <a class="follow" id="followButton" >Follow</a>
-                    </div>
-                    <div class="profile-stats">
-                        <span><strong id="followerCount">0</strong> Followers</span>
-                        <span><strong id="followingCount">0</strong> Following</span>                    
-                    </div>
-                    <div class="profile-bio">
-                        <p id="pdescription">Loading....</p>
-                    </div>
-                </div>
-            </header>
-            <div class="profile-content">
-                <div class="posts" id="postContainer">
-                    <!-- Posts will be dynamically added here -->
-                </div>
-                <div class="reels" id="reelsContainer">
-                    <!-- Reels (videos) will be dynamically added here -->
-                </div>
+    <section class="menus">
+        <div class="card-grid">
+            <div class="card" data-card-id="1">
+                <h2>GAMES</h2>
+                <img src="Assests/ark.jpeg" class="card-image">
+                <input type="text" class="search-bar" placeholder="Search Game Name...">
+                <ul class="search-results"></ul>
+                <div class="content"></div>
             </div>
+            <div class="card" data-card-id="2">
+                <h2>SOFTWARES</h2>
+                <img src="Assests/software.jpg"class="card-image">
+                <input type="text" class="search-bar" placeholder="Search Sofweare Name...">
+                <ul class="search-results"></ul>
+                <div class="content"></div>
+            </div>
+            <div class="card" data-card-id="3">
+                <h2>PIRACY</h2>
+                <img src="Assests/pirate.jpeg"class="card-image">
+                <input type="text" class="search-bar" placeholder="Search Game Name...">
+                <ul class="search-results"></ul>
+                <div class="content"></div>
+            </div>
+            <!-- Add more cards as needed -->
         </div>
+
     </section>
+
 
     <script type="module" src="Addons/navbar.js"></script>
 </body>
+
 </html>

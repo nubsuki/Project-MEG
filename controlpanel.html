@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,9 +10,10 @@
     <script type="module" src="controlpanel.js"></script>
     <title>MEG</title>
 </head>
+
 <body>
-     <!--Background-->
-     <section>
+    <!--Background-->
+    <section>
         <iframe src="Addons/background2.html" class="sectionbg"></iframe>
     </section>
     <!--Navbar-->
@@ -39,7 +41,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link" title="WiKi">
+                    <a href="wiki.html" class="nav-link" title="WiKi">
                         <i class="bi bi-wikipedia"></i>
                     </a>
                 </li>
@@ -51,7 +53,10 @@
             </ul>
         </nav>
     </section>
-
+    <!--alertPopup-->
+    <div id="alertPopup" class="alert-popup" style="display: none;">
+        <p id="alertMessage"></p>
+    </div>
     <!--Buttons-->
     <div class="button-container">
         <div class="addNewsIcon" id="addnewsbtn">
@@ -66,11 +71,11 @@
             <i class="bi bi-people"></i>
             <p>Users</p>
         </div>
-    </div>    
+    </div>
     <!--Addnews-->
     <section class="sections" id="nfaddsection" style="display: none;">
-        <div class="nfaddform" id="nfaddform" >
-            <div class="nfcloseicon" id="nfaddclose" >
+        <div class="nfaddform" id="nfaddform">
+            <div class="nfcloseicon" id="nfaddclose">
                 <i class="bi bi-x icon2"></i>
             </div>
             <form id="newsForm">
@@ -128,55 +133,41 @@
     <!--AddTags-->
     <section class="sections" id="addTagSection" style="display: none;">
         <div class="addTaglist">
-          <div class="tagcloseicon" id="tagcloseicon">
-            <i class="bi bi-x icon2"></i>
-          </div>
-          <div id="tag-container" class="tag-container">
-            <!-- Tags will be appended here -->
-          </div>
-          <div>
-            <input type="text" id="tag-input" placeholder="Enter tag" class="taginput">
-            <button id="addTagBtn" class="taginputbtn">Add Tags</button>
-            <span class="loader" id="loader">
-                <span class="loader-inner"></span>
-            </span> 
-          </div>
+            <div class="tagcloseicon" id="tagcloseicon">
+                <i class="bi bi-x icon2"></i>
+            </div>
+            <div id="tag-container" class="tag-container">
+                <!-- Tags will be appended here -->
+            </div>
+            <div>
+                <input type="text" id="tag-input" placeholder="Enter tag" class="taginput">
+                <button id="addTagBtn" class="taginputbtn">Add Tags</button>
+                <span class="loader" id="loader">
+                    <span class="loader-inner"></span>
+                </span>
+            </div>
         </div>
     </section>
+
+    <!--Ban users-->
+    <section class="sections" id="banusersSection" style="display: none;">
+        <div class="banuserlist">
+            <div class="tagcloseicon" id="userscloseicon">
+                <i class="bi bi-x icon2"></i>
+            </div>
+            <input type="text" id="searchUserInput" placeholder="Search by UID or email" class="userinput">
+            <div id="userList" class="userlist"></div>
+        </div>
+    </section>
+
+    <!--Section Report-->
     <section class="sectionReport">
         <section class="sectionContentReport">
-            <div class="reportContainer">
-                <div class="postcard">
-                    <img src="Assests/saberpf.jpg" alt="Image" class="card-image">
-                    <div class="card-content">
-                        <p class="Mid">Poster :</p>
-                        <p class="description">ld wadw d wd wa dwdwad awd awd awda dawdawdawdad da d ad dwad wa d dwad wa.</p>
-                        <a class="delete-button"><i class="bi bi-trash3"></i></a>
-                    </div>
-                </div>
-                <div class="videocard">
-                    <video src="Assests/saberpf.jpg" alt="video" class="card-image"></video>
-                    <div class="card-content">
-                        <p class="Mid">Poster :</p>
-                        <p class="description">ld wadw d wd wa dwdwad awd awd awda dawdawdawdad da d ad dwad wa d dwad wa.</p>
-                        <a class="delete-button"><i class="bi bi-trash3"></i></a>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <section class="sectionMSGReport">
-            <div class="reportContainer">
-                <div class="msgcard">
-                    <div class="card-content">
-                        <p class="Mid">Massenger :</p>
-                        <p class="Rid">Reporter :</p>
-                        <p class="Messages">Massege dwa dwa dwa dwa wad awdaw daw Lorem ipsum dolor sit amet consectetur, adipisicing elit. Earum nemo voluptate facere a minima error sapiente. A quam sed corrupti eaque. Sit dignissimos optio nesciunt eveniet quibusdam porro natus magni.</p>
-                        <a class="delete-button"><i class="bi bi-trash3"></i></a>
-                    </div>
-                </div>
+            <div id="reportsContainer">
             </div>
         </section>
     </section>
     <script type="module" src="Addons/navbar.js"></script>
 </body>
+
 </html>

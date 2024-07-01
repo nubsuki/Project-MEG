@@ -44,7 +44,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link" title="WiKi">
+                    <a href="wiki.html" class="nav-link" title="WiKi">
                         <i class="bi bi-wikipedia"></i>
                     </a>
                 </li>
@@ -56,8 +56,12 @@
             </ul>
         </nav>
     </section>
+    <!--alertPopup-->
+    <div id="alertPopup" class="alert-popup" style="display: none;">
+        <p id="alertMessage"></p>
+    </div>
 
-    <!--Posts-->
+    <!--Posts--> <!--Posts-->
     <section class="sectionpostfetch">
         <div class="container">
             
@@ -92,6 +96,18 @@
                 </div>
             </div>
             
+        </div>
+
+        <div class="modal" id="reportPostModal">
+            <div class="modal-content">
+                <span class="close-button" id="closeReportModal"><i class="bi bi-x icon2"></i></span>
+                <h2>Report Post</h2>
+                <form id="reportPostForm">
+                    <label for="reportReason">Reason for report:</label>
+                    <textarea id="reportReason" name="reportReason" required></textarea><br><br>
+                    <button type="submit" id="reportButton">Report</button>
+                </form>
+            </div>
         </div>
     
         <div class="modal" id="addPostModal">

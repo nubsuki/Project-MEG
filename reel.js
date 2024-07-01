@@ -1,6 +1,6 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import { getAuth } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-import { getFirestore, doc, setDoc, addDoc, deleteDoc, getDoc, orderBy, collection, limit, query, serverTimestamp, onSnapshot } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+import { getFirestore, doc, setDoc, addDoc, deleteDoc, getDoc, orderBy, collection, limit, query, serverTimestamp, onSnapshot,updateDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 import { getDocs, where } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-storage.js";
 
@@ -67,6 +67,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const reportPostIcon = document.getElementById('reportPostIcon');
     const currentUserID = localStorage.getItem('loggedInUserId');
 
+    const reportPostModal = document.getElementById('reportPostModal');
+    const closeReportModal = document.getElementById('closeReportModal');
+    const reportPostForm = document.getElementById('reportPostForm');
+    const reportReasonInput = document.getElementById('reportReason');
+    const reportButton = document.getElementById('reportButton');
+
     if (!currentUserID) {
         console.log("Yep, no user ID");
     } else {
@@ -80,34 +86,64 @@ document.addEventListener('DOMContentLoaded', () => {
     let commentsSnapshot;
     let loadedCommentIds = new Set();
 
-    reportPostIcon.addEventListener('click', async () => {
+    reportPostIcon.addEventListener('click', () => {
+        reportPostModal.style.display = 'block';
+    });
+
+    closeReportModal.addEventListener('click', () => {
+        reportPostModal.style.display = 'none';
+    });
+
+    reportPostForm.addEventListener('submit', async (event) => {
+        event.preventDefault();
+
+        reportButton.disabled = true;
+        reportButton.textContent = 'Reporting OwO';
+        
         const currentPostIndex = displayArr[currentIndex];
         const reporterId = localStorage.getItem('loggedInUserId');
+        const reportReason = reportReasonInput.value;
+    
         const postRef = query(collection(db, "reels"), where("index", "==", currentPostIndex));
         const postSnapshot = await getDocs(postRef);
+    
         if (!postSnapshot.empty) {
-            const postId = postSnapshot.docs[0].id; // Assuming the first document is the correct post
+            const postId = postSnapshot.docs[0].id; 
             const postData = postSnapshot.docs[0].data();
-            await reportPost(postId, reporterId, postData);
+            await reportPost(postId, reporterId, postData, reportReason);
         } else {
             console.error("No post found with this index");
         }
+        
+        // Hide the modal after submitting the report
+        reportPostModal.style.display = 'none';
+
+        reportPostForm.reset();
+
+        reportButton.disabled = false;
+        reportButton.textContent = 'Report';
     });
 
-    async function reportPost(postId, reporterId, postData) {
+    async function reportPost(postId, reporterId, postData, reportReason) {
         try {
             const reportData = {
-                postId: postId,
-                postContent: postData.description, // Assuming post description is the content to be reported
-                posterId: postData.userID, // Assuming userID is stored in the posts collection
-                reporterId: reporterId,
-                vidLink: postData.imgUrl,
-                type: "reels",
-                timestamp: serverTimestamp()
+                reelId: postId,
+                caption: postData.caption,
+                postContent: postData.description, 
+                posterId: postData.userID, 
+                imgUrl: postData.imgUrl,
+                reason: reportReason 
             };
-            await addDoc(collection(db, "reports"), reportData);
-            console.log("Post report added successfully:", reportData);
-            alert('Post reported successfully.');
+            // Add the report to Firestore and get the document reference
+            const reportDocRef = await addDoc(collection(db, "reports"), reportData)
+
+            // Get the document ID
+            const reportDocId = reportDocRef.id;
+            // Update the document with the document ID
+            await updateDoc(reportDocRef, { reportId: reportDocId });
+      
+            console.log("Reel report added successfully:", {...reportData, reportId: reportDocId});
+            showAlert('Post reported successfully.');
         } catch (error) {
             console.error("Error reporting post:", error);
         }
@@ -166,7 +202,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function displayPost(index) {
         console.log("index value: ", index);
         // Function to show the loading screen
-        /*
+        
         function showLoading() {
             document.getElementById('loading').style.display = 'block';
         }
@@ -174,7 +210,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Function to hide the loading screen
         function hideLoading() {
             document.getElementById('loading').style.display = 'none';
-        }*/
+        }
         if (index < 0 || index >= displayArr.length) {
             console.error("Index out of bounds");
             return;
@@ -204,10 +240,10 @@ document.addEventListener('DOMContentLoaded', () => {
             } else {
                 console.log("No post found with this index");
             }
-            //hideLoading();
+            hideLoading();
         }).catch((error) => {
             console.error("Error fetching post: ", error);
-            //hideLoading();
+            hideLoading();
         });
     }
 
@@ -227,7 +263,7 @@ document.addEventListener('DOMContentLoaded', () => {
         let imgUrl = '';
 
         if (tags.length === 0) {
-            alert('Please select at least one tag');
+            showAlert('Please select at least one tag');
             return;
         }
 
@@ -468,7 +504,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (querySnapshot.empty) {
                 // Append a message if no comments are available
                 const noCommentsElement = document.createElement('p');
-                noCommentsElement.textContent = 'No comments available.';
+                noCommentsElement.textContent = '';
                 commentsWindow.appendChild(noCommentsElement);
             } else {
                 // Append each comment to the comments window
@@ -527,7 +563,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const commentId = event.target.dataset.commentId;
                 try {
                     await deleteComment(commentId);
-                    alert('Deleted comment: ' + comment.comment);
+                    showAlert(`Deleted comment: ${comment.comment}`);
                     commentElement.remove();
                 } catch (error) {
                     console.error("Error deleting comment: ", error);
@@ -635,16 +671,14 @@ document.addEventListener('DOMContentLoaded', () => {
             if (commentDoc.exists()) {
                 const commentData = commentDoc.data();
                 const reportData = {
-                    commentId: commentId,
+                    reelcommentId: commentId,
                     commentText: commentT,
                     commenterId: commentData.userID, // Assuming userId is stored in comments collection
-                    reporterId: reporterId,
-                    type: "reel-comment",
-                    timestamp: serverTimestamp()
+                    reporterId: reporterId
                 };
                 await addDoc(collection(db, "reports"), reportData);
                 console.log("Report added successfully:", reportData);
-                alert('Comment reported successfully.');
+                showAlert('Comment reported successfully.');
             } else {
                 console.error("Comment document not found.");
             }
@@ -678,3 +712,21 @@ document.addEventListener('DOMContentLoaded', () => {
     loadComments(currentIndex);
     fetchUserTags();
 });
+
+
+function showAlert(message) {
+    const alertPopup = document.getElementById('alertPopup');
+    const alertMessage = document.getElementById('alertMessage');
+    
+    alertMessage.textContent = message;
+    alertPopup.style.display = 'block';
+    
+    setTimeout(() => {
+        alertPopup.classList.add('hide');
+    }, 4500); // Start hiding after 4.5 seconds
+    
+    setTimeout(() => {
+        alertPopup.style.display = 'none';
+        alertPopup.classList.remove('hide');
+    }, 5000); // Completely hide after 5 seconds
+}

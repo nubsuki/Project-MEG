@@ -257,7 +257,7 @@ body {
   margin-left: 10px;
   cursor: pointer; 
 }
-.taginput{
+.taginput, .userinput{
   width: 80%;
   height: 35px;
   border-radius: 5px;
@@ -281,40 +281,87 @@ body {
   color: black;
 }
 
+.banuserlist{
+  position: absolute;
+  padding: 30px;
+  border-radius: 15px;
+  width: 450px;
+  text-align: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(5px);
+  border-radius: 20px;
+  border: 2px solid #afc7df;
+  left: 50%;
+  top: 40%;
+  transform: translate(-50%, -50%);
+  z-index: 3333;
+}
+.userlist{
+  margin-top: 20px;
+  overflow: scroll;
+  max-height: 360px;
+  scrollbar-width: none;
+  -ms-overflow-style: none; 
+}
+
+.user-info{
+  display: inline-block;
+  background-color: #333;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 20px;
+  margin: 5px;
+  width: 310px;
+  font-size: 14px;
+}
+.user-info p{
+  margin: 5px;
+  font-size: 14px;
+  text-align: start;
+}
+.role-button{
+  border: none;
+  background-color: #eee5;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 5px;
+  padding: 8px 16px;
+  cursor: pointer;
+  transition: .5s;
+}
+
+.role-button:hover{
+  background-color: #fff;
+  color: black;
+}
 
 .sectionReport{
   position: fixed;
   backdrop-filter: blur(5px);
   border-radius: 20px;
   border: 2px solid #afc7df;
-  height: 85%;
-  width: 80%;
-  margin-top: 60px;
+  height: 78%;
+  width: 50%;
+  margin-top: 80px;
+  margin-left: 20px;
   left: 50%;
   top: 50%;
   transform: translate(-56%, -50%);
-  overflow-x: hidden; /* Hide horizontal scrollbar */
-  overflow-y: scroll;
+  overflow: hidden; /* Hide horizontal scrollbar */
   z-index: 2;
-  /* hide scrollbar*/
-  scrollbar-width: none;
-  -ms-overflow-style: none; 
 }
-.sectionContentReport{
-  position: fixed;
-  display: flex;
-  width: 50%;
+.sectionContentReport {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh; /* Full viewport height */
   padding: 10px;
-  /* hide scrollbar*/
-  scrollbar-width: none;
-  -ms-overflow-style: none;
-}
-.sectionMSGReport{
-  position: fixed;
   display: flex;
-  left: 50%;
-  width: 50%;
-  padding: 10px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start; /* Adjust as needed */
+  overflow-y: scroll; /* Enable vertical scrolling */
   /* hide scrollbar*/
   scrollbar-width: none;
   -ms-overflow-style: none;
@@ -323,23 +370,13 @@ body {
 .reportContainer {
   display: flex;
   flex-direction: column;
-  gap: 10px;
   width: 100%;
-  padding: 10px;
-  /* hide scrollbar*/
+  padding: 20px;
   scrollbar-width: none;
-  -ms-overflow-style: none; 
+  -ms-overflow-style: none;
 }
-.postcard,.videocard {
-  display: flex;
-  width: 100%;
-  height: 150px;
-  background-color: #fff;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  border-radius: 8px;
-  overflow: hidden;
-}
-.msgcard{
+
+.contentcard {
   display: flex;
   width: 100%;
   height: auto;
@@ -348,9 +385,16 @@ body {
   border-radius: 8px;
   overflow: hidden;
 }
+
+.card-video {
+  width: 300px;
+  height: 200px;
+  object-fit: cover;
+}
+
 .card-image {
-  width: 150px;
-  height: 100%;
+  width: 300px;
+  height: 200px;
   object-fit: cover;
 }
 
@@ -361,16 +405,14 @@ body {
   padding: 10px;
   width: 100%;
 }
-.Rid,.Mid{
+
+.Rid, .Mid {
   font-size: 18px;
   margin-top: 5px;
 }
-.Messages{
-  font-size: 14px;
-  margin-top: 10px;
-}
+
 .description {
-  margin: 0;
+  margin-top: 3px;
   font-size: 14px;
   color: #333;
 }
@@ -389,4 +431,23 @@ body {
 
 .delete-button:hover {
   background-color: #ff1a1a;
+}
+
+
+
+.alert-popup {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: #444;
+  color: #fff;
+  padding: 15px;
+  border-radius: 5px;
+  z-index: 1000;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  transition: opacity 0.3s ease;
+}
+
+.alert-popup.hide {
+  opacity: 0;
 }

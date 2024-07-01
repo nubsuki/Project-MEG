@@ -123,8 +123,8 @@ body {
 @media only screen and (max-width:750px) {
   .profile-container {
     height: 87vh;
+    width: 130%;
   }
-
 }
 
 .profile-header {

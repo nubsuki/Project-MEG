@@ -20,6 +20,14 @@ const auth = getAuth(app);
 const db = getFirestore(app);
 const storage = getStorage(app);
 
+document.getElementById('close').addEventListener('click', function () {
+    document.getElementById('about-you').style.display = 'none';
+});
+document.getElementById('about-you').addEventListener('click', function () {
+    document.getElementById('about-you').style.display = 'none';
+});
+
+
 const queryString = window.location.search;
 const urlParams = new URLSearchParams(queryString);
 const uid = urlParams.get('uid');
@@ -35,8 +43,11 @@ const getUserData = async (userId) => {
             const userData = userDocSnapshot.data();
             const profilePicUrl = userData.profilePicUrl || 'Assests/saberpf.jpg';
             document.getElementById('profileimg').src = profilePicUrl;
+            document.getElementById('crofileimg').src = profilePicUrl;
             document.getElementById('pusername').textContent = userData.username;
+            document.getElementById('cusername').textContent = userData.username;
             document.getElementById('pdescription').textContent = userData.description;
+            document.getElementById('cdescription').textContent = userData.description;
 
             // Fetch follower and followed counts
             await getFollowerCount(userId);

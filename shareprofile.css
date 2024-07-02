@@ -297,3 +297,149 @@ body {
     text-decoration: none;
     cursor: pointer;
 }
+
+.about-you {
+    height: 100vh;
+    width: 100%;
+    position: fixed;
+    display: flex;
+    margin: center;
+    backdrop-filter: blur(20px);
+    z-index: 22;
+}
+
+.container {
+    position: relative;
+    flex-grow: 1;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 25px;
+    left: 57%;
+    top: 10%;
+    transform: translate(-50%, -20%);
+}
+
+@media (max-width: 750px) {
+    .container {
+        left: 52%;
+    }
+}
+
+
+.our-team {
+    width: 200px;
+    height: 320px;
+    padding: 30px 0 40px;
+    margin: 30px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(5px);
+    border-radius: 10px;
+    border: 2px solid #afc7df;
+    text-align: center;
+    left: 42%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    overflow: hidden;
+    position: relative;
+    cursor: pointer;
+}
+
+.our-team .picture {
+    display: inline-block;
+    height: 130px;
+    width: 130px;
+    margin-bottom: 50px;
+    z-index: 1;
+    position: relative;
+}
+
+.our-team .picture::before {
+    content: "";
+    width: 100%;
+    height: 0;
+    border-radius: 50%;
+    background-color: #afc7df;
+    position: absolute;
+    bottom: 135%;
+    right: 0;
+    left: 0;
+    opacity: 0.9;
+    transform: scale(3);
+    transition: all 0.3s linear 0s;
+}
+
+.our-team:hover .picture::before {
+    height: 100%;
+}
+
+.our-team .picture::after {
+    content: "";
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background-color: #afc7df;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
+}
+
+.our-team .picture img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    /* Ensure the image covers the entire container */
+    border-radius: 50%;
+    transform: scale(1);
+    transition: all 0.9s ease 0s;
+}
+
+.our-team:hover .picture img {
+    box-shadow: 0 0 0 14px #f7f5ec;
+    transform: scale(0.7);
+}
+
+.our-team .title {
+    display: block;
+    font-size: 15px;
+    color: #4e5052;
+    text-transform: capitalize;
+}
+
+.our-team .social {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: #1369ce;
+    transform: translateY(100%);
+    transition: transform 0.3s ease;
+}
+
+.our-team:hover .social {
+    transform: translateY(0);
+}
+
+.our-team .social li {
+    display: inline-block;
+    width: 100%;
+    margin: 0;
+}
+
+.our-team .social li i {
+    width: 100%;
+    display: block;
+    padding: 10px;
+    font-size: 18px;
+    color: white;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+}
+
+.our-team .social li i:hover {
+    background-color: #f7f5ec;
+    color: #1369ce;
+}
